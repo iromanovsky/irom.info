@@ -12,9 +12,6 @@ excerpt_separator: <!--more-->
 #published: false
 ---
 
-
-# Diagrams as Code
-
 Did you know that you can do Diagrams as Code? Read this to know how to make a machine generated diagram of Azure Management Groups structure in a declaratve way.11
 
 <!--more-->
