@@ -1,0 +1,250 @@
+/*
+Theme Name: ArBlog
+Theme URI: http: //argon.pro/blog/
+Description: Default WordPress theme modified by Argon for his blog.
+Version: 0.7
+Author: Argon
+Author URI: http: //argon.pro/
+Tags: lightweight, valid xhtml, blue, fixed width, two columns
+Text Domain: kubrick
+*/
+body { color: #333333; background-color: #e4e7ea; font-family: verdana, sans-serif; font-size: 12px; margin: 0; padding: 0; }
+table { border-collapse: collapse; font-size: 12px; }
+td, th { padding: 0; margin: 0; vertical-align: top; color: black; font-size: 12px; }
+th { background: none; }
+img { border: 0; }
+a { text-decoration: none; }
+a:link { color: #004C99; }
+a:visited { color: #477CB2; }
+a:hover { color: #0066CC; text-decoration: none; }
+form { padding: 0; margin: 0; }
+div { margin: 0; padding: 0; }
+a { text-decoration: none; }
+.fl { float: left; }
+.fr { float: right; }
+.vam { vertical-align: middle; }
+.tar { text-align: right; }
+.nobr { white-space: nowrap; }
+.cb { clear: both; }
+.imgfl { float: left; padding-right: 1em; padding-bottom: 1em; margin-top: 1ex; }
+.imgfr { float: right; padding-left: 1em; padding-bottom: 1em; margin-top: 1ex; }
+.w50 { width: 50%; }
+div.imgc { text-align: center; padding-top: 1em; padding-bottom: 1em}
+
+h2,h3,h4 { margin-bottom: 0; color: #7C96B1; line-height: 1.2em; }
+h2 { font-weight: normal; font-size: 15pt; }
+tt { color: #ff0000; }
+
+div#header {background-color: #d8dfe5; border-bottom: 1px solid whitesmoke; border-top: 1px solid black;color: white; text-align: right; font-size: 10px; padding: 1ex; }
+div#header a{color: white;}
+
+a#arlogo { display: block; width: 100%; height: 140px; background-repeat:no-repeat; background-position: center center; text-align:center; border-bottom: 1px solid whitesmoke;}
+a#arlogo:link, a#arlogo:visited { background-color: #e4e7ea; color: black; }
+a#arlogo:hover { background-color: #324E6A; color: white; }
+a#arlogo  span { display: block; padding-top: 118px; }
+
+div#content { 
+	width: 780px; 
+ 	margin: 0 auto; 
+	overflow: hidden; 
+	; }
+
+div#footer { clear: both; font-size: smaller; border-top: 1px solid white; background: #d8dfe5; }
+div#footer address { font-style: normal; float: right; }
+
+div#sidebar { width: 190px; background-color: #d8dfe5; border: 1px solid whitesmoke; overflow: hidden; float: right; margin-left: 2ex; margin-bottom: 1em; padding-bottom: 1ex; font-size: 10px; clear: none; border-top: 0; }
+div#sidebar ul.SideLinks a, div#sidebar h2 { margin: 0; padding: 1ex; font-size: 12px; }
+div#sidebar ul.SideLinks a { display: block; background: #e4e7ea; color: #004C99; text-decoration: none; margin: 0; padding: 1ex; font-size: 12px; }
+div#sidebar ul.SideLinks a.current { background: white; }
+div#sidebar h2 { background: #c3ced9; font-weight: bold; margin-top: 1ex; }
+div#sidebar ul { list-style: none; padding: 0; margin: 0; }
+div#sidebar li { margin: 0; padding: 0; }
+div#sidebar li ul li { margin-left: 1em; margin-top: 1px; }
+div#sidebar ul.SideLinks a:hover { background: #324E6A; color: white; }
+div#sidebar li p { margin: 1ex; margin-left: 1ex; }
+
+div.PgNavP a, div.PgNavN a { width: 35%; padding: 1em; background-color: #e4e7ea; text-align: center; display: block; }
+div.PgNavP a:hover, div.PgNavN a:hover { background: #324E6A; color: white; }	
+div.PgNavP a { float: left; }
+div.PgNavN a { float: right; }
+
+table.LayHdr { width: 100%; background-color: #324E6A; border-bottom: 1px solid #112266; border-top: 1px solid black; }
+td.LogoBlock { width: 780px; }
+div.LayCnt { overflow: hidden; }
+
+div.hdr { width: 100%; background-color: #c3ced9; border: 1px solid white; border-width: 1px 0; padding: 1em; font-weight: bold; }
+
+div.PostBlock { padding-bottom: 1em; }
+	div.PostBlock small { padding: 0; margin: 0; }
+	div.PostBlock h1 { font-weight: normal; font-family: sylfaen, verdana, arial, sans-serif; padding-bottom: 0; margin-bottom: 0; line-height: 1em; }
+	div.PostBlock small { padding-top: 0.8ex; display: block; }
+	div.PostCnt { margin: 0; padding: 0; font-size: 12pt; font-family: sylfaen;}
+		div.PostCnt h2 { }
+		div.PostCnt h3 { font-size: 12pt; font-weight:normal;}
+		div.PostCnt h2+h3 {margin-top: 1ex}
+		div.PostCnt p { text-align: justify; line-height: 1.4em; margin-top: 1ex; }
+		div.PostCnt li { text-align: justify; line-height: 1.2em; }
+		div.PostCnt li+li { margin-top: 1ex; }
+		div.PostCnt li ul { padding-top: 1ex; }
+		div.PostCnt em {}
+		div.PostCnt code { background: #EEF2F4; color: black; padding-left: 1ex; padding-right: 1ex; font-family: Consolas, Monaco, "Courier New", Courier, monospace; font-size: 10pt; }
+		div.PostCnt cite {border-bottom: 1px dotted gray; font-style: normal; }
+		
+	table.PostInfo { margin: 1em 0; margin-top: 2em; }
+		table.PostInfo td, table.PostInfo th { font-size: smaller; padding: 1ex; border: 1px solid #ffffff; }
+		table.PostInfo th { background-color: #c3ced9; background-color: #d8dfe5; border-left: 0; background-color: transparent; border-style: dashed; }
+		table.PostInfo td { background-color: #d8dfe5; background-color: transparent; border-right: 0; border-style: dashed; }
+		table.PostInfo th { white-space: nowrap; text-align: right; }
+		table.PostInfo td { width: 100%; }
+	
+div.PageNav { ; }
+div.PostsNav { float: right; text-align: right; padding-top: 2em; }
+
+	
+div.Comms { ; }
+	div.Comm { background: #d8dfe5; margin-bottom: 1em; border: 1px dashed white; clear: both; padding-left: 1em; padding-right: 1em; padding-top: 1em; }
+	div.CommAuth { font-family: sylfaen; font-size: 16pt; line-height: 1em; }
+	div.CommMeta { font-size: smaller; font-family: verdana; font-size: 10px; }
+	div.CommTxt { font-family: sylfaen; font-size: 11pt; text-align: justify; }
+
+div#respond { ; }
+	div#respond input#submit { margin-top: 1em; }
+	div#respond p.RespTxt { display: table-cell; text-align: right; padding-bottom: 1em; }
+	form#commentform { ; }
+	form#commentform label { font-size: 10px; }
+
+div#cancel-comment-reply { ; }
+
+table.Respond { margin: 1em 0; }
+table.Respond td, table.Respond th { font-size: smaller; padding: 1ex; border: 1px solid white; }
+table.Respond th { border-right: 0; border-style: dashed; text-align: left; }
+table.Respond td { border-left: 0; border-style: dashed; text-align: right; vertical-align: middle; }
+table.Respond th { width: 100%; }
+
+
+div.LSearch div.PostBlock { background: #d8dfe5; margin-bottom: 1em; border: 1px dashed white; padding-left: 1em; padding-right: 1em; padding-top: 1em; margin-top: 1em; }
+div.LSearch div.PostBlock h1 { font-size: 14pt; margin-top: 0; }
+	/*!!!!!!!!! */
+p.InfoMsg { ; }	
+
+
+/*<old>*/
+div.code, div.msg { border-left: 1ex solid #d8dfe5; margin: 1em 0; padding: 1ex; padding-right:0; font-family: Consolas, Monaco, "Courier New", Courier, monospace; font-size: 10pt; }
+div.msg hr {border: 1px solid #d8dfe5}
+div.code code, div.code p, div.msg code, div.msg p { background: inherit; color: inherit; font-size: inherit; font-family: inherit; padding: 0; }
+div.code p, div.msg p {margin: 0; text-align: left; }
+div.code p+p, div.msg p+p {margin-top: 1ex}
+
+div.ins { border-left: 1ex solid #d8dfe5; margin: 1em 0; padding-left: 1ex; margin-left: 5em; }
+div.ins p+p {margin-top: 1ex}
+div.ins h6 {font-size: inherit; color: #7C96B1; font-weight: normal; margin-bottom:0; font-family: inherit; margin-top:0; }
+/*</old>*/
+
+/*<post-content>*/
+
+
+
+blockquote { border-left: 1ex solid #d8dfe5; margin: 1em 0; padding-left: 1ex; margin-left: 5em; }
+/*blockquote p {margin: 0; font: inherit !important; line-height: inherit !important; }*/
+blockquote p {margin-top: 1ex; margin-bottom: 1ex}
+blockquote p+p {margin-top: 0}
+
+blockquote.code, blockquote.msg {margin-left: 0; padding-right:0;  }
+blockquote.code p, blockquote.msg p { padding: 0; margin: 0; text-align: left; font-family: Consolas, Monaco, "Courier New", Courier, monospace; font-size: 10pt; font-style: normal; }
+blockquote.code code, blockquote.msg code { background: inherit; color: inherit; font-size: inherit; font-family: inherit; padding: 0; }
+
+blockquote h6, blockquote.ins h6 {font-size: inherit; color: #7C96B1; font-weight: normal; margin-bottom:0; margin-top:0; }
+blockquote.ins p {font-style: normal; }
+
+blockquote.epi p, blockquote.quo p {font-style: normal; font-variant: small-caps; text-transform: lowercase; letter-spacing: 120%; font-size: 11pt; }
+
+blockquote.quo:before { content:" Â«";  font-size: 200%; line-height: 8pt; }
+blockquote.quo:after { content:" Â»";  font-size: 200%; line-height: 8pt; }
+
+div.codepresm { border: 1px dashed #ffffff; margin: 1em; padding: 1em; font-family: "Courier New", monospace; background-color: #d8dfe5; font-size: 8pt; white-space: pre }
+div.codepresm code { background: inherit; color: inherit; font-size: inherit; padding-left: 0; padding-right: 0; font-family: inherit; }
+
+	
+input.Button { 
+	font: 11px verdana; 
+	background: transparent; 
+	border: none; 
+	width: 0; 
+	height: 0; 
+	overflow: visible; 
+ 	width: auto; 
+	display: inline-block; 
+	height: 21px; 
+	padding: 1px 4px; 
+	border: 1px outset white; 
+	color: black; 
+	margin: 0; 
+	; }
+
+input.InText, textarea.InText { 
+	font: 11px verdana; 
+border-top-width: 1px; 
+border-right-width: 1px; 
+border-bottom-width: 1px; 
+border-left-width: 1px; 
+/*	background: transparent; */
+	background: #f4f4f4; 
+	border: 1px inset white; 
+	color: black; 
+	; }
+	
+	
+a.ButtonM { padding: 1px 5px; font-size: 11px; background-color: #455777; border: 1px solid #112266; text-decoration: none; color: black; display: block; width: 100px; margin: 5px; color: #E4E7EA; }
+a.ButtonM:visited { color: #E4E7EA; }
+a.ButtonM:hover { text-decoration: none; color: #333333; background-color: #C3CED9; }
+
+a.Button { padding: 1px 5px; font-size: 11px; background-color: white; border: 1px solid gray; text-decoration: none; color: black; white-space: nowrap; }
+a.Button:hover { text-decoration: none; color: black; background-color: silver; }
+a.Button:visited { color: black; }
+
+table.tableHT, table.TableV, table.TableH, table.TableH2, table.TableC { font-family: verdana, sans-serif; }
+
+table.TableHT { clear: both; margin-top: 1em; margin-bottom: 1em; }
+table.TableHT td, table.TableHT th { border-top: 1px dashed white; border-bottom: 1px dashed white; padding: 1ex; margin: 0; font-family: "Sylfaen", "Arial", sans-serif; font-size: 12pt; vertical-align: middle; }
+table.TableHT th { border-right: 1px dashed white}
+table.TableHT li, table.TableHT dt, table.TableHT dd,t able.TableHT li ol, table.TableHT li ul { line-height: 1.3em; }
+table.TableHT li:first-child { padding-top: 0; }
+table.TableHT ul>li { padding-top: 0; text-align: left}
+/* table.TableHT ul>li+li { padding-top: 0.5ex; } */
+table.TableHT ul { margin-left: 0; padding-left: 0; list-style-position: inside; list-style-type: square; margin: 0; padding: 0; }
+
+table.TableV caption, table.TableH caption, table.TableH2 caption, table.TableC caption {font-size: 10px; padding-bottom: 1ex}
+
+table.TableV {clear: both; margin-top: 1em; margin-bottom: 1em; }
+table.TableV td, table.TableV th { padding: 1ex; font-size: 10px; border: 1px solid white; }
+table.TableV td { background: transparent; }
+table.TableV th { background: #C3CED9; }
+
+table.TableH {clear: both; margin-top: 1em; margin-bottom: 1em; }
+table.TableH td, table.TableH th { padding: 1ex; font-size: 10px; border: 1px solid white; }
+table.TableH td { background: transparent; }
+table.TableH th { background: #C3CED9; text-align: right; }
+
+table.TableH2 {clear: both; margin-top: 1em; margin-bottom: 1em; }
+table.TableH2 td, table.TableH2 th { padding: 1ex; font-size: 10px; border: 1px solid white; }
+table.TableH2 td { background: transparent; }
+table.TableH2 th { background: #d8dfe5; text-align: right; vertical-align: middle; } 
+
+table.TableC {clear: both; margin-top: 1em; margin-bottom: 1em; }
+table.TableC td, table.TableC th { padding: 1ex; font-size: 10px; border: 1px solid white; }
+table.TableC td { background: transparent; }
+table.TableC th { background: #d8dfe5; text-align: left; font-weight: normal; }
+table.TableC tr.thead td { background: #C3CED9; text-align: center; font-weight: bold; vertical-align: middle }
+table.TableC tr.thead th { background: #C3CED9; text-align: center; font-weight: bold; vertical-align: middle }
+
+html, body { height: 100%; width: 100%; padding: 0px; margin: 0px; }
+div#page { 
+	position: relative; /* needed for footer positioning*/
+	height: auto !important; /* real browsers */
+	height: 100%; /* IE6: treaded as min-height*/
+	min-height: 100%; /* real browsers */
+	; }
+div#footer { position: absolute; width: 100%; bottom: 0; }
+div#footer div { padding: 1ex; }
+div#content { padding-bottom: 2em; }
+body { overflow-y: scroll; }

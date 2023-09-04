@@ -1,0 +1,14 @@
+- name: Blog
+  link: /blog/
+- name: About Argon
+  link: /argon/
+- name: Authors
+  link: /authors/
+- name: LinkedIn
+  link: https://www.linkedin.com/in/iromanovsky/
+- name: GitHub
+  link: https://github.com/iromanovsky
+- name: Credly
+  link: https://www.credly.com/users/irom/
+- name: Old Blog
+  link: http://argon.pro/

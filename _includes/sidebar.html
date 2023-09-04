@@ -1,0 +1,123 @@
+<nav>
+    <div id="sidebar">
+        <a href="http://argon.pro/blog" id="arlogo" rel="home"
+            style="background-image:url('http://argon.pro/blog/wp-content/themes/arblog/images/arlogo.png')"><span>Argon
+                On-Line Blog</span></a>
+        <ul>
+            <li>
+                <form method="get" id="searchform" action="http://argon.pro/blog/">
+                    <p class="nobr">
+                        <label class="screen-reader-text" for="s">Искать:</label>&nbsp;<input class="InText" type="text"
+                            style="width:110px" value="" name="s" id="s" />&nbsp;<input class="Button" type="submit"
+                            id="searchsubmit" value="&raquo;" />
+                    </p>
+                </form>
+            </li>
+            <li>
+                <h2>Рубрики</h2>
+                <ul class="SideLinks">
+                    <li class="cat-item cat-item-21"><a href="http://argon.pro/blog/topics/exp/">Инженерный
+                            опыт</a>
+                        <ul class='children'>
+                            <li class="cat-item cat-item-57"><a href="http://argon.pro/blog/topics/exp/azure/">Azure</a>
+                            </li>
+                            <li class="cat-item cat-item-48"><a
+                                    href="http://argon.pro/blog/topics/exp/core-infrastructure/">Core
+                                    Infrastructure</a>
+                            </li>
+                            <li class="cat-item cat-item-43"><a
+                                    href="http://argon.pro/blog/topics/exp/error-fixes/">Error
+                                    Fixes</a>
+                            </li>
+                            <li class="cat-item cat-item-51"><a
+                                    href="http://argon.pro/blog/topics/exp/security-exp/">Security</a>
+                            </li>
+                            <li class="cat-item cat-item-42"><a
+                                    href="http://argon.pro/blog/topics/exp/tips-and-tricks/">Tips and Tricks</a>
+                            </li>
+                            <li class="cat-item cat-item-49"><a
+                                    href="http://argon.pro/blog/topics/exp/unified-communications/">Unified
+                                    Communications</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="cat-item cat-item-4"><a href="http://argon.pro/blog/topics/reflections/">Размышления</a>
+                    </li>
+                    <li class="cat-item cat-item-1"><a href="http://argon.pro/blog/topics/other/">Разное</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h2>Страницы</h2>
+                <ul class="SideLinks">
+
+                    <li class="page_item page-item-2"><a href="http://argon.pro/blog/info/" {% if page.url=="/"
+                            %}style="color: red;" {% endif %}>О блоге</a></li>
+                    <li class="page_item page-item-263 current_page_item" {% if page.url=="/argon/"
+                        %}style="text-decoration: underline;" {% endif %}><a href="http://argon.pro/blog/argon/"
+                            aria-current="page">Об авторе</a></li>
+                    <li class="page_item page-item-3"><a href="http://argon.pro/blog/contact/">Обратная
+                            связь</a></li>
+                </ul>
+            </li>
+            <!--
+<li>
+<h2>Архивы</h2>
+<ul class="SideLinks">	<li><a href='http://argon.pro/blog/2016/10/'>Октябрь 2016</a></li>
+<li><a href='http://argon.pro/blog/2016/09/'>Сентябрь 2016</a></li>
+<li><a href='http://argon.pro/blog/2015/11/'>Ноябрь 2015</a></li>
+<li><a href='http://argon.pro/blog/2015/09/'>Сентябрь 2015</a></li>
+<li><a href='http://argon.pro/blog/2015/03/'>Март 2015</a></li>
+<li><a href='http://argon.pro/blog/2012/07/'>Июль 2012</a></li>
+<li><a href='http://argon.pro/blog/2012/04/'>Апрель 2012</a></li>
+<li><a href='http://argon.pro/blog/2012/03/'>Март 2012</a></li>
+<li><a href='http://argon.pro/blog/2012/01/'>Январь 2012</a></li>
+<li><a href='http://argon.pro/blog/2011/11/'>Ноябрь 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/09/'>Сентябрь 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/06/'>Июнь 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/04/'>Апрель 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/03/'>Март 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/02/'>Февраль 2011</a></li>
+<li><a href='http://argon.pro/blog/2011/01/'>Январь 2011</a></li>
+<li><a href='http://argon.pro/blog/2010/12/'>Декабрь 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/11/'>Ноябрь 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/10/'>Октябрь 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/09/'>Сентябрь 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/08/'>Август 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/07/'>Июль 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/06/'>Июнь 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/05/'>Май 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/02/'>Февраль 2010</a></li>
+<li><a href='http://argon.pro/blog/2010/01/'>Январь 2010</a></li>
+</ul>
+</li>
+-->
+            <li>
+                <h2>Links</h2>
+                <ul class="SideLinks">
+                    <li id="linkcat-22" class="linkcat">
+                        <h2>My resources</h2>
+                        <ul class='xoxo blogroll'>
+                            {% for item in site.data.links %}
+                            <li><a href="{{ item.link }}" {% if page.url==item.link %}class="current" {% endif %}>{{ item.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h2>Прочее</h2>
+                <ul class="SideLinks">
+                    <li><a href="http://argon.pro/blog/feed/" title="Syndicate this site using RSS"><abbr
+                                title="Really Simple Syndication">RSS</abbr> записей</a></li>
+                    <li><a href="http://argon.pro/blog/comments/feed/"
+                            title="The latest comments to all posts in RSS"><abbr
+                                title="Really Simple Syndication">RSS</abbr> комментариев</a></li>
+                    <li><a href="http://validator.w3.org/check/referer" rel="nofollow"
+                            title="Эта страница соответствует стандарту XHTML 1.0 Transitional">Правильный <abbr
+                                title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

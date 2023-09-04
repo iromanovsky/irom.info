@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru-RU">
+
+<head profile="http://gmpg.org/xfn/11">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="/assets/css/styles.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
+    {% feed_meta %}
+    {% seo %}
+</head>
+
+<body class="page-template-default page page-id-263 logged-in">
+    <div id="page">
+        <div id="header"><a href="#">Управление сайтом</a> | <a href="#">Выйти</a> </div>
+        <div id="content">
+            {% include sidebar.html %}
+            <div class="LayCnt">
+                <div class="PostBlock" id="post-263">
+                    <h1>{{ page.title }}</h1>
+                    <small>{{ page.date | date: "%Y-%m-%d, %H:%M"}}
+                        {% assign author = site.authors | where: 'short_name', page.author | first %}
+                        {% if author %} / <a href="{{ author.url }}" title="See info about {{ page.author }}">{{
+                            author.name }}</a></small>
+                    {% endif %}
+
+                    <div class="PostCnt">{{ content }}</div>
+                    <table class="PostInfo">
+                        <!--
+		<tr>
+		<th>Автор</th>
+		<td>Argon</td>
+		</tr>
+		-->
+                        <tr>
+                            <th>Опубликовано</th>
+                            <td>2010-02-06, 1:01; обновлено 2015-12-31, 13:18</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <a href="http://argon.pro/blog/argon/" rel="bookmark">Постоянная ссылка</a> |
+                                <a href="http://argon.pro/blog/argon/trackback/">Обратная ссылка</a> |
+                                <a href="http://argon.pro/blog/argon/feed/"><abbr title="Really Simple Syndication">RSS</abbr> комментариев</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><a class="post-edit-link" href="http://argon.pro/blog/wp-admin/post.php?post=263&#038;action=edit">Редактировать</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                ﻿ <!-- If comments are closed. -->
+                <p class="InfoMsg">Комментарии запрещены.</p>
+
+            </div>
+        </div>
+        <div id="footer">
+            <div>
+                Сайт работает на <a href="http://wordpress.org/" rel="nofollow">WordPress</a>
+                <address>&copy; 2002&ndash;2012 <a href="/blog/info/">Argon</a></address>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
