@@ -14,19 +14,16 @@ excerpt_separator: <!--more-->
 
 
 
+
+# Naming principles
 <!--
 $$
 \underbrace{SAP}_{\text{< System >}} - \underbrace{PRD}_{\text{< Env >}} - \underbrace{EUW}_{\text{< Region >}} - \underbrace{App1\_DB}_{\text{[ Component ]}} - \underbrace{rg}_{\text{< res_type >}}
 $$
 -->
 
-here
 ![tex2img_equation](https://github.com/iromanovsky/irom.info/assets/15823576/b8947a35-790b-4fd9-aadc-b5ecac858e5a)
 
-
-here
-
-# Naming principles
 - Names are divided into sections. The sections could be \<Mandatory\> or [Optional]
 - In most cases, dash (-) is used to separate naming sections and underscore (_) can be used to divide words within the same section
 - Sections are ordered to have bigger ['taxons'](https://simple.wikipedia.org/wiki/Taxon) first.<br/><br/>
