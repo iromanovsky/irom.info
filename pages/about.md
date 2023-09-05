@@ -11,4 +11,4 @@ To see my proven track record of international flagship projects, check my [Link
 
 This site is under development. I have many topics to share, along with working on a custom design theme.
 
-I will post updates on LinkedIn, you are very welcome to coonnect if not yet.
+I will post updates on LinkedIn, you are very welcome to connect if not yet.
