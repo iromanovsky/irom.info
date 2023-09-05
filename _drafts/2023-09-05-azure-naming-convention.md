@@ -13,6 +13,9 @@ excerpt_separator: <!--more-->
 ---
 
 
+# Picture
+
+![change-my-mind-naming](https://github.com/iromanovsky/irom.info/assets/15823576/d891e42e-8134-4a38-b53e-3bdf71ac7ce1)
 
 
 # Naming principles
