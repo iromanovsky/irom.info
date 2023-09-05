@@ -1,7 +1,7 @@
 ---
 #layout: post-argon
 title:  Diagrams as Code
-date:   2023-09-05 01:00:00 +0100
+date:   2023-09-04 20:00:00 +0100
 author: Igor
 categories: Blog
 tags: [azure, devops, caf]
@@ -14,17 +14,17 @@ excerpt_separator: <!--more-->
 
 ![mermaid-diagram-2023-09-04-232438](https://github.com/iromanovsky/irom.info/assets/15823576/480e2b26-a85a-40d7-b7b9-bf0b1f0e7743)
 
-Did you know that you can do Diagrams as Code? Read this to know how to make a machine-generated diagram of Azure Management Groups structure in a declarative way.
+Did you know that you can do Diagrams as Code? In this post, discover how to generate machine-made diagrams of Azure Management Groups structure using a declarative approach.
 
 <!--more-->
 
-I never liked to draw. But as a cloud architect, I have to do it regularly. Computers are helping to make my curly lines straight, however, I tend to spend too much time adjusting the objects until I have everything aligned perfectly or until I lose my interest.
+I never liked to draw, but as a cloud architect, drawing is a regular part of my job. Computers have certainly made my lines neater, but I still find myself spending too much time tweaking objects for that perfect alignment or losing interest altogether.
 
-This is why I always liked the idea of declarative drawing. I just declare what I want to see, and the machine draws this automatically.
+This is why I always liked the idea of declarative drawing.  With this approach, I can simply state what I want to see, and the machine takes care of the rest.
 
 One of the most common candidates for drawing automation in my everyday job is creating diagrams of Azure Management Groups structure.
 
-With the use of Mermaid, you can create machine-generated diagrams from the declarative, simple description, and it gets rendered automatically from markdown on [Azure DevOps](https://learn.microsoft.com/en-us/azure/devops/project/wiki/wiki-markdown-guidance?view=azure-devops#add-mermaid-diagrams-to-a-wiki-page) and [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+With the use of Mermaid, you can create machine-generated diagrams from simple declarative descriptions, and it gets rendered automatically from markdown on [Azure DevOps](https://learn.microsoft.com/en-us/azure/devops/project/wiki/wiki-markdown-guidance?view=azure-devops#add-mermaid-diagrams-to-a-wiki-page) and [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
 
 [Mermaid Documentation](https://mermaid.js.org/intro/n00b-gettingStarted.html) is well organized with useful examples for some common diagram scenarios. 
@@ -97,3 +97,4 @@ LZ --> DEV
 :::
 ```
 
+You're welcome.
