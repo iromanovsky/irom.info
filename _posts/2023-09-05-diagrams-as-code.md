@@ -24,7 +24,7 @@ This is why I always liked the idea of declarative drawing. I just declare what 
 
 One of the most common candidates for drawing automation in my everyday job is creating diagrams of Azure Management Groups structure.
 
-With the use of Mermaid, you can create machine-generated diagrams from the declarative, simple description, and it gets rendered automatically on Azure DevOps and GitHub markdown.
+With the use of Mermaid, you can create machine-generated diagrams from the declarative, simple description, and it gets rendered automatically from markdown on [Azure DevOps](https://learn.microsoft.com/en-us/azure/devops/project/wiki/wiki-markdown-guidance?view=azure-devops#add-mermaid-diagrams-to-a-wiki-page) and [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
 
 [Mermaid Documentation](https://mermaid.js.org/intro/n00b-gettingStarted.html) is well organized with useful examples for some common diagram scenarios. 
