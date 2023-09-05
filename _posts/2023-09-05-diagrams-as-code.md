@@ -1,7 +1,7 @@
 ---
 #layout: post-argon
 title:  Diagrams as Code
-date:   2023-09-05 09:00:00 +0100
+date:   2023-09-05 01:00:00 +0100
 author: Igor
 categories: Blog
 tags: [azure, devops, caf]
