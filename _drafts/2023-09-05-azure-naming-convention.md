@@ -20,7 +20,11 @@ $$
 $$
 -->
 
+here
+![tex2img_equation](https://github.com/iromanovsky/irom.info/assets/15823576/b8947a35-790b-4fd9-aadc-b5ecac858e5a)
 
+
+here
 
 # Naming principles
 - Names are divided into sections. The sections could be \<Mandatory\> or [Optional]
