@@ -214,6 +214,7 @@ PlatCon-PRD-sub: # platform connectivity subscribtion
       - PlatCon-PRD-EUW-Hub-vnet-afw-pip
       - PlatCon-PRD-EUW-Hub-vnet-afw-Pol_1-afwp
       - PlatCon-PRD-EUW-Hub-vnet-afw-Pol_2-afwp
+      - PlatCon-PRD-EUW-Hub-vnet-agw # app gateway
       - PlatCon-PRD-EUW-Hub-vnet-agw-mid
       - PlatCon-PRD-EUW-Hub-vnet-agw-pip
       - PlatCon-PRD-EUW-Hub-vnet-bas # bastion
@@ -228,7 +229,7 @@ PlatCon-PRD-sub: # platform connectivity subscribtion
       - PlatCon-PRD-EUW-Hub-vnet-vngv-IP2-pip
       - PlatCon-PRD-EUW-Hub-vnet-vngv-S_Home-lng
       - PlatCon-PRD-EUW-nw # network watcher
-      - pcompeuwhubirosa # storage
+      - pconpeuwhubirosa # storage
   - PlatCon-PRD-EUW-NVA-rg:
       - PlatCon-PRD-EUW-NVA-I_CHR_6.46.5-img
       - PlatCon-PRD-EUW-NVA-I_CHR_7.2.1-img
@@ -240,7 +241,7 @@ PlatCon-PRD-sub: # platform connectivity subscribtion
       - PlatCon-PRD-EUW-NVA-N_Mgmt-asg
       - PlatCon-PRD-EUW-NVA-nsg
       - PlatCon-PRD-EUW-NVA-ROS-as
-      - pcompeuwnvairosa # storage
+      - pconpeuwnvairosa # storage
       - NVAPEUWROS1 #NVA VM1
       - NVAPEUWROS1-D_OS-md
       - NVAPEUWROS1-N_Ext-nic
