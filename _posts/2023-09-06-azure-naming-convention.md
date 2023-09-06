@@ -23,6 +23,8 @@ I've noticed that many customers tend to take CAF's guidance on naming conventio
 
 It's probably too late for you to change the naming convention of Azure resources, as the cloud adoption curve has been past its peak for years. So, now could be a good time to share my old "trade secret."
 
+<!--more-->
+
 # Naming principles
 <!--
 $$
