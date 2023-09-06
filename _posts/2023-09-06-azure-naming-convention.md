@@ -200,7 +200,7 @@ This is what happens when customers take this picture literally and turn it into
 I can't share screenshots from customers' environments due to NDA restrictions and will update this post with screenshots from my lab environment when I get it rebuilt. Meanwhile, here is a list of typical resources of a small Landing Zone environment using the suggested naming convention, in YAML format: 
 
 <details>
-<summary>Expand to see sample-landing-zone.yaml ...</summary>
+<summary>Expand to see sample-landing-zone.yaml...</summary>
 
 <!--
 {% gist d2ff5edba7e48cc3044433a4cef7d3c4 sample-landing-zone.yaml %}
