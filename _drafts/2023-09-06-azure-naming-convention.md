@@ -11,13 +11,11 @@ excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
 #published: false
 ---
-<div align="center">
-<img src="https://github.com/iromanovsky/irom.info/assets/15823576/d891e42e-8134-4a38-b53e-3bdf71ac7ce1" width="50%" height="50%" align="center">
-</div>
+<div align="center">  
+  
+![change-my-mind-naming](https://github.com/iromanovsky/irom.info/assets/15823576/b6ce746d-b7e8-48c1-b663-ac49cb298e07)
 
-<!--
-![change-my-mind-naming](https://github.com/iromanovsky/irom.info/assets/15823576/d891e42e-8134-4a38-b53e-3bdf71ac7ce1)
--->
+</div>
 
 In this post, I'm sharing the naming convention I've been using for the biggest Azure infrastructure projects during my career at Microsoft and EPAM. Since 2015, it has proven to work well in enterprise-scale environments long before Microsoft introduced CAF and the concept of Landing Zones.
 
