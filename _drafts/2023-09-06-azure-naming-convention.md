@@ -183,7 +183,7 @@ This is what happens when customers take this picture literally and turn it into
 
 <details>
 <summary>Expand to see the pictures...</summary>
-<div style="max-width:50%; object-fit: contain; width: 50%">
+<div style="max-width:50%;">
   
 ![naming-caf1](https://github.com/iromanovsky/irom.info/assets/15823576/84c7179d-b4b2-4920-9e8f-8ee5336e1720)
 ![naming-caf2](https://github.com/iromanovsky/irom.info/assets/15823576/ad63911b-990d-4704-bbf7-2bbe63ea066f)
