@@ -286,8 +286,8 @@ PlatIdty-PRD-sub: # platform identity subscribtion
 SharedSvc-PRD-sub: # shared services subscribtion
   - SharedSvc-PRD-EUW-Network-rg:
       - SharedSvc-PRD-EUW-AKS-vnet
-      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Main-nsg-westeurope
-      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Virtual-nsg-westeurope
+      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Main-nsg
+      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Virtual-nsg
       - SharedSvc-PRD-EUW-Apps-vnet
       - SharedSvc-PRD-EUW-Apps-vnet-nsg
       - SharedSvc-PRD-EUW-Apps-vnet-rt
