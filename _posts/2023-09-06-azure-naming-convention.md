@@ -308,4 +308,4 @@ SharedSvc-PRD-sub: # shared services subscribtion
 
 The cover picture in this post is not a complete joke. Even though I've been using and refining this convention for so many years and customers, I'm eager to hear your opinion and change my mind if you propose justified improvements. 
 
-I have not decided on the exact comment implementation for this blog yet, so in the meantime, you are very welcome to discuss this topic in LinkedIn comments:
+I have not decided on the exact comment implementation for this blog yet, so in the meantime, you are very welcome to discuss this topic in [LinkedIn comments](https://www.linkedin.com/feed/update/urn:li:share:7105125783165095936/).
