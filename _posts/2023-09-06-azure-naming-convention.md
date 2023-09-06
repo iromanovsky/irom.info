@@ -199,7 +199,103 @@ I can't share screenshots from customers' environments due to NDA restrictions a
 
 <details>
 <summary>Expand to see sample-landing-zone.yaml ...</summary>
- {% gist d2ff5edba7e48cc3044433a4cef7d3c4 sample-landing-zone.yaml %}
+
+<!--
+{% gist d2ff5edba7e48cc3044433a4cef7d3c4 sample-landing-zone.yaml %}
+-->
+
+```yaml
+PlatCon-PRD-sub: # platform connectivity subscribtion
+  - PlatCon-PRD-EUW-Network-rg:
+      - PlatCon-PRD-EUW-Hub-vnet
+      - PlatCon-PRD-EUW-Hub-vnet-afw # firewall
+      - PlatCon-PRD-EUW-Hub-vnet-afw-pip
+      - PlatCon-PRD-EUW-Hub-vnet-afw-Pol_1-afwp
+      - PlatCon-PRD-EUW-Hub-vnet-afw-Pol_2-afwp
+      - PlatCon-PRD-EUW-Hub-vnet-agw-mid
+      - PlatCon-PRD-EUW-Hub-vnet-agw-pip
+      - PlatCon-PRD-EUW-Hub-vnet-bas # bastion
+      - PlatCon-PRD-EUW-Hub-vnet-bas-nsg
+      - PlatCon-PRD-EUW-Hub-vnet-bas-pip
+      - PlatCon-PRD-EUW-Hub-vnet-N_Diag-nsg # nsg
+      - PlatCon-PRD-EUW-Hub-vnet-N_Default-nsg
+      - PlatCon-PRD-EUW-Hub-vnet-R_GatewaySubnet-rt # route table
+      - PlatCon-PRD-EUW-Hub-vnet-R_Default-rt
+      - PlatCon-PRD-EUW-Hub-vnet-vngv # vpn gateway
+      - PlatCon-PRD-EUW-Hub-vnet-vngv-IP1-pip
+      - PlatCon-PRD-EUW-Hub-vnet-vngv-IP2-pip
+      - PlatCon-PRD-EUW-Hub-vnet-vngv-S_Home-lng
+      - PlatCon-PRD-EUW-nw # network watcher
+      - pcompeuwhubirosa # storage
+  - PlatCon-PRD-EUW-NVA-rg:
+      - PlatCon-PRD-EUW-NVA-I_CHR_6.46.5-img
+      - PlatCon-PRD-EUW-NVA-I_CHR_7.2.1-img
+      - PlatCon-PRD-EUW-NVA-N_Ext-asg
+      - PlatCon-PRD-EUW-NVA-N_Ext-lbe
+      - PlatCon-PRD-EUW-NVA-N_Ext-lbe-pip
+      - PlatCon-PRD-EUW-NVA-N_Int-asg
+      - PlatCon-PRD-EUW-NVA-N_Int-lbi
+      - PlatCon-PRD-EUW-NVA-N_Mgmt-asg
+      - PlatCon-PRD-EUW-NVA-nsg
+      - PlatCon-PRD-EUW-NVA-ROS-as
+      - pcompeuwnvairosa # storage
+      - NVAPEUWROS1 #NVA VM1
+      - NVAPEUWROS1-D_OS-md
+      - NVAPEUWROS1-N_Ext-nic
+      - NVAPEUWROS1-N_Int-nic
+      - NVAPEUWROS1-N_Mgmt-nic
+      - NVAPEUWROS1-N_Mgmt-nic-pip
+      - NVAPEUWROS2 #NVA VM2
+      - NVAPEUWROS2-D_OS-md
+      - NVAPEUWROS2-N_Ext-nic
+      - NVAPEUWROS2-N_Int-nic
+      - NVAPEUWROS2-N_Mgmt-nic
+      - NVAPEUWROS2-N_Mgmt-nic-pip      
+
+PlatMgmt-PRD-sub: # platform management subscribtion 
+  - PlatMgmt-PRD-EUW-Network-rg:
+      - PlatMgmt-PRD-EUW-vnet
+      - PlatMgmt-PRD-EUW-vnet-nsg
+      - PlatMgmt-PRD-EUW-vnet-rt
+      - PlatMgmt-PRD-EUW-nw
+  - PlatMgmt-PRD-EUW-Ops-rg:
+      - PlatMgmt-PRD-EUW-Ops-aa
+      - PlatMgmt-PRD-EUW-Ops-log
+
+PlatIdty-PRD-sub: # platform identity subscribtion
+  - PlatIdty-PRD-EUW-Network-rg:
+      - PlatIdty-PRD-EUW-vnet
+      - PlatIdty-PRD-EUW-vnet-nsg
+      - PlatIdty-PRD-EUW-vnet-rt
+      - PlatIdty-PRD-EUW-nw
+  - PlatIdty-PRD-EUW-ADDC-rg:
+      - ADPEUWDC01 #DC VM1
+      - ADPEUWDC01-D_OS-md
+      - ADPEUWDC01-D_LUN1-md
+      - ADPEUWDC01-nic
+      - ADPEUWDC02 #DC VM2
+      - ADPEUWDC02-D_OS-md
+      - ADPEUWDC02-D_LUN1-md
+      - ADPEUWDC02-nic
+      - PlatIdty-PRD-EUW-ADDC-as # availability set
+      - PlatIdty-PRD-EUW-ADDC-nsg
+      - pidpeuwdiagirosa # diagnostics storage
+
+SharedSvc-PRD-sub: # shared services subscribtion
+  - SharedSvc-PRD-EUW-Network-rg:
+      - SharedSvc-PRD-EUW-AKS-vnet
+      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Main-nsg-westeurope
+      - SharedSvc-PRD-EUW-AKS-vnet-Cluster2_Virtual-nsg-westeurope
+      - SharedSvc-PRD-EUW-Apps-vnet
+      - SharedSvc-PRD-EUW-Apps-vnet-nsg
+      - SharedSvc-PRD-EUW-Apps-vnet-rt
+      - SharedSvc-PRD-EUW-nw
+  - SharedSvc-PRD-EUW-AKS_Cluster1-rg: []
+  - SharedSvc-PRD-EUW-AKS_Cluster2-rg: []
+  - SharedSvc-PRD-EUW-App1_FE-rg: []
+  - SharedSvc-PRD-EUW-App1_BE-rg: []
+```
+
 </details>
 
 <!--
