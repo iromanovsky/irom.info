@@ -48,6 +48,8 @@ plugins:
   - jekyll-titles-from-headings
   - jekyll-relative-links
 
+google_analytics: G-T6WJFJSCF5
+
 markdown: GFM
 
 #https://jekyllrb.com/docs/permalinks/
