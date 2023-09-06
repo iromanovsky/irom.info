@@ -21,7 +21,7 @@ In this post, I'm sharing the naming convention I've been using for the biggest 
 
 I've noticed that many customers tend to take CAF's guidance on naming conventions too literally, which is far from perfect when you move beyond test lab scales.
 
-It's probably too late for you to change the naming convention of Azure resources, as the cloud adoption curve has been past its peak for years. So, now could be a good time to share my old "trade secret."
+It's probably too late for you to change the naming convention of Azure resources, as the cloud adoption curve has been past its peak for years. So, now could be a good time to share my old "trade secret".
 
 <!--more-->
 
