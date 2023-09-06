@@ -304,7 +304,7 @@ SharedSvc-PRD-sub: # shared services subscribtion
 <script src="https://gist.github.com/iromanovsky/d2ff5edba7e48cc3044433a4cef7d3c4.js"></script>
 -->
 
-# Discussion
+# Change my mind
 
 The cover picture in this post is not a complete joke. Even though I've been using and refining this convention for so many years and customers, I'm eager to hear your opinion and change my mind if you propose justified improvements. 
 
