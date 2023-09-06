@@ -181,7 +181,7 @@ This is what happens when customers take this picture literally and turn it into
 
 <details>
 <summary>Expand to see the pictures...</summary>
-<div style="max-width:50%;">
+<div style="max-width:80%;">
   
 ![naming-caf1](https://github.com/iromanovsky/irom.info/assets/15823576/84c7179d-b4b2-4920-9e8f-8ee5336e1720)
 ![naming-caf2](https://github.com/iromanovsky/irom.info/assets/15823576/ad63911b-990d-4704-bbf7-2bbe63ea066f)
@@ -196,6 +196,15 @@ This is what happens when customers take this picture literally and turn it into
 - The names that Azure generates automatically (and you cannot change them) look pretty similar
 
 I can't share screenshots from customers' environments due to NDA restrictions and will update this post with screenshots from my lab environment when I get it rebuilt. Meanwhile, here is a list of typical resources of a small Landing Zone environment using the suggested naming convention, in YAML format: 
+
+<details>
+<summary>Expand to see sample-landing-zone.yaml ...</summary>
+ {% gist d2ff5edba7e48cc3044433a4cef7d3c4 sample-landing-zone.yaml %}
+</details>
+
+<!--
+<script src="https://gist.github.com/iromanovsky/d2ff5edba7e48cc3044433a4cef7d3c4.js"></script>
+-->
 
 # Discussion
 
