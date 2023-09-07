@@ -22,7 +22,7 @@ title: Igor Romanovsky
 author: Systems Architect – Azure Cloud
 #email: 15823576+iromanovsky@users.noreply.github.com
 description: >- # this means to ignore newlines until "baseurl:"
-  I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud.
+  I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud
 
 #https://jekyllrb.com/docs/configuration/options/
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -31,6 +31,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: iromanovsky
 github_username:  iromanovsky
 linkedin_username: iromanovsky
+#rss: Subscribe
 
 # Build settings
 theme: minima
@@ -51,22 +52,28 @@ plugins:
   - jekyll-relative-links
   - jekyll-remote-theme
 
-#minima settings
+markdown: GFM
+
+# Minima settings
 #https://github.com/jekyll/minima
+#https://github.com/jekyll/minima/blob/v2.5.1/README.md
 show_excerpts: true
 google_analytics: G-T6WJFJSCF5
 #from v3 only
 #author:
 #  name: "Igor Romanovsky | Systems Architect – Azure Cloud"
-  #email: 15823576+iromanovsky@users.noreply.github.com
+#  email: 15823576+iromanovsky@users.noreply.github.com
 
+#disqus:
+#  shortname: my_disqus_shortname
+
+# Minima date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
-  #date_format: "%d %b %Y" #"%Y-%m-%d %H:%M" #http://shopify.github.io/liquid/filters/date/
+  #date_format: "%d %b %Y" #"%Y-%m-%d %H:%M" #http://shopify.github.io/liquid/filters/date/ date_format: "%b %-d, %Y"
   social_links:
     - { platform: github,  user_url: "https://github.com/iromanovsky" }
     - { platform: linkedin, user_url: "https://www.linkedin.com/in/iromanovsky/" }
-
-markdown: GFM
 
 #https://jekyllrb.com/docs/permalinks/
 #permalink: pretty
