@@ -30,9 +30,11 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 #twitter_username: iromanovsky
 github_username:  iromanovsky
+linkedin_username: iromanovsky
 
 # Build settings
 theme: minima
+#remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
@@ -47,8 +49,22 @@ plugins:
   - jekyll-readme-index
   - jekyll-titles-from-headings
   - jekyll-relative-links
+  - jekyll-remote-theme
 
+#minima settings
+#https://github.com/jekyll/minima
+show_excerpts: true
 google_analytics: G-T6WJFJSCF5
+#from v3 only
+#author:
+#  name: "Igor Romanovsky | Systems Architect – Azure Cloud"
+  #email: 15823576+iromanovsky@users.noreply.github.com
+
+minima:
+  #date_format: "%d %b %Y" #"%Y-%m-%d %H:%M" #http://shopify.github.io/liquid/filters/date/
+  social_links:
+    - { platform: github,  user_url: "https://github.com/iromanovsky" }
+    - { platform: linkedin, user_url: "https://www.linkedin.com/in/iromanovsky/" }
 
 markdown: GFM
 
