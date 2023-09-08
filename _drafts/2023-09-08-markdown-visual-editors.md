@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 #published: false
 ---
 <div aligh="center">
-  
+
 ![looking-at-markdown-tables](https://github.com/iromanovsky/irom.info/assets/15823576/bee5bd07-3fe6-4a5c-a373-c2513aec1fd3)
 
 </div>
@@ -28,7 +28,11 @@ ONly these 2 tools turned to have true visual editing fetures
 
 Anyway, this is how markdown table editing looks on Typora
 
+<div aligh="center">
 
+![Typora](https://github.com/iromanovsky/irom.info/assets/15823576/783acf88-8763-43e1-9c90-3ea6c30a3603)
+
+</div>
 
 If you know any tools which are better ad allow to achieve the same result, please let me know in the comments.
 
