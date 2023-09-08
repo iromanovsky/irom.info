@@ -25,8 +25,8 @@ While many VS Code extensions, online, and desktop Markdown editors claim to off
 
 However, I found two standout tools that genuinely provide visual editing features:
 
-- [Typora](https://typora.io), shareware with 15 day free trial, available for Win, Mac, Linux. Works really well for my needs.
-- [MarkText](https://github.com/marktext/marktext), open source, available on same platforms. I checked on Windows and it looks like a clone of Typora, but much worse (some basic functions like "udno" do ot work, it is toching the source markdown code too much). But it's free. I could not start the app on ARM-based Mac bacause of missing digital signature.
+- [Typora](https://typora.io), shareware with a 15-day free trial, available for Win, Mac, and Linux. Works really well for my needs.
+- [MarkText](https://github.com/marktext/marktext), open source, available on the same platforms. I could not start the app on an ARM-based Mac because of a missing digital signature. On Windows, it works and looks like a clone of Typora, but much worse (some basic functions like "undo" do not work, it is touching the source markdown code too much). But it's free. 
 
 This is how Markdown table editing looks in Typora:
 
@@ -36,4 +36,4 @@ This is how Markdown table editing looks in Typora:
 
 </div>
 
-If you know any tools that are better and allow to achieve the same result, please let me know in the comments.
+If you know of any other tools that allow visually editing markdown tables, please let me know in the comments.
