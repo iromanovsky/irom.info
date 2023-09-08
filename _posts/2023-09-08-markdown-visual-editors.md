@@ -17,7 +17,7 @@ excerpt_separator: <!--more-->
 
 </div>
 
-Markdown became an industry standard for Docs as Code a long time ago. It is used on Azure DevOps, GitHub, MS Docs, and even on my humble blog. However, one thing has been bothering me for all that time: working with tables in Markdown when you need more complex formatting. On the cover picture, you can see how unfriendly it is. In this post, I will share which visual editors for Markdown can solve this issue.
+[Markdown](https://www.markdownguide.org/getting-started/) became an industry standard for Docs as Code a long time ago. It is used on Azure DevOps, GitHub, MS Docs, and even on my humble blog. However, one thing has been bothering me for all that time: working with tables in Markdown when you need more complex formatting. On the cover picture, you can see how unfriendly it is. In this post, I will share which visual editors for Markdown can solve this issue.
 
 <!--more-->
 
