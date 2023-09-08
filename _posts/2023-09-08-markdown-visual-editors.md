@@ -36,4 +36,4 @@ This is how Markdown table editing looks in Typora:
 
 </div>
 
-If you know of any other tools that allow visually editing markdown tables, please let me know in the comments.
+If you know of any other tools that allow visually editing markdown tables, please let me know in the [comments](https://www.linkedin.com/feed/update/urn:li:activity:7105938894491168768/).
