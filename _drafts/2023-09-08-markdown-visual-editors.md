@@ -19,14 +19,16 @@ excerpt_separator: <!--more-->
 
 Markdown became an industry standard for Docs as Code a long time ago. It is used on Azure DevOps, GitHub, MS Docs, and even on my humble blog. However, one thing has been bothering me for all that time: working with tables in Markdown when you need more complex formatting. On the cover picture, you can see how unfriendly it is. In this post, I will share which visual editors for Markdown can solve this issue.
 
-While many of VS Code extensions, online and desktop Markdown editors claim visual editing capabilities (WYSIWYG), most of them turned to be just code editors with snippets and live preview.
+<!--more-->
 
-ONly these 2 tools turned to have true visual editing fetures
+While many VS Code extensions, online, and desktop Markdown editors claim to offer visual editing capabilities (WYSIWYG), most of them turn out to be nothing more than code editors with snippets and live previews.
 
-- [Typora](https://typora.io), shareware with 15 day free trial, availle for Win, Mac, Win. Works really well for my needs.
-- [MarkText](https://github.com/marktext/marktext), open source, available on same platforms, Works on Windows and looks like a clone of Typora, but much worse. I could not start it on ARM-based Mac
+However, I found two standout tools that genuinely provide visual editing features:
 
-Anyway, this is how markdown table editing looks on Typora
+- [Typora](https://typora.io), shareware with 15 day free trial, available for Win, Mac, Linux. Works really well for my needs.
+- [MarkText](https://github.com/marktext/marktext), open source, available on same platforms. I checked on Windows and it looks like a clone of Typora, but much worse (some basic functions like "udno" do ot work, it is toching the source markdown code too much). But it's free. I could not start the app on ARM-based Mac bacause of missing digital signature.
+
+This is how Markdown table editing looks in Typora:
 
 <div aligh="center">
 
@@ -35,4 +37,3 @@ Anyway, this is how markdown table editing looks on Typora
 </div>
 
 If you know any tools that are better and allow to achieve the same result, please let me know in the comments.
-
