@@ -34,5 +34,5 @@ Anyway, this is how markdown table editing looks on Typora
 
 </div>
 
-If you know any tools which are better ad allow to achieve the same result, please let me know in the comments.
+If you know any tools that are better and allow to achieve the same result, please let me know in the comments.
 
