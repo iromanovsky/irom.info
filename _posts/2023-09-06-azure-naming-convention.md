@@ -179,7 +179,7 @@ This is what happens when customers take this picture literally and turn it into
 
 - Resource type is used as a prefix
 - Resources on Azure Portal are sorted by resource type by default
-- Parent-child relationships between resources are not visible, however you see resources from different systems and environments together, which may lead to confusion and operating mistakes
+- Parent-child relationships between resources are not visible, however you see mixed resources from different systems and environments together, which may lead to confusion and operating mistakes
 
 <details>
 <summary>Expand to see the pictures...</summary>
