@@ -25,6 +25,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud
 
 #https://jekyllrb.com/docs/configuration/options/
+#https://mademistakes.com/mastering-jekyll/site-url-baseurl/
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://irom.info" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -36,9 +37,9 @@ linkedin_username: iromanovsky
 # Build settings
 theme: minima
 #remote_theme: jekyll/minima
-plugins:
+plugins: #https://jekyllrb.com/docs/github-pages/
   - jekyll-feed
-  - jekyll-sitemap
+  - jekyll-sitemap #https://www.sitemaps.org/protocol.html https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
   - jekyll-seo-tag
   - jekyll-redirect-from
   - jekyll-avatar
@@ -52,7 +53,7 @@ plugins:
   - jekyll-relative-links
   - jekyll-remote-theme
 
-markdown: GFM
+markdown: GFM #https://jekyllrb.com/docs/configuration/markdown/
 
 # Minima settings
 #https://github.com/jekyll/minima
@@ -105,13 +106,18 @@ relative_links:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-#https://jekyllrb.com/docs/collections/
-collections:
+#   - README.md #https://jekyllrb.com/docs/configuration/options/#global-configuration
+#   - CNAME
+
+collections: ##https://jekyllrb.com/docs/collections/
   authors:
     output: true
   reviews:
     output: true
     sort_by: item_order
+  redir: #https://github.com/jekyll/jekyll-redirect-from
+    output: true
+    permalink: /go/:name #https://jekyllrb.com/docs/permalinks/#collections
 
 #https://jekyllrb.com/docs/configuration/front-matter-defaults/
 defaults:
