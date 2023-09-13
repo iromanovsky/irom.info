@@ -19,4 +19,3 @@ For those who prefer not to use LinkedIn, please use the form below.
   </fieldset>
   <input type="submit" value="Submit">
 </form>
-
