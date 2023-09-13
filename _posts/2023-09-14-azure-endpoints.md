@@ -1,7 +1,7 @@
 ---
 #layout: post-argon
 title: Choosing between Public, Service, and Private Endpoints in Azure
-date:   2023-09-14 09:00:00 +0100
+date:   2023-09-14 08:00:00 +0100
 author: Igor
 categories: Blog
 tags: [azure, devops, caf]
