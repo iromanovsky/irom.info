@@ -11,6 +11,15 @@ excerpt_separator: <!--more-->
 redirect_from: [/post/azure-endpoints]
 #published: false
 ---
+
+<div aligh="center">
+
+![private-endpoint](https://github.com/iromanovsky/irom.info/assets/15823576/fb9afdcc-e531-4ab1-b608-d84bcde83424)
+
+
+</div>
+
+
 A lot of time passed since intruduction of Private Endpoints into Azure platform, Many customers take 
 
 Tools like Azure score, various benchmarks, and CAF documentation may look convincing for many customers to enble private endpoints for every resource possible. However, blindly following these generic recomendations may lead to more fragile solutions with higher maintenance costs.
