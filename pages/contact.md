@@ -3,7 +3,7 @@ layout: page
 title: Contact
 permalink: /contact/
 ---
-If you wish to contact me, the best way is to reach out to me on [LinkedIn](https://www.linkedin.com/in/iromanovsky) and describe your query in the connection request, if we are not connected yet.
+If you wish to contact me, the best way is to reach out on [LinkedIn](https://www.linkedin.com/in/iromanovsky) and describe your query in the connection request, if we are not connected yet.
 
 For those who prefer not to use LinkedIn, please use the form below.
 
