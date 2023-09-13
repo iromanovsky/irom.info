@@ -14,7 +14,7 @@ redirect_from: [/post/azure-endpoints]
 
 <div aligh="center">
 
-![private-endpoint](https://github.com/iromanovsky/irom.info/assets/15823576/fb9afdcc-e531-4ab1-b608-d84bcde83424)
+![private-endpoint](https://github.com/iromanovsky/irom.info/assets/15823576/972101cf-3dc8-4ba5-9a68-17857926f631)
 
 </div>
 
