@@ -24,44 +24,43 @@ This will display page title: {{ page.title }}
 
 https://jekyllrb.com/docs/step-by-step/03-front-matter/
 
-This will display page title: {{ page.title }}
+| Param | Value |
+| - | - |
+| Page title | {{ page.title }} |
+| Site property github_username | {{ site.github_username }} |
+| Jekyll env | {{ jekyll.environment }} |
+| Page author | {{ page.author }} |
+| Page id | {{ page.id }} |
+| Link | [Link to some post]({% post_url 2023-09-04-diagrams-as-code %}) |
+| Current markdown engine |  {{ site.markdown }} |
 
-This will display site properties from _config.yml: {{ site.github_username }}
-
-Environment: {{ jekyll.environment }}
-
-Page author: {{ page.author }}
-
-Page id: {{ page.id }}
-
-[Link to some post]({% post_url 2023-09-04-diagrams-as-code %})
 
 ### Using more complex expressions
 
 Listing Authors
 
 <ul>
-    {% for author in site.authors %}
-      <li>
-       <a href="{{ author.url }}">{{ author.name }}</a>
-      </li>
-    {% endfor %}
+{% for author in site.authors %}
+<li>
+<a href="{{ author.url }}">{{ author.name }}</a>
+</li>
+{% endfor %}
 </ul>
 
 Listing posts by author of this page:
 <ul>
-  {% assign filtered_posts = site.posts | where: 'author', page.author %}
-  {% for post in filtered_posts %}
-    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
+{% assign filtered_posts = site.posts | where: 'author', page.author %}
+{% for post in filtered_posts %}
+<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
 </ul>
 
 
 Listing all posts:
 <ul>
-  {% for item in site.posts %}
-    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-  {% endfor %}
+{% for item in site.posts %}
+<li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>
+{% endfor %}
 </ul>
 
 Listing real pages:
@@ -129,3 +128,54 @@ List site collections:
 {% if jekyll.environment == "production" %}
   Runnning production
 {% endif %}
+
+## Content filtering
+
+{% raw %}`{{ page.date }}`{% endraw %}
+
+{% capture form %}
+{% raw %}
+<form
+  action="https://formspree.io/f/xdordkpb"
+  method="POST" markdown="0"
+>
+  <label>
+    Your email: 
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    &lt;textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
+{% endraw %}
+{% endcapture %}
+
+{{ form | markdownif }}
+
+
+
+{% comment %}
+{% capture raw_html_content %}
+{% include ar-contact-form.txt %}
+{% endcapture %}
+
+{{ raw_html_content | raw }}
+{% endcomment %}
+
+{% comment %}
+<pre id="jekyll-debug"></pre>
+<script>
+  var obj = JSON.parse(decodeURIComponent("{{ site | jsonify | uri_escape }}"));
+  var prettyJson = JSON.stringify(obj, null, 4);  // Pretty-printed JSON (indented 4 spaces).
+  document.getElementById("jekyll-debug").textContent = prettyJson;
+</script>
+{% endcomment %}
+
+{% comment %}
+{{  site.github.versions | inspect }}
+
+{{  site.github | inspect }}
+{% endcomment %}

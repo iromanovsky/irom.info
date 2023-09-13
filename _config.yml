@@ -53,7 +53,16 @@ plugins: #https://jekyllrb.com/docs/github-pages/
   - jekyll-relative-links
   - jekyll-remote-theme
 
-markdown: GFM #https://jekyllrb.com/docs/configuration/markdown/
+#https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/setting-a-markdown-processor-for-your-github-pages-site-using-jekyll
+# GitHub Flavored Markdown Spec https://github.github.com/gfm/
+#https://github.com/github/jekyll-commonmark-ghpages 
+#https://jekyllrb.com/docs/configuration/markdown/
+#markdown: GFM #CommonMarkGhPages 
+
+markdown: CommonMarkGhPages
+commonmark:
+  options: ["UNSAFE", "SMART", "FOOTNOTES"]
+  extensions: ["strikethrough", "autolink", "table"]
 
 # Minima settings
 #https://github.com/jekyll/minima
