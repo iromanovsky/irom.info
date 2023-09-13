@@ -16,12 +16,11 @@ redirect_from: [/post/azure-endpoints]
 
 ![private-endpoint](https://github.com/iromanovsky/irom.info/assets/15823576/fb9afdcc-e531-4ab1-b608-d84bcde83424)
 
-
 </div>
 
 When deciding between Public, Service, or Private endpoints in Azure, it's essential to make an informed choice rather than blindly following generic recommendations.
 
-Tools like Azure Secure Score, various benchmarks, and CAF documentation may seem convincing, but uncritical adherence can result in less resilient solutions and increased maintenance cost.
+Tools like Azure Secure Score, various benchmarks, and CAF documentation may seem convincing, but uncritical adherence can result in less resilient solutions and increased maintenance costs.
 
 In this post, I will explain the differences between Public, Service, and Private endpoints and share the pros and cons of their use in common scenarios.
 
@@ -66,7 +65,7 @@ Use private endpoints for:
 - **Resources that need to be accessed from on-premises over a private network:** Requires establishing hybrid connectivity and DNS integration.
 - **Resources that are only required to be accessed from one VNet and not exposed outside of their system** (see [private data store pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations), like for internal databases and storage).
 - **Resources for environments requiring the highest protection from data exfiltration:** This class of systems should be treated separately from the general class. To effectively protect from data exfiltration, all inbound and outbound traffic should be restricted to _tenant-specific_ (owned by you) destinations only. This may come with the cost of losing a number of native platform and vendor capabilities, like Monitoring, Backup, Site Recovery, Patching automation, and others. Most of these services are multi-tenant and do not work without opening wide IP ranges and wildcard URLs to  destinations shared between multiple tenants.
-- **Complying with specific regulations:** Note that many regulatory standarts do not take cloud infrasructure into account, but thanks to ambguity of their language, may allow pretty wide interpretations. Always refer to the orginal standard wording to find out if it really mandates you to use private endpoints (long before they ever created).
+- **Complying with specific regulations:** Note that many regulatory standards do not take cloud infrastructure into account, but thanks to the ambiguity of their language, may allow pretty wide interpretations. Always refer to the original standard wording to find out if it really mandates you to use private endpoints (long before they were ever created).
 
 The benefits of Private Endpoints are **doubtful** in the below scenarios:
 
