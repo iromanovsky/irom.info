@@ -34,7 +34,7 @@ In this post, I will explain the differences between Public, Service, and Privat
 </div>
 
 # Endpoints comparison
-
+    
 To get started, let's compare how each type of endpoint works.
 
 | | Public Endpoints  | Service Endpoints | Private Endpoints |
