@@ -27,6 +27,14 @@ In this post, I will explain the differences between Public, Service, and Privat
 
 # Endpoints comparison
 
+<div style="padding-left: 50%">
+
+> &mdash; We have a hole in security!<br/>
+> &mdash; Thank God, at least something is in security...
+> <p>Internet meme</p>
+
+</div>
+
 To get started, let's compare how each type of endpoint works.
 
 | | Public Endpoints  | Service Endpoints | Private Endpoints |
