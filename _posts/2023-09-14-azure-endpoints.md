@@ -25,8 +25,6 @@ In this post, I will explain the differences between Public, Service, and Privat
 
 <!--more-->
 
-# Endpoints comparison
-
 <div style="padding-left: 50%">
 
 > &mdash; We have a hole in security!<br/>
@@ -34,6 +32,8 @@ In this post, I will explain the differences between Public, Service, and Privat
 > <p>Internet meme</p>
 
 </div>
+
+# Endpoints comparison
 
 To get started, let's compare how each type of endpoint works.
 
