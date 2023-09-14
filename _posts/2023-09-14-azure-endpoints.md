@@ -86,4 +86,4 @@ Considering that each company may have a unique environment and specific require
 
 # Discussion
 
-You are very welcome to discuss this topic in Comments.
+You are very welcome to discuss this topic in [Comments](https://www.linkedin.com/feed/update/urn:li:share:7107987444888686593/).
