@@ -89,6 +89,7 @@ The most popular reason for enforcing private endpoints is "to prevent data exfi
 While reducing exfiltration vectors may help prevent exfiltration attempts from unprofessional users, it requires much more effort to combat real professionals.
 
 Relying solely on private endpoints for storage and key vaults and blocking outbound access to public endpoints may create a false sense of security.
+
 There are other exfiltration vectors you need to consider as well:
 
 - DNS: Very few systems can operate without using DNS. If you allow the resolution of public DNS domains, a knowledgeable attacker may gradually [export your data](https://www.infoblox.com/dns-security-resource-center/dns-security-issues-threats/dns-security-threats-data-exfiltration). You can use custom DNS servers to try to prevent this. Still, an attacker may use the platform's [magic IP 168.63.129.16]((https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16)) if it is not blocked.
