@@ -82,7 +82,27 @@ The benefits of Private Endpoints are **doubtful** in the below scenarios:
 - **Access across multiple Azure regions in a Hub-and-Spoke model:** Private endpoints for the same resource in multiple regions or VNets can introduce significant complexity, especially concerning name resolution. This complexity can outweigh the benefits in scenarios where resources need to be accessed across various Azure regions or during failover situations.
 - **Cloud-native application design:** In cloud-native application design, where the goal is to leverage PaaS services extensively, implementing private endpoints for "grounding" interactions between PaaS components can add unnecessary complexity and costs. VNet integration options for PaaS services often come at premium price points.
 
+### A note on data exfiltration
+
+The most popular reason for enforcing private endpoints is "to prevent data exfiltration". While I agree that this could be a valid requirement, I need to show how challenging it is to actually implement it right.
+
+While reducing exfiltration vectors may help prevent exfiltration attempts from unprofessional users, it requires much more effort to combat real professionals.
+
+Relying solely on private endpoints for storage and key vaults and blocking outbound access to public endpoints may create a false sense of security.
+There are other exfiltration vectors you need to consider as well:
+
+- DNS: Very few systems can operate without using DNS. If you allow resolution of public DNS domains, a knowledgeable attacker may gradually [export your data](https://www.infoblox.com/dns-security-resource-center/dns-security-issues-threats/dns-security-threats-data-exfiltration). You can use custom DNS servers to try to prevent this, but an attacker may use the platform's [magic IP 168.63.129.16]((https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16)) if it is not blocked.
+- Platform services like [Azure AD](https://azureipranges.azurewebsites.net/), [AVD](https://learn.microsoft.com/en-us/azure/virtual-desktop/safe-url-list?tabs=azure), [Monitoring](https://learn.microsoft.com/en-us/azure/azure-monitor/app/ip-addresses) and [Backup](https://learn.microsoft.com/en-us/azure/backup/backup-support-matrix-mars-agent) are multi-tenant in nature and require opening wide ranges of destinations shared between customers.
+- Productivity tools like [Microsoft 365](https://learn.microsoft.com/en-us/windows-365/enterprise/requirements-network?tabs=enterprise%2Cent#windows-365-service) and even using the [Azure Portal]((https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-safelist-urls?tabs=public-cloud))require opening a half of the Internet.
+- System updates, KMS activation, and time services can also be potentially exploited.
+
+Mitigating all of these vectors becomes a highly complex task, limiting the capabilities of your workload in the direction of a disconnected server stored in a safe.
+
+I hope this convinces you that effectively protecting cloud systems from data exfiltration by a professional adversary is challenging, and systems that genuinely require this level of protection should be treated separately from general workloads. Trying to implement the highest security level for all servers as a general rule may not be worth the effort and may result in missed opportunities.
+
+
 # Recommendations for Endpoint Types by Azure Service
+
 Considering that each company may have a unique environment and specific requirements, it is valuable to document the guidance regarding the use of endpoint types tailored to particular scenarios.
 
 | Service | Recommendation |
