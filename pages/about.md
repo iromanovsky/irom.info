@@ -3,7 +3,11 @@ layout: page
 title: About
 permalink: /about/
 ---
+<div style="float: right">
+
 ![android-chrome-192x192](https://github.com/iromanovsky/irom.info/assets/15823576/14607376-9477-4868-949f-8c4108b5dbee)
+
+</div>
 
 Hi, my name is Igor Romanovsky.
 
