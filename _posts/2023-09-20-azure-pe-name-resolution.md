@@ -53,6 +53,23 @@ If you block the public access on your resource, your query will fail, otherwise
 
 Now it's clear that you need to find a way to substitute the public IP for the name `irom.blob.core.windows.net` with your private endpoint IP `10.18.0.4`
 
+> Below in this document you will see the numbered headers -- these are approaches for name resolution for private endpoints, these approaches can be combined to form more complex solutions, and numbers are used for easier cross-referencing.
+
+Lets agree on the terms from the beginning:
+
+<dl>
+<dt><strong>domain</strong></dt>
+<dd>or FQDN, means specific name inside a DNS hierarchy, like <strong>privatelink</strong>.blob.core.windows.net is a domain inside hierarchy of top level domain blob.core.windows.net</dd>
+<dt><strong>namespace</strong></dt>
+<dd>used in forwarding, means everything within the specific domain, including subdomains; for FQDN <em>irom.privatelink.blob.core.windows.net</em>, <tt>blob.core.windows.net</tt> is a namespace, and <tt>irom.privatelink</tt> is one of subdomains of this namespace </dd>
+<dt><strong>DNS zone</strong></dt>
+<dd>used in DNS servers to store the data of a namespace, like zone <em>privatelink.blob.core.windows.net</em></dd>
+<dt><strong>private endpoint</strong></dt>
+<dd>specific network interface deployed in a VNet for a resource connected via private link </dd>
+<dt><strong>privatelink</strong></dt>
+<dd>I refer to *.privatelink.[service] namespace, like privatelink.blob.core.windows.net</dd>
+</dl>
+
 ## 0. Hosts file
 
 This is a quick and dirty, but still valid solution. You add a record to your client's hosts file:
@@ -76,7 +93,7 @@ Overall, this method is still viable for dev/test environments in general, and f
 
 When you need to serve the same private endpoints to multiple VNets, Azure Private DNS Zones may help you:
 
-1. For each resource (like storage) and service (like blob) you create a zone like `privatelink.blob.core.windows.net` (see the full list of zones [here](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration))
+1. For each resource (like storage) and service (like blob) you create a zone like `privatelink.blob.core.windows.net` (see the full list of zones [here](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)).
 2. You [link](https://learn.microsoft.com/en-us/azure/dns/private-dns-virtual-network-links) this zone to all the VNets where you need to use your private endpoints. 
 3. When creating private endpoint resources, register your PE names to the DNS zones: `irom A record to 10.18.0.4`. When manually creating private endpoints on the Azure portal, it can do this for you automatically, however, when you automate this task, you need to take care of this, or use [policies for automation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale)
 4. When your clients in the VNets are resolving names of Private Endpoint enabled resources, they get an additional DNS query to _resourcename_.**privatelink**.service.domain namespace. 
@@ -97,7 +114,7 @@ Cons:
 
 Most enterprise customers already have their own DNS implementation for name resolution in their networks, and the VNets are configured to use custom DNS servers. In this case, you need to integrate the resolution of private endpoint names into the company's DNS solution.
 
-### Option 2.1 Host private link zones on custom DNS servers
+### 2.1 Host private link zones on custom DNS servers
 
 You may host private link zones like privatelink.blob.core.windows.net on your DNS servers. If DNS is hosted on Active Directory domain controllers, you might get the benefits of DNS zone replication for centralized updates and high availability.
 
@@ -107,15 +124,16 @@ Pros:
 Cons:
 - Requires separate management or privatelink records lifecycle, losing benefits of Azure Private DNS Zones
 
-### Option 2.2 Forward privatelink namespaces from custom DNS to Azure DNS
+### 2.2 Forward privatelink namespaces from custom DNS to Azure DNS
 
 This is the most common scenario, where VNet and On-Premises clients are configured to use Custom DNS servers, but these servers are configured to forward **privatelink** namespaces to Azure DNS
 
 Pros:
-- Benefits of both options 1 and 2.1: privatelink name resolution is integrated into your custom DNS, but the records management lifecycle still remains on the Azure side
+- Benefits of both approaches (1) and (2.1): privatelink name resolution is integrated into your custom DNS, but the records management lifecycle still remains on the Azure side
 
 Cons:
 - More complexity
+- Even more complexity when your custom DNS servers are distributed across various regions on-premises and in Azure (a very common scenario for Active Directory), need to plan for regional redundancy to provide resilient name resolution from all locations, but utilising the closest Azure region.
 
 Challenges:
 - For forwarding to work, the DNS server needs to reach Azure DNS:
@@ -137,12 +155,12 @@ For Azure Firewall FQDN rules to work, all the clients served with this firewall
 Azure Firewall, in turn, should be able to resolve privatelink zones and use the company's custom DNS solution, if it is present.
 
 This means:
-- If you need to resolve just privatelink namespaces from Azure Firewall, just link Azure Private DNS zones, like in option 1, to AzureFirewallSubnet.
-- If you need to use both privatelink namespaces and the company's custom DNS solution, [configure the firewall](https://learn.microsoft.com/en-us/azure/firewall/dns-settings) to use custom DNS servers like in option 2.2.
+- If you need to resolve just privatelink namespaces from Azure Firewall, just link Azure Private DNS zones, like in approach (1), to AzureFirewallSubnet.
+- If you need to use both privatelink namespaces and the company's custom DNS solution, [configure the firewall](https://learn.microsoft.com/en-us/azure/firewall/dns-settings) to use custom DNS servers like in approach (2.2).
 
 ### 3.2 Secure Hub with Azure Firewall on Azure VWAN
 
-When using Secure Hub with Azure Firewall on Azure VWAN, you can't link Azure Private DNS zone to AzureFirewallSubnet, because this subnet does not exist. The only option to resolve privatelink namespaces is to configure the DNS server on Azure Firewall to use custom DNS servers, like in option 2.2.
+When using Secure Hub with Azure Firewall on Azure VWAN, you can't link Azure Private DNS zone to AzureFirewallSubnet, because this subnet does not exist. The only option to resolve privatelink namespaces is to configure the DNS server on Azure Firewall to use custom DNS servers, like in approach (2.2).
 
 This solution is discussed in great detail in the article [Guide to Private Link and DNS in Azure Virtual WAN](https://learn.microsoft.com/en-us/azure/architecture/guide/networking/private-link-virtual-wan-dns-guide).
 
@@ -157,12 +175,11 @@ Sometimes you need to deploy multiple private endpoints for the same resource, l
 # ..and so on..
 ```
 
-
-I do not have a perfect solution for this, just workaround options
+I do not have a perfect solution for this, just workaround options as below:
 
 #### 3.3.1 Private data store pattern
 
-If your resource is consumed privately from a limited number of clients, like in [private data store pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations), the easiest solution could be to use the good old hosts file, like in option 0.
+If your resource is consumed privately from a limited number of clients, like in [private data store pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations), the easiest solution could be to use the good old hosts file, like in approach (0).
 
 #### 3.3.2 Multiple private DNS Zones for the same namespace
 
@@ -172,7 +189,7 @@ We can work around this with the below approach:
 
 1. Create a pinpoint Private DNS Zone for _each VNet_ and each _private endpoint_ for the same resource, but in a different Resource Group
 
-> The pinpoint DNS entry is a zone created for a single host only
+> <p>The pinpoint DNS entry is a zone created for a single host only. For example these look like resurce FQDNs, but actually can be separate DNS zones:<br/>myglobalstore.privatelink.blob.core.windows.net<br/>myglobalsql.privatelink.database.windows.net</p><p>And this is a general zone that may contain records for multiple resources: <br/>privatelink.blob.core.windows.net</p>
 
 2. Link pinpoint zones to their respective VNets and/or regions.
 
@@ -188,6 +205,7 @@ Pros:
 
 Cons:
 - It is not effective to manage the lifecycle of many pinpoint DNS zones, their VNet links, and private endpoint resources at scale, from management, automation, and [limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-dns-limits) perspective
+- Could be challenging to implement in conjunction with global, multi-regional forwarding of privatelink namespaces from on-premises DNS servers to Azure (approach 2.2)
 
 
 #### 3.3.3 Policy-based DNS name resolution
@@ -198,7 +216,7 @@ By using 3rd party DNS tools, like DNS Query Resolution Policies on Windows Serv
 - [Use DNS Policy for Geo-Location Based Traffic Management with Primary Servers](https://learn.microsoft.com/en-us/windows-server/networking/dns/deploy/primary-geo-location)
 
 Pros: 
-- The same as for 3.3.2: This approach allows resolution of the same privatelink name to different IPs depending on the client VNet to allow effective traffic routing
+- The same as for 3.3.2: this approach allows resolution of the same privatelink name to different IPs depending on the client VNet to allow effective traffic routing
 
 Cons:
 - Similar to 3.3.2, but you shift the complexity from Azure to your 3rd party solution.
@@ -207,15 +225,15 @@ Cons:
 
 Based on experience, I recommend this approach:
 
-1. Deploy Private DNS zones for each privatelink namespace you are using in your organization (option 1)
+1. Deploy Private DNS zones for each privatelink namespace you are using in your organization (approach 1)
 
-2. Configure your AD Domain Controllers for conditional forwarding of privatelink namespaces to Azure DNS (option 2.2)
+2. Configure your AD Domain Controllers for conditional forwarding of privatelink namespaces to Azure DNS (approach 2.2)
 
-3. If you use Azure Firewall, configure the Firewall DNS proxy to use AD DCs deployed in Azure as DNS servers (option 3.1)
+3. If you use Azure Firewall, configure the Firewall DNS proxy to use AD DCs deployed in Azure as DNS servers (approach 3.1)
 
 4. If you use Azure Firewall, you have no choice but to use it as a DNS server on your clients, if not using Azure Firewall, use AD DC
 
-5. If you need Private Endpoints of the same resource in multiple VNets, use option 3.3.3 for Policy-based DNS name resolution for _specific pinpoint DNS zones_.
+5. If you need Private Endpoints of the same resource in multiple VNets, use approach (3.3.3) for Policy-based DNS name resolution for _specific pinpoint DNS zones_.
 
 When I get more inspiration, I plan to translate the above into a pretty [Mermaid diagram](/_posts/2023-09-04-diagrams-as-code.md).
 
