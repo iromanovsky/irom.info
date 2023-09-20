@@ -245,5 +245,5 @@ This post represents a structured compilation of information I've never had on a
 
 ![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65)
 
-![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/74a1de77-c905-48ed-84fa-f508418aff08)
+![Bike Fall Meme (1)_450](https://github.com/iromanovsky/irom.info/assets/15823576/73cea6b4-a774-41e0-bd20-e0117f63aa86)
 
