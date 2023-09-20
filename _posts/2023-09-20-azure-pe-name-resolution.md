@@ -32,9 +32,9 @@ When you deploy a private endpoint for your resource, you're essentially creatin
 
 For instance, your PE might have the IP address `10.18.0.4`, granting access to blobs via this address: `https://irom.blob.core.windows.net/`.
 
-However, it's not advisable to directly use this IP address in your applications. Since most services are protected with SSL encryption, the client needs to validate the resource name. Microsoft still utilizes its wildcard certificate for this purpose, which is issued to 'Common Name (CN) *.blob.core.windows.net' by 'Microsoft RSA TLS CA 02.'
+However, it's not advisable to directly use this IP address in your applications. Since most services are protected with SSL encryption, the client needs to validate the resource name. Microsoft still utilizes its wildcard certificate for this purpose, which is issued to `Common Name (CN) *.blob.core.windows.net` by `Microsoft RSA TLS CA 02`.
 
-As a result, attempting to connect via `https://10.18.0.4/`` will result in name validation failure. To avoid this, it's essential to use the original URL, ensuring that your queries go through the private endpoint."
+As a result, attempting to connect via `https://10.18.0.4/` will result in name validation failure. To avoid this, it's essential to use the original URL, ensuring that your queries go through the private endpoint."
 
 ```
 nslookup irom.blob.core.windows.net
@@ -243,4 +243,8 @@ Help me decide which picture fits better as the post cover, the one on the top o
 
 This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your [comments](https://www.linkedin.com/feed/update/urn:li:share:7110258252159819776/).
 
+<div style="text-align: center">
+
 ![Bike Fall Meme (1)_627](https://github.com/iromanovsky/irom.info/assets/15823576/cc425d24-4a68-421d-9ae1-15594beb84da)
+
+</div>
