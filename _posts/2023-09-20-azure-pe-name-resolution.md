@@ -56,7 +56,7 @@ Lets agree on the terms from the beginning:
 <dt><strong>Domain (FQDN)</strong></dt>
 <dd>Refers to a specific name within a DNS hierarchy. For example, "privatelink.blob.core.windows.net" is a domain within the broader hierarchy of the top-level domain "blob.core.windows.net."</dd>
 <dt><strong>Namespace</strong></dt>
-<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, <tt>blob.core.windows.net</tt> represents the namespace, and <tt>irom.privatelink</tt> is one of its subdomains.</dd>
+<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, if <tt>blob.core.windows.net</tt> represents the namespace, then <tt>irom.privatelink</tt> is one of its subdomains.</dd>
 <dt><strong>DNS Zone</strong></dt>
 <dd>Employed in DNS servers to store data related to a namespace. For instance the zone <em>privatelink.blob.core.windows.net</em> contains records for private endpoints.</dd>
 <dt><strong>Private Endpoint</strong></dt>
