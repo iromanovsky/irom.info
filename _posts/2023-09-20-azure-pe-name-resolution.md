@@ -9,7 +9,7 @@ tags: [azure, devops, caf]
 slug: azure-pe-name-resolution
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-pe-name-resolution]
-image: https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802
+image: https://github.com/iromanovsky/irom.info/assets/15823576/cc425d24-4a68-421d-9ae1-15594beb84da
 #published: false
 ---
 <div style="text-align: center">
