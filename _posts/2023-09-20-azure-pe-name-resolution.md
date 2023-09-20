@@ -56,13 +56,13 @@ Lets agree on the terms from the beginning:
 <dt><strong>Domain (FQDN)</strong></dt>
 <dd>Refers to a specific name within a DNS hierarchy. For example, "privatelink.blob.core.windows.net" is a domain within the broader hierarchy of the top-level domain "blob.core.windows.net."</dd>
 <dt><strong>Namespace</strong></dt>
-<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, if <tt>blob.core.windows.net</tt> represents the namespace, then <tt>irom.privatelink</tt> is one of its subdomains.</dd>
+<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, if <code>blob.core.windows.net</code> represents the namespace, then <code>irom.privatelink</code> is one of its subdomains.</dd>
 <dt><strong>DNS Zone</strong></dt>
 <dd>Employed in DNS servers to store data related to a namespace. For instance the zone <em>privatelink.blob.core.windows.net</em> contains records for private endpoints.</dd>
 <dt><strong>Private Endpoint</strong></dt>
 <dd>Denotes a specific network interface deployed in a VNet to connect with a resource via a private link.</dd>
 <dt><strong>privatelink</strong></dt>
-<dd>Refers to namespaces in the format "*.privatelink.[service]". For instance, <tt>privatelink.blob.core.windows.net</tt> represents privatelink namespace for blob service on storage account.</dd>
+<dd>Refers to namespaces in the format "*.privatelink.[service]". For instance, <code>privatelink.blob.core.windows.net</code> represents privatelink namespace for blob service on storage account.</dd>
 </dl>
 
 ## 0. Hosts file
@@ -242,7 +242,5 @@ In the future, I plan to create a pretty [Mermaid diagram](2023-09-04-diagrams-a
 Help me decide which picture fits better as the post cover, the one on the top or the one on the bottom below.
 
 This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your [comments](https://www.linkedin.com/feed/update/urn:li:share:7110258252159819776/).
-
-![mermaid-diagram-2023-09-20-100623_627](https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802)
 
 ![Bike Fall Meme (1)_627](https://github.com/iromanovsky/irom.info/assets/15823576/cc425d24-4a68-421d-9ae1-15594beb84da)
