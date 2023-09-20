@@ -13,7 +13,7 @@ published: false
 ---
 <div style="text-align: center">
 
-![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/e63bc993-3ee3-403e-b44b-96d4d5ab9120)
+![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/74a1de77-c905-48ed-84fa-f508418aff08)
 
 </div>
 
