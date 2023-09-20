@@ -9,13 +9,19 @@ tags: [azure, devops, caf]
 slug: azure-pe-name-resolution
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-pe-name-resolution]
-#published: false
+published: false
 ---
+<div style="text-align: center">
+
 ![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/e63bc993-3ee3-403e-b44b-96d4d5ab9120)
 
-In my previous post, I covered the scenarios when to use Private Endpoints and tried to convince you not to do so until you really need it.
+</div>
 
-In this post, I will delve into why name resolution for private endpoints is so important and what options you have, as well as my recommended approach. Tech nerd warning.
+In my previous post, I covered the scenarios when to use Private Endpoints and when it is not a silver bullet.
+
+In this post, I will delve into why name resolution is so important topic when discussing private endpoints, what approaches are available, and what solution I recommend genreally. 
+
+Tech nerd content warning, open with caution!
 
 <!--more-->
 
