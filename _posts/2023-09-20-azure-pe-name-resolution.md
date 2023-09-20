@@ -1,4 +1,4 @@
----
+![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/960d9006-7ed8-4064-992d-099a196c3b21)---
 #layout: post-argon
 title: Name Resolution for Azure Private Endpoints
 date: 2023-09-20 08:00:00 +0100
@@ -243,4 +243,9 @@ When I get more inspiration, I plan to translate the above into a pretty [Mermai
 
 ## Discussion
 
+Help me decide which picture fits better as the post cover, the one you see on the top or the one below.
+
 Before now, I never had the information described here structurally placed on one page. I will be so happy to discuss and learn better approaches for the covered scenarios. You are very welcome to Comments.
+
+![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65)
+
