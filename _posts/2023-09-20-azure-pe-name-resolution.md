@@ -242,3 +242,7 @@ In the future, I plan to create a pretty [Mermaid diagram](2023-09-04-diagrams-a
 Help me decide which picture fits better as the post cover, the one you see on the top or the one below.
 
 This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your comments.
+
+![mermaid-diagram-2023-09-20-100623_627](https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802)
+
+![Bike Fall Meme (1)_627](https://github.com/iromanovsky/irom.info/assets/15823576/cc425d24-4a68-421d-9ae1-15594beb84da)
