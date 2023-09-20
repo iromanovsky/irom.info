@@ -1,4 +1,4 @@
-![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/960d9006-7ed8-4064-992d-099a196c3b21)---
+---
 #layout: post-argon
 title: Name Resolution for Azure Private Endpoints
 date: 2023-09-20 08:00:00 +0100
@@ -9,7 +9,8 @@ tags: [azure, devops, caf]
 slug: azure-pe-name-resolution
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-pe-name-resolution]
-published: false
+image: "https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65"
+#published: false
 ---
 <div style="text-align: center">
 
@@ -17,9 +18,9 @@ published: false
 
 </div>
 
-In my [previous post](2023-09-14-azure-endpoints.md), I covered the scenarios when to use Private Endpoints and when it is not a silver bullet.
+In my [previous post](2023-09-14-azure-endpoints.md), I explored the use cases and constraints of Private Endpoints.
 
-In this post, I will delve into why name resolution is so important topic when discussing private endpoints, what approaches are available, and what solution I recommend genreally. 
+In this post, I will delve into topic of name resolution for private endpoints and why it is critical. We'll explore the available approaches, and my generally recommended solution.
 
 Tech nerd content warning, open with caution!
 
@@ -27,19 +28,13 @@ Tech nerd content warning, open with caution!
 
 ## Why you need to care about name resolution
 
-When you deploy a private endpoint for your resource, you just get a private network interface with an IP address on your VNet dedicated to a specific service, like a storage blob or an SQL database. Note that the same resource can provide multiple services, like blob, file, table, etc. and each service should get its dedicated PE.
+When you deploy a private endpoint for your resource, you're essentially creating a private network interface with an IP address on your VNet dedicated to a specific service, like a storage blob or an SQL database. It's important to note that a single resource connected via private link can provide multiple services, such as blob, file, table, and more, and each of these services should have its dedicated Private Endpoint.
 
-> NIC with IP `10.18.0.4` for blobs accessible on this address `https://irom.blob.core.windows.net/`
+For instance, your PE might have the IP address `10.18.0.4`, granting access to blobs via this address: `https://irom.blob.core.windows.net/`.
 
-You should not use this IP address directly from your applications, since most of the services are protected with SSL encryption, the client has to validate the resource name, while Microsoft still uses its own wildcard certificate.
+However, it's not advisable to directly use this IP address in your applications. Since most services are protected with SSL encryption, the client needs to validate the resource name. Microsoft still utilizes its wildcard certificate for this purpose, which is issued to 'Common Name (CN) *.blob.core.windows.net' by 'Microsoft RSA TLS CA 02.'
 
-> Issued to: Common Name (CN)	*.blob.core.windows.net
-
-> Issued by: Microsoft RSA TLS CA 02
-
-..so the name validation for your connection to `https://10.18.0.4/` will fail
-
-If you use the original URL, your query will go to the public endpoint
+As a result, attempting to connect via `https://10.18.0.4/`` will result in name validation failure. To avoid this, it's essential to use the original URL, ensuring that your queries go through the private endpoint."
 
 ```
 nslookup irom.blob.core.windows.net
@@ -49,30 +44,30 @@ irom.blob.core.windows.net canonical name = blob.ams06prdstr05a.store.core.windo
 Name: blob.ams06prdstr05a.store.core.windows.net
 Address: 52.239.141.196
 ```
-If you block the public access on your resource, your query will fail, otherwise (did you know that deploying a private endpoint does not block public access for some resources?) it will be served by the public endpoint, which is probably not what you wanted in the beginning.
+If you block the public access on your resource, your query will fail, otherwise it will be served by the public endpoint, which is probably not what you wanted in the beginning _[did you know that deploying a private endpoint does not block public access for some resources?]_.
 
 Now it's clear that you need to find a way to substitute the public IP for the name `irom.blob.core.windows.net` with your private endpoint IP `10.18.0.4`
 
-> Below in this document you will see the numbered headers -- these are approaches for name resolution for private endpoints, these approaches can be combined to form more complex solutions, and numbers are used for easier cross-referencing.
+> Within this document, you'll encounter numbered headers denoting different approaches for name resolution with private endpoints. These approaches can be combined to create more intricate solutions, and we've assigned numbers to facilitate cross-referencing.
 
 Lets agree on the terms from the beginning:
 
 <dl>
-<dt><strong>domain</strong></dt>
-<dd>or FQDN, means specific name inside a DNS hierarchy, like <strong>privatelink</strong>.blob.core.windows.net is a domain inside hierarchy of top level domain blob.core.windows.net</dd>
-<dt><strong>namespace</strong></dt>
-<dd>used in forwarding, means everything within the specific domain, including subdomains; for FQDN <em>irom.privatelink.blob.core.windows.net</em>, <tt>blob.core.windows.net</tt> is a namespace, and <tt>irom.privatelink</tt> is one of subdomains of this namespace </dd>
-<dt><strong>DNS zone</strong></dt>
-<dd>used in DNS servers to store the data of a namespace, like zone <em>privatelink.blob.core.windows.net</em></dd>
-<dt><strong>private endpoint</strong></dt>
-<dd>specific network interface deployed in a VNet for a resource connected via private link </dd>
+<dt><strong>Domain (FQDN)</strong></dt>
+<dd>Refers to a specific name within a DNS hierarchy. For example, "privatelink.blob.core.windows.net" is a domain within the broader hierarchy of the top-level domain "blob.core.windows.net."</dd>
+<dt><strong>Namespace</strong></dt>
+<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, <tt>blob.core.windows.net</tt> represents the namespace, and <tt>irom.privatelink</tt> is one of its subdomains.</dd>
+<dt><strong>DNS Zone</strong></dt>
+<dd>Employed in DNS servers to store data related to a namespace. For instance the zone <em>privatelink.blob.core.windows.net</em> contains records for private endpoints.</dd>
+<dt><strong>Private Endpoint</strong></dt>
+<dd>Denotes a specific network interface deployed in a VNet to connect with a resource via a private link.</dd>
 <dt><strong>privatelink</strong></dt>
-<dd>I refer to *.privatelink.[service] namespace, like privatelink.blob.core.windows.net</dd>
+<dd>Refers to namespaces in the format "*.privatelink.[service]." For instance, <tt>privatelink.blob.core.windows.net</tt> represents such a namespace.</dd>
 </dl>
 
 ## 0. Hosts file
 
-This is a quick and dirty, but still valid solution. You add a record to your client's hosts file:
+This is a quick and dirty, but still valid solution. You simply insert a record into your client's hosts file::
 
 ```
 10.18.0.4 irom.blob.core.windows.net
@@ -80,116 +75,114 @@ This is a quick and dirty, but still valid solution. You add a record to your cl
 
 Pros:
 - ~~Quick~~
-- Simple. You don't rely and don't depend on external name resolution tricks.
+- Simplicity. It doesn't rely on external name resolution mechanisms.
 
 Cons:
 - ~~Dirty~~
-- Does not scale well. When you need to access the same resources from multiple clients, you need to make these changes to each of them.
-- Fragile.  When you need to access multiple resources on PEs, and occasionally update them, this method is prone to errors and inconsistencies.
+- Does not scale well. When you must access the same resources from multiple clients, individual adjustments are necessary for each one.
+- Fragile. When numerous resources on Private Endpoints (PEs) need periodic updates, this method can lead to errors and inconsistencies.
 
-Overall, this method is still viable for dev/test environments in general, and for [private data access pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations) when used carefully.
+Overall, this approach remains suitable for general development/testing environments, and for [private data access pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations) when used carefully.
     
 ## 1. Azure Private DNS Zones
 
-When you need to serve the same private endpoints to multiple VNets, Azure Private DNS Zones may help you:
+When you need to serve the same private endpoints to multiple clients and VNets, Azure Private DNS Zones may help you:
 
-1. For each resource (like storage) and service (like blob) you create a zone like `privatelink.blob.core.windows.net` (see the full list of zones [here](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)).
+1. For each resource (like storage) and service (like blob) you create a zone like `privatelink.blob.core.windows.net` (refer to the full list of zones [here](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)).
 2. You [link](https://learn.microsoft.com/en-us/azure/dns/private-dns-virtual-network-links) this zone to all the VNets where you need to use your private endpoints. 
-3. When creating private endpoint resources, register your PE names to the DNS zones: `irom A record to 10.18.0.4`. When manually creating private endpoints on the Azure portal, it can do this for you automatically, however, when you automate this task, you need to take care of this, or use [policies for automation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale)
-4. When your clients in the VNets are resolving names of Private Endpoint enabled resources, they get an additional DNS query to _resourcename_.**privatelink**.service.domain namespace. 
-   - If it gets resolved by your Private DNS Zone, the client gets your private IP address for the endpoint. 
-   - If **privatelink** name like irom.privatelink.blob.core.windows.net is resolved externally, the client gets the Public Endpoint IP, which could be not desirable but could be a life-saving failover solution for some situations.
+3. When creating private endpoint resources, register your PE names to the DNS zones: `irom A record to 10.18.0.4`. When manually creating private endpoints in the Azure portal, it can do this for you automatically, however, you'll need to manage it yourself when automating the process, or you can employ [policies for automation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale).
+4. When clients within the VNets resolve names for Private Endpoint-enabled resources, they initiate an additional DNS query for _resourcename_ in **privatelink**.service.domain namespace. 
+   - If the Private DNS Zone successfully resolves this query, the client receives the private IP address associated with the endpoint.. 
+   - If **privatelink** name like irom.privatelink.blob.core.windows.net is resolved externally, the client gets the Public Endpoint IP. This could be less desirable but may serve as a failover solution in specific situations.
 
-> <p>Why the zones for private endpoints are named like privatelink.blob.core.windows.net?</p><p>Because the parent namespace like  blob.core.windows.net contains the names of all Azure storage accounts, including other customers. If you create a private DNS zone named blob.core.windows.net, the names not registered in this zone, including resources with no private endpoints, will not get resolved and will fail to connect. This could be a scenario for disaster, be careful to not disrupt the name resolution of existing resources on Public Endpoints.</p>
+> <p>Why the zones for private endpoints are named like privatelink.blob.core.windows.net?</p><p>Because the parent namespace like  blob.core.windows.net contains the names of all Azure storage accounts, including those of other customers. Creating a private DNS zone named blob.core.windows.net would mean that names not registered in this zone, including resources without private endpoints, would fail to resolve and establish connections. This could be a scenario for disaster, be careful to not disrupt the name resolution of existing resources on Public Endpoints.</p>
 
 Pros:
-- You can centralize and automate private endpoint name resolution at the scale of your landing zone
+- Centralized and automated private endpoint name resolution can be implemented at the scale of your landing zone.
 
 Cons:
-- You need automation to keep this system consistent and manage the whole lifecycle for names in the Private DNS zone.
-- If you use custom DNS servers for your VNet, this scenario does not work (until you configure more advanced scenarios as described below)
-- This scenario does not work if you deploy multiple private endpoints for the same resource name in different vnets or regions.
+- Requires automation to maintain consistency and manage the entire lifecycle of names in the Private DNS zone.
+- Not applicable if you use custom DNS servers for your VNet (unless you configure more advanced scenarios, as described below).
+- Does not support scenarios where multiple private endpoints for the same resource name are deployed in different VNets or regions.
 
 ## 2. Custom DNS servers
 
-Most enterprise customers already have their own DNS implementation for name resolution in their networks, and the VNets are configured to use custom DNS servers. In this case, you need to integrate the resolution of private endpoint names into the company's DNS solution.
+Many enterprise customers already operate their DNS systems for name resolution within their networks, with VNets configured to use custom DNS servers. In such cases, it becomes necessary to integrate the resolution of private endpoint names цшер the organization's DNS solution.
 
-### 2.1 Host private link zones on custom DNS servers
+### 2.1 Hosting private link zones on custom DNS servers
 
-You may host private link zones like privatelink.blob.core.windows.net on your DNS servers. If DNS is hosted on Active Directory domain controllers, you might get the benefits of DNS zone replication for centralized updates and high availability.
+One approach is to host private link zones like `privatelink.blob.core.windows.net` on your organization's DNS servers. If your DNS is managed by Active Directory domain controllers, you can benefit from DNS zone replication for centralized updates and enhanced availability.
 
 Pros:
-- Integration of private endpoint name resolution into your custom DNS solution, including serving on-premise clients
+- Integration of private endpoint name resolution into your custom DNS solution, extending support to on-premise clients.
 
 Cons:
 - Requires separate management or privatelink records lifecycle, losing benefits of Azure Private DNS Zones
 
-### 2.2 Forward privatelink namespaces from custom DNS to Azure DNS
+### 2.2 Forwarding privatelink namespaces from custom DNS to Azure DNS
 
-This is the most common scenario, where VNet and On-Premises clients are configured to use Custom DNS servers, but these servers are configured to forward **privatelink** namespaces to Azure DNS
+This scenario is the most common, where VNets and on-premises clients are configured to use custom DNS servers. However, these custom servers are set up to forward **privatelink** namespaces to Azure DNS.
 
 Pros:
-- Benefits of both approaches (1) and (2.1): privatelink name resolution is integrated into your custom DNS, but the records management lifecycle still remains on the Azure side
+- Combines the advantages of approaches (1) and (2.1): privatelink name resolution is seamlessly integrated into your custom DNS system, while the management of records still remains on the Azure side.
 
 Cons:
-- More complexity
-- Even more complexity when your custom DNS servers are distributed across various regions on-premises and in Azure (a very common scenario for Active Directory), need to plan for regional redundancy to provide resilient name resolution from all locations, but utilising the closest Azure region.
+- Introduces increased complexity.
+- Complexity can further escalate when your custom DNS servers are distributed across various regions, both on-premises and in Azure. This is a common setup, especially for Active Directory. You'll need to plan for regional redundancy to ensure robust name resolution from all locations, leveraging the nearest Azure region.
 
 Challenges:
-- For forwarding to work, the DNS server needs to reach Azure DNS:
-   - For servers hosted in Azure, you need to forward queries to [Azure Magic IP 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16)
-   - For on-premise servers, you may use existing servers hosted in Azure as forwarders, or use [Azure Private Resolver](https://learn.microsoft.com/en-us/azure/dns/private-resolver-architecture) deployed in your VNet
+- For forwarding to function correctly, the DNS server must be able to reach Azure DNS:
+   - For servers hosted in Azure, you need to forward queries to the [Azure Magic IP 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16).
+   - For on-premises servers, you can either use existing servers hosted in Azure as forwarders or deploy [Azure Private Resolver](https://learn.microsoft.com/en-us/azure/dns/private-resolver-architecture) within your VNet to facilitate this forwarding process.
 
-
-> Note: when configuring conditional forwarding from on-premises, contrary to [CAF article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration), it is important to forward **privatelink**.service.domain namespaces instead of **service**.domain namespaces. If forwarding fails, you only lose resolution of **privatelink** resources vs. all resources of the **service** which also may use public endpoints. 
-
+> Note: When configuring conditional forwarding from on-premises, it is crucial to forward **privatelink**.service.domain namespaces instead of forwarding the whole  **service**.domain namespaces (contrary to [CAF article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)). If forwarding fails, it would result in the loss of resolution for **privatelink** resources only, as opposed to losing access to all resources of the service, which might also employ public endpoints. This targeted forwarding approach helps maintain selective control.
 
 ## 3. Advanced scenarios
 
 ### 3.1 Azure Firewall
 
-For Azure Firewall FQDN rules to work, all the clients served with this firewall [should use](https://learn.microsoft.com/en-us/azure/firewall/dns-details#clients-not-configured-to-use-the-firewall-dns-proxy) the firewall as their DNS server, quoting Microsoft:
+For Azure Firewall FQDN rules to function correctly, all clients behind the firewall [should use](https://learn.microsoft.com/en-us/azure/firewall/dns-details#clients-not-configured-to-use-the-firewall-dns-proxy) the firewall as their DNS server. As per Microsoft:
 
 > If a client computer is configured to use a DNS server that isn't the firewall DNS proxy, the results can be unpredictable.
 
-Azure Firewall, in turn, should be able to resolve privatelink zones and use the company's custom DNS solution, if it is present.
+Azure Firewall, in its turn, should also be configured to resolve privatelink namespaces and use the company’s custom DNS solution (if it is present).
 
 This means:
-- If you need to resolve just privatelink namespaces from Azure Firewall, just link Azure Private DNS zones, like in approach (1), to AzureFirewallSubnet.
-- If you need to use both privatelink namespaces and the company's custom DNS solution, [configure the firewall](https://learn.microsoft.com/en-us/azure/firewall/dns-settings) to use custom DNS servers like in approach (2.2).
+- If you only need to resolve privatelink namespaces from Azure Firewall, link Azure Private DNS zones, similar to approach (1), to AzureFirewallSubnet.
+- If you require both privatelink namespaces and the company’s custom DNS solution, [configure the firewall](https://learn.microsoft.com/en-us/azure/firewall/dns-settings) to use custom DNS servers, as described in (approach 2.2).
 
 ### 3.2 Secure Hub with Azure Firewall on Azure VWAN
 
-When using Secure Hub with Azure Firewall on Azure VWAN, you can't link Azure Private DNS zone to AzureFirewallSubnet, because this subnet does not exist. The only option to resolve privatelink namespaces is to configure the DNS server on Azure Firewall to use custom DNS servers, like in approach (2.2).
+In this setup, linking Azure Private DNS zones to AzureFirewallSubnet isn't possible because this subnet doesn't exist. The sole approach to resolve privatelink namespaces is configuring Azure Firewall to use custom DNS servers, like in (approach 2.2).
 
-This solution is discussed in great detail in the article [Guide to Private Link and DNS in Azure Virtual WAN](https://learn.microsoft.com/en-us/azure/architecture/guide/networking/private-link-virtual-wan-dns-guide).
+You can find an in-depth discussion of this solution in the article [Guide to Private Link and DNS in Azure Virtual WAN](https://learn.microsoft.com/en-us/azure/architecture/guide/networking/private-link-virtual-wan-dns-guide).
 
 ### 3.3 Private Endpoints of the same resource in multiple VNets
 
-Sometimes you need to deploy multiple private endpoints for the same resource, like a central fire share, to multiple VNets and/or regions, since traffic routing from multiple regions to the single private endpoint is less effective for bandwidth and latency than bringing dedicated private endpoint closer to the clients. However, you end up in a situation when the same name of private endpoint resource should be resolved to different IP addresses depending on the client's locations:
+There are scenarios where deploying multiple private endpoints for the same resource across various VNets or regions becomes necessary. For instance, ensuring better bandwidth and lower latency by placing dedicated private endpoints closer to clients across different locations. However, this leads to a situation where the same private endpoint resource name must resolve to different IP addresses depending on the client's location:
 
 ```
-10.18.0.4 irom.blob.core.windows.net # if the client from West Europe
-10.19.0.4 irom.blob.core.windows.net# if the client from North Europe
+10.18.0.4 irom.blob.core.windows.net #if the client is in West Europe.
+10.19.0.4 irom.blob.core.windows.net #if the client is in North Europe.
 ...
-# ..and so on..
+# ..and so on for other regions..
 ```
 
-I do not have a perfect solution for this, just workaround options as below:
+While I do not have a perfect solution for this, here are some workaround options:
 
 #### 3.3.1 Private data store pattern
 
-If your resource is consumed privately from a limited number of clients, like in [private data store pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations), the easiest solution could be to use the good old hosts file, like in approach (0).
+If your resource is accessed exclusively by a limited number of clients, such as in the [private data store pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations), the simplest solution might be to employ the traditional hosts file method, as mentioned in (approach 0).
 
 #### 3.3.2 Multiple private DNS Zones for the same namespace
 
-Private DNS Zones are global resources that could be linked to VNets in any region, however, they cannot select which IP to return to clients based on their location.
+Private DNS Zones are global resources that can be linked to VNets in any region, but they cannot determine which IP to return to clients based on their location.
 
-We can work around this with the below approach:
+To work around this limitation, consider the following approach:
 
-1. Create a pinpoint Private DNS Zone for _each VNet_ and each _private endpoint_ for the same resource, but in a different Resource Group
+1. Create a pinpoint Private DNS Zone for _each VNet_ and each _private endpoint_ for the _same resource_, but place them in _different Resource Groups_.
 
-> <p>The pinpoint DNS entry is a zone created for a single host only. For example these look like resurce FQDNs, but actually can be separate DNS zones:<br/>myglobalstore.privatelink.blob.core.windows.net<br/>myglobalsql.privatelink.database.windows.net</p><p>And this is a general zone that may contain records for multiple resources: <br/>privatelink.blob.core.windows.net</p>
+> <p>The pinpoint DNS entry is a zone created for a single host only.</p> <p>For example pinpoint DNS zones are created for individual "hosts":<br/>myglobalstore.privatelink.blob.core.windows.net<br/>myglobalsql.privatelink.database.windows.net</p><p>And this is a general zone that may contain records for multiple "hosts": <br/>privatelink.blob.core.windows.net</p>
 
 2. Link pinpoint zones to their respective VNets and/or regions.
 
@@ -200,42 +193,45 @@ We can work around this with the below approach:
 | Hub-WE-vnet | West Europe | myglobalsql.privatelink.database.windows.net | Hub-WE-Endpoints-rg | myglobalsql |
 | Hub-NE-vnet | North Europe | myglobalsql.privatelink.database.windows.net | Hub-NE-Endpoints-rg | myglobalsql |
 
+This approach allows you to control DNS resolution at a finer level for resources accessed from different locations.
+
 Pros:
-- This approach allows resolution of the same privatelink name to different IPs depending on the client VNet to allow effective traffic routing
+- This approach enables the resolution of the same privatelink name to different IPs depending on the client VNet, optimizing traffic routing.
 
 Cons:
-- It is not effective to manage the lifecycle of many pinpoint DNS zones, their VNet links, and private endpoint resources at scale, from management, automation, and [limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-dns-limits) perspective
-- Could be challenging to implement in conjunction with global, multi-regional forwarding of privatelink namespaces from on-premises DNS servers to Azure (approach 2.2)
-
+- Managing the lifecycle of numerous pinpoint DNS zones, their VNet links, and private endpoint resources can be challenging at scale, considering management, automation, and [limitations](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-dns-limits).
+- Implementing this approach in coordination with global, multi-regional forwarding of privatelink namespaces from on-premises DNS servers to Azure (as in approach 2.2) may pose challenges.
 
 #### 3.3.3 Policy-based DNS name resolution
 
-By using 3rd party DNS tools, like DNS Query Resolution Policies on Windows Server starting from 2016, you can create multiple copies of DNS zones of the same name, like privatelink.blob.core.windows.net, and provide the replies based on the client location. See more info on these pages:
+Policy-based DNS name resolution can be implemented using third-party DNS solutions like DNS Query Resolution Policies, available on Windows Server from 2016 onwards. With this method, you can create multiple copies of DNS zones with identical names, such as privatelink.blob.core.windows.net, and these copies can provide different replies based on the client's location. 
+
+For more information, you can refer to the following resources:
 
 - [DNS Policies Overview](https://learn.microsoft.com/en-us/windows-server/networking/dns/deploy/dns-policies-overview)
 - [Use DNS Policy for Geo-Location Based Traffic Management with Primary Servers](https://learn.microsoft.com/en-us/windows-server/networking/dns/deploy/primary-geo-location)
 
 Pros: 
-- The same as for 3.3.2: this approach allows resolution of the same privatelink name to different IPs depending on the client VNet to allow effective traffic routing
+- In addition to the benefits of 3.3.2, this approach offers more fine-grained control of responses through resolution policies. These policies can consider client locations, not only within Azure but also on-premises, thus facilitating efficient traffic routing.
 
 Cons:
-- Similar to 3.3.2, but you shift the complexity from Azure to your 3rd party solution.
+- Similar to 3.3.2, this method introduces complexity, but it transfers this complexity from Azure to your third-party solution.
 
 ## Conclusion
 
-Based on experience, I recommend this approach:
+Based on my experience, I recommend the following approach:
 
-1. Deploy Private DNS zones for each privatelink namespace you are using in your organization (approach 1)
+1. Deploy Private DNS zones for each privatelink namespace used in your organization (approach 1).
 
-2. Configure your AD Domain Controllers for conditional forwarding of privatelink namespaces to Azure DNS (approach 2.2)
+2. Configure your AD Domain Controllers for conditional forwarding of privatelink namespaces to Azure DNS (approach 2.2).
 
-3. If you use Azure Firewall, configure the Firewall DNS proxy to use AD DCs deployed in Azure as DNS servers (approach 3.1)
+3. If you use Azure Firewall, configure the Firewall DNS proxy to use AD DCs deployed in Azure as DNS servers (approach 3.1).
 
-4. If you use Azure Firewall, you have no choice but to use it as a DNS server on your clients, if not using Azure Firewall, use AD DC
+4. If you use Azure Firewall, you have no choice but to use it as a DNS server on your clients. If not using Azure Firewall, use AD DCs.
 
-5. If you need Private Endpoints of the same resource in multiple VNets, use approach (3.3.3) for Policy-based DNS name resolution for _specific pinpoint DNS zones_.
+5. For scenarios where you need Private Endpoints of the same resource in multiple VNets, consider approach 3.3.3, which involves Policy-based DNS name resolution for _specific pinpoint DNS zones_.
 
-When I get more inspiration, I plan to translate the above into a pretty [Mermaid diagram](2023-09-04-diagrams-as-code.md).
+In the future, I plan to create a pretty [Mermaid diagram](2023-09-04-diagrams-as-code.md) to illustrate these recommendations further.
 
 ## Links
 
@@ -245,7 +241,6 @@ When I get more inspiration, I plan to translate the above into a pretty [Mermai
 
 Help me decide which picture fits better as the post cover, the one you see on the top or the one below.
 
-Before now, I never had the information described here structurally placed on one page. I will be so happy to discuss and learn better approaches for the covered scenarios. You are very welcome to Comments.
+This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your comments.
 
 ![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65)
-

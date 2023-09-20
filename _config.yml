@@ -34,6 +34,8 @@ github_username:  iromanovsky
 linkedin_username: iromanovsky
 #rss: Subscribe
 
+tagline: "Systems Architect – Azure Cloud" # https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+
 # Build settings
 theme: minima
 #remote_theme: jekyll/minima
