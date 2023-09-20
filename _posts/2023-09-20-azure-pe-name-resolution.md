@@ -17,7 +17,7 @@ published: false
 
 </div>
 
-In my previous post, I covered the scenarios when to use Private Endpoints and when it is not a silver bullet.
+In my [previous post](2023-09-14-azure-endpoints.md), I covered the scenarios when to use Private Endpoints and when it is not a silver bullet.
 
 In this post, I will delve into why name resolution is so important topic when discussing private endpoints, what approaches are available, and what solution I recommend genreally. 
 
@@ -235,11 +235,11 @@ Based on experience, I recommend this approach:
 
 5. If you need Private Endpoints of the same resource in multiple VNets, use approach (3.3.3) for Policy-based DNS name resolution for _specific pinpoint DNS zones_.
 
-When I get more inspiration, I plan to translate the above into a pretty [Mermaid diagram](/_posts/2023-09-04-diagrams-as-code.md).
+When I get more inspiration, I plan to translate the above into a pretty [Mermaid diagram](2023-09-04-diagrams-as-code.md).
 
 ## Links
 
-- [Choosing between Public, Service, and Private Endpoints in Azure](/_posts/2023-09-14-azure-endpoints.md)
+- [Choosing between Public, Service, and Private Endpoints in Azure](2023-09-14-azure-endpoints.md)
 
 ## Discussion
 
