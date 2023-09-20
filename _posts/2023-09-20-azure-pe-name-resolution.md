@@ -201,7 +201,7 @@ Pros:
 - The same as for 3.3.2: This approach allows resolution of the same privatelink name to different IPs depending on the client VNet to allow effective traffic routing
 
 Cons:
-- Similar as for 3.3.2, but you shift the complexity from Azure to your 3rd party solution.
+- Similar to 3.3.2, but you shift the complexity from Azure to your 3rd party solution.
 
 ## Conclusion
 
