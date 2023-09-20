@@ -14,13 +14,13 @@ image: "https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-4
 ---
 <div style="text-align: center">
 
-![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/74a1de77-c905-48ed-84fa-f508418aff08)
+![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65)
 
 </div>
 
 In my [previous post](2023-09-14-azure-endpoints.md), I explored the use cases and constraints of Private Endpoints.
 
-In this post, I will delve into topic of name resolution for private endpoints and why it is critical. We'll explore the available approaches, and my generally recommended solution.
+In this post, I will delve into the topic of name resolution for private endpoints and why it is critical. We'll explore the available approaches and my generally recommended solution.
 
 Tech nerd content warning, open with caution!
 
@@ -28,7 +28,7 @@ Tech nerd content warning, open with caution!
 
 ## Why you need to care about name resolution
 
-When you deploy a private endpoint for your resource, you're essentially creating a private network interface with an IP address on your VNet dedicated to a specific service, like a storage blob or an SQL database. It's important to note that a single resource connected via private link can provide multiple services, such as blob, file, table, and more, and each of these services should have its dedicated Private Endpoint.
+When you deploy a private endpoint for your resource, you're essentially creating a private network interface with an IP address on your VNet dedicated to a specific service, like a storage blob or an SQL database. It's important to note that a single resource connected via a private link can provide multiple services, such as blob, file, table, and more, and each of these services should have its dedicated Private Endpoint.
 
 For instance, your PE might have the IP address `10.18.0.4`, granting access to blobs via this address: `https://irom.blob.core.windows.net/`.
 
@@ -44,7 +44,7 @@ irom.blob.core.windows.net canonical name = blob.ams06prdstr05a.store.core.windo
 Name: blob.ams06prdstr05a.store.core.windows.net
 Address: 52.239.141.196
 ```
-If you block the public access on your resource, your query will fail, otherwise it will be served by the public endpoint, which is probably not what you wanted in the beginning _[did you know that deploying a private endpoint does not block public access for some resources?]_.
+If you block the public access on your resource, your query will fail, otherwise, it will be served by the public endpoint, which is probably not what you wanted in the beginning _[did you know that deploying a private endpoint does not block public access for some resources?]_.
 
 Now it's clear that you need to find a way to substitute the public IP for the name `irom.blob.core.windows.net` with your private endpoint IP `10.18.0.4`
 
@@ -107,7 +107,7 @@ Cons:
 
 ## 2. Custom DNS servers
 
-Many enterprise customers already operate their DNS systems for name resolution within their networks, with VNets configured to use custom DNS servers. In such cases, it becomes necessary to integrate the resolution of private endpoint names цшер the organization's DNS solution.
+Many enterprise customers already operate their DNS systems for name resolution within their networks, with VNets configured to use custom DNS servers. In such cases, it becomes necessary to integrate the resolution of private endpoint names into the organization's DNS solution.
 
 ### 2.1 Hosting private link zones on custom DNS servers
 
@@ -159,7 +159,7 @@ You can find an in-depth discussion of this solution in the article [Guide to Pr
 
 ### 3.3 Private Endpoints of the same resource in multiple VNets
 
-There are scenarios where deploying multiple private endpoints for the same resource across various VNets or regions becomes necessary. For instance, ensuring better bandwidth and lower latency by placing dedicated private endpoints closer to clients across different locations. However, this leads to a situation where the same private endpoint resource name must resolve to different IP addresses depending on the client's location:
+There are scenarios where deploying multiple private endpoints for the same resource across various VNets or regions becomes necessary. For instance, it ensures better bandwidth and lower latency by placing dedicated private endpoints closer to clients across different locations. However, this leads to a situation where the same private endpoint resource name must resolve to different IP addresses depending on the client's location:
 
 ```
 10.18.0.4 irom.blob.core.windows.net #if the client is in West Europe.
@@ -199,7 +199,7 @@ Pros:
 - This approach enables the resolution of the same privatelink name to different IPs depending on the client VNet, optimizing traffic routing.
 
 Cons:
-- Managing the lifecycle of numerous pinpoint DNS zones, their VNet links, and private endpoint resources can be challenging at scale, considering management, automation, and [limitations](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-dns-limits).
+- Managing the lifecycle of numerous pinpoint DNS zones, their VNet links and private endpoint resources can be challenging at scale, considering management, automation, and [limitations](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-dns-limits).
 - Implementing this approach in coordination with global, multi-regional forwarding of privatelink namespaces from on-premises DNS servers to Azure (as in approach 2.2) may pose challenges.
 
 #### 3.3.3 Policy-based DNS name resolution
@@ -244,3 +244,6 @@ Help me decide which picture fits better as the post cover, the one you see on t
 This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your comments.
 
 ![mermaid-diagram-2023-09-20-100614](https://github.com/iromanovsky/irom.info/assets/15823576/f863c57f-5902-449f-9a3e-73426f16ea65)
+
+![Bike Fall Meme](https://github.com/iromanovsky/irom.info/assets/15823576/74a1de77-c905-48ed-84fa-f508418aff08)
+
