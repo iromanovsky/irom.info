@@ -227,7 +227,7 @@ Based on my experience, I recommend the following approach:
 
 3. If you use Azure Firewall, configure the Firewall DNS proxy to use AD DCs deployed in Azure as DNS servers (approach 3.1).
 
-4. If you use Azure Firewall, you have no choice but to use it as a DNS server on your clients. If not using Azure Firewall, use AD DCs.
+4. If you use Azure Firewall, you have no choice but to use it as a DNS server for your clients. If not using Azure Firewall, use AD DCs.
 
 5. For scenarios where you need Private Endpoints of the same resource in multiple VNets, consider approach 3.3.3, which involves Policy-based DNS name resolution for _specific pinpoint DNS zones_.
 
@@ -239,9 +239,9 @@ In the future, I plan to create a pretty [Mermaid diagram](2023-09-04-diagrams-a
 
 ## Discussion
 
-Help me decide which picture fits better as the post cover, the one ON the top or the one on the bottom below?
+Help me decide which picture fits better as the post cover, the one on the top or the one on the bottom below.
 
-This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your comments.
+This post represents a structured compilation of information I've never had on a single page before. Your feedback is highly appreciated, and I'd also love to hear your thoughts on how to further enhance this content or explore better approaches. Please feel free to leave your [comments](https://www.linkedin.com/feed/update/urn:li:share:7110258252159819776/).
 
 ![mermaid-diagram-2023-09-20-100623_627](https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802)
 
