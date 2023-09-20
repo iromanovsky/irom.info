@@ -62,7 +62,7 @@ Lets agree on the terms from the beginning:
 <dt><strong>Private Endpoint</strong></dt>
 <dd>Denotes a specific network interface deployed in a VNet to connect with a resource via a private link.</dd>
 <dt><strong>privatelink</strong></dt>
-<dd>Refers to namespaces in the format "*.privatelink.[service]" For instance, <tt>privatelink.blob.core.windows.net</tt> represents such a namespace.</dd>
+<dd>Refers to namespaces in the format "*.privatelink.[service]" For instance, <tt>privatelink.blob.core.windows.net</tt> represents privatelink namespace for blob service on storage account.</dd>
 </dl>
 
 ## 0. Hosts file
