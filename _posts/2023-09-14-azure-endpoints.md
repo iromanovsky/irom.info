@@ -9,6 +9,7 @@ tags: [azure, devops, caf]
 slug: azure-endpoints
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-endpoints]
+image: https://github.com/iromanovsky/irom.info/assets/15823576/972101cf-3dc8-4ba5-9a68-17857926f631
 #published: false
 ---
 <div style="text-align: center">

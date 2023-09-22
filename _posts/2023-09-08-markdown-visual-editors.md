@@ -9,6 +9,7 @@ tags: [azure, devops, caf]
 slug: markdown-visual-editors
 excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
+image: https://github.com/iromanovsky/irom.info/assets/15823576/bee5bd07-3fe6-4a5c-a373-c2513aec1fd3
 #published: false
 ---
 <div aligh="center">

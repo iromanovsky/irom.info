@@ -9,10 +9,11 @@ tags: [azure, devops, caf, naming-convention]
 slug: azure-naming-convention
 excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
+image: https://github.com/iromanovsky/irom.info/assets/15823576/b6ce746d-b7e8-48c1-b663-ac49cb298e07
 #published: false
 ---
 <div align="center">  
-  
+
 ![change-my-mind-naming](https://github.com/iromanovsky/irom.info/assets/15823576/b6ce746d-b7e8-48c1-b663-ac49cb298e07)
 
 </div>

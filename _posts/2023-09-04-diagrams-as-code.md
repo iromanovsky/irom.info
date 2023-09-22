@@ -9,10 +9,14 @@ tags: [azure, devops, caf]
 slug: diagrams-as-code
 excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
+image: https://github.com/iromanovsky/irom.info/assets/15823576/480e2b26-a85a-40d7-b7b9-bf0b1f0e7743
 #published: false
 ---
+<div align="center">  
 
 ![mermaid-diagram-2023-09-04-232438](https://github.com/iromanovsky/irom.info/assets/15823576/480e2b26-a85a-40d7-b7b9-bf0b1f0e7743)
+
+</div>
 
 Did you know that you can do Diagrams as Code? In this post, discover how to generate machine-made diagrams of Azure Management Groups structure using a declarative approach.
 
