@@ -16,7 +16,7 @@ Hi, my name is Igor Romanovsky,
 
 I'm a Systems Architect with hands-on IT experience since 2005, including roles at Microsoft and EPAM, delivering international flagship projects for Core Infrastructure since 2011, and specializing in Azure Cloud since 2015.
 
-> I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.
+> <div style="font-style: normal">I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.</div>
 
 To see my proven track record of international flagship projects, check my [LinkedIn profile](https://www.linkedin.com/in/iromanovsky/).
 
