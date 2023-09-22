@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Igor Romanovsky
-author: Systems Architect – Azure Cloud
+author: Systems Architect ☁️ Azure Cloud
 #email: 15823576+iromanovsky@users.noreply.github.com
 description: >- # this means to ignore newlines until "baseurl:"
   I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud
@@ -30,11 +30,9 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://irom.info" # the base hostname & protocol for your site, e.g. http://example.com
 
 #twitter_username: iromanovsky
-github_username:  iromanovsky
+#github_username:  iromanovsky #commented to not mix with linkedin
 linkedin_username: iromanovsky
 #rss: Subscribe
-
-tagline: "Systems Architect – Azure Cloud" # https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 
 # Build settings
 theme: minima
@@ -97,6 +95,22 @@ relative_links:
   enabled:     true
   collections: true
 
+# jekyll-seo-tag specific
+#https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+tagline: "Systems Architect – Azure Cloud" #would be used when page.title is not defined
+twitter:
+  username: iromanovsky #the site's Twitter handle
+  #card: summary
+social: #for specifying social profiles
+  name: Igor Romanovsky | Systems Architect – Azure Cloud #if the user or organization name differs from the site's name
+  links:
+    - https://www.linkedin.com/in/iromanovsky
+    - https://github.com/iromanovsky
+    - https://twitter.com/iromanovsky
+
+#author: #https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/advanced-usage.md#author-information
+#  twitter: iromanovsky # commented to not svrew up jekyll v2 formatting
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
@@ -142,6 +156,11 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      author: Igor    
   # - scope:
   #     path: ""
   #   values:
