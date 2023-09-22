@@ -9,7 +9,7 @@ tags: [azure, devops, caf]
 slug: diagrams-as-code
 excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
-image: https://github.com/iromanovsky/irom.info/assets/15823576/480e2b26-a85a-40d7-b7b9-bf0b1f0e7743
+image: https://github.com/iromanovsky/irom.info/assets/15823576/49ec0de1-7953-4513-8d7b-6090d39bfdc0
 #published: false
 ---
 <div align="center">  
