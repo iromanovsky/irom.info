@@ -10,6 +10,8 @@ slug: azure-pe-name-resolution
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802
+description: >-
+    In this post, I will delve into the topic of name resolution for private endpoints and why it is critical. We'll explore the available approaches and my generally recommended solution.
 #published: false
 ---
 <div style="text-align: center">
@@ -83,7 +85,7 @@ Cons:
 - Fragile. When numerous resources on Private Endpoints (PEs) need periodic updates, this method can lead to errors and inconsistencies.
 
 Overall, this approach remains suitable for general development/testing environments, and for [private data access pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations) when used carefully.
-    
+
 ## 1. Azure Private DNS Zones
 
 When you need to serve the same private endpoints to multiple clients and VNets, Azure Private DNS Zones may help you:
@@ -92,10 +94,10 @@ When you need to serve the same private endpoints to multiple clients and VNets,
 2. You [link](https://learn.microsoft.com/en-us/azure/dns/private-dns-virtual-network-links) this zone to all the VNets where you need to use your private endpoints. 
 3. When creating private endpoint resources, register your PE names to the DNS zones: `irom A record to 10.18.0.4`. When manually creating private endpoints in the Azure portal, it can do this for you automatically, however, you'll need to manage it yourself when automating the process, or you can employ [policies for automation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/private-link-and-dns-integration-at-scale).
 4. When clients within the VNets resolve names for Private Endpoint-enabled resources, they initiate an additional DNS query for _resourcename_ in **privatelink**.service.domain namespace. 
-   - If the Private DNS Zone successfully resolves this query, the client receives the private IP address associated with the endpoint.. 
-   - If **privatelink** name like irom.privatelink.blob.core.windows.net is resolved externally, the client gets the Public Endpoint IP. This could be less desirable but may serve as a failover solution in specific situations.
+    - If the Private DNS Zone successfully resolves this query, the client receives the private IP address associated with the endpoint.. 
+    - If **privatelink** name like irom.privatelink.blob.core.windows.net is resolved externally, the client gets the Public Endpoint IP. This could be less desirable but may serve as a failover solution in specific situations.
 
-> <p>Why the zones for private endpoints are named like privatelink.blob.core.windows.net?</p><p>Because the parent namespace like  blob.core.windows.net contains the names of all Azure storage accounts, including those of other customers. Creating a private DNS zone named blob.core.windows.net would mean that names not registered in this zone, including resources without private endpoints, would fail to resolve and establish connections. This could be a scenario for disaster, be careful to not disrupt the name resolution of existing resources on Public Endpoints.</p>
+> <p>Why the zones for private endpoints are named like privatelink.blob.core.windows.net?</p><p>Because the parent namespace like blob.core.windows.net contains the names of all Azure storage accounts, including those of other customers. Creating a private DNS zone named blob.core.windows.net would mean that names not registered in this zone, including resources without private endpoints, would fail to resolve and establish connections. This could be a scenario for disaster, be careful to not disrupt the name resolution of existing resources on Public Endpoints.</p>
 
 Pros:
 - Centralized and automated private endpoint name resolution can be implemented at the scale of your landing zone.
@@ -132,10 +134,10 @@ Cons:
 
 Challenges:
 - For forwarding to function correctly, the DNS server must be able to reach Azure DNS:
-   - For servers hosted in Azure, you need to forward queries to the [Azure Magic IP 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16).
-   - For on-premises servers, you can either use existing servers hosted in Azure as forwarders or deploy [Azure Private Resolver](https://learn.microsoft.com/en-us/azure/dns/private-resolver-architecture) within your VNet to facilitate this forwarding process.
+    - For servers hosted in Azure, you need to forward queries to the [Azure Magic IP 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16).
+    - For on-premises servers, you can either use existing servers hosted in Azure as forwarders or deploy [Azure Private Resolver](https://learn.microsoft.com/en-us/azure/dns/private-resolver-architecture) within your VNet to facilitate this forwarding process.
 
-> Note: When configuring conditional forwarding from on-premises, it is crucial to forward **privatelink**.service.domain namespaces instead of forwarding the whole  **service**.domain namespaces (contrary to [CAF article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)). If forwarding fails, it would result in the loss of resolution for **privatelink** resources only, as opposed to losing access to all resources of the service, which might also employ public endpoints. This targeted forwarding approach helps maintain selective control.
+> Note: When configuring conditional forwarding from on-premises, it is crucial to forward **privatelink**.service.domain namespaces instead of forwarding the whole **service**.domain namespaces (contrary to [CAF article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)). If forwarding fails, it would result in the loss of resolution for **privatelink** resources only, as opposed to losing access to all resources of the service, which might also employ public endpoints. This targeted forwarding approach helps maintain selective control.
 
 ## 3. Advanced scenarios
 

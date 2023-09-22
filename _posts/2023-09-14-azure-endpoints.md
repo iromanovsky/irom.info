@@ -1,7 +1,7 @@
 ---
 #layout: post-argon
 title: Choosing between Public, Service, and Private Endpoints in Azure
-date:   2023-09-14 08:00:00 +0100
+date: 2023-09-14 08:00:00 +0100
 author: Igor
 categories: Blog
 tags: [azure, devops, caf]
@@ -10,6 +10,8 @@ slug: azure-endpoints
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-endpoints]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/972101cf-3dc8-4ba5-9a68-17857926f631
+description: >-
+    In this post, I will explain the differences between Public, Service, and Private endpoints and share the pros and cons of their use in common scenarios.
 #published: false
 ---
 <div style="text-align: center">
@@ -38,7 +40,7 @@ In this post, I will explain the differences between Public, Service, and Privat
 
 To get started, let's compare how each type of endpoint works.
 
-| | Public Endpoints  | Service Endpoints | Private Endpoints |
+| | Public Endpoints | Service Endpoints | Private Endpoints |
 | - | - | - | - |
 | **Availability** | On all PaaS services | On [limited number of PaaS services](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview) | On [on most of PaaS Services](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview#private-link-resource) |
 | **How routing works** | <p>Public Endpoints are available on public Internet IP addresses.</p><p>**From public Internet** anyone can reach them.</p><p>**From private VNet**, traffic is routed according to your routing tables (via Azure NAT or a Firewall).</p><p>On certain resources, such as storage, there is an option to prefer Microsoft routing, where the actual traffic remains within the Microsoft backbone.<p> | Direct routes for public IP ranges are advertised to your subnet and are visible in Effective Routes. These routes are specific to [resource types and regions](https://www.microsoft.com/download/details.aspx?id=56519).</p><p>Client traffic flows directly to the endpoint, bypassing the routing table attached to the subnet, but it remains within the Microsoft backbone. It appears as if NAT is not used, as the resources on service endpoints can see the client's original private IP from the VNet.<p> | <p>An IP interface is created in the VNet where you deploy your private endpoint.</p><p>All traffic to endpoints remains within the private VNet.</p> |
@@ -79,7 +81,7 @@ The benefits of Private Endpoints are **doubtful** in the below scenarios:
 
 - **Blindly following generic recommendations:** Implementing Private Endpoints based on generic recommendations, "best practices," benchmarks, or secure scores without considering your specific usage scenario can lead to increased system complexity, fragility, and higher maintenance costs. Enforcing Private Endpoints without a valid reason might result in losing cloud capabilities without significant benefits.
 - **Relying solely on network security:** In the [zero-trust security model](https://learn.microsoft.com/en-us/azure/security/fundamentals/zero-trust), it's assumed that breaches can occur at any point in the data flow. Trusting the network to provide security along the data path is not recommended. While selective traffic routing, private networks, and firewalls offer some protection, they may not be sufficient in hybrid environments spanning multiple data centers, clouds, and VPN devices. Instead, comprehensive security measures like end-to-end encryption, authentication, and endpoint protection should be employed.
-- **Providing access to corporate resources:**  Private Endpoints may not be the most efficient choice for providing access to corporate resources over a VPN or a weak WAN link. VPNs and local WAN links can introduce bottlenecks when accessing the resources on private endpoints. Leveraging public endpoints can utilize the [Microsoft backbone](https://azure.microsoft.com/en-gb/explore/global-infrastructure/global-network/) (traffic managers, front door gateways, CDNs) for a [more efficient](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-network-connectivity-principles?view=o365-worldwide#avoid-network-hairpins) data path.
+- **Providing access to corporate resources:** Private Endpoints may not be the most efficient choice for providing access to corporate resources over a VPN or a weak WAN link. VPNs and local WAN links can introduce bottlenecks when accessing the resources on private endpoints. Leveraging public endpoints can utilize the [Microsoft backbone](https://azure.microsoft.com/en-gb/explore/global-infrastructure/global-network/) (traffic managers, front door gateways, CDNs) for a [more efficient](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-network-connectivity-principles?view=o365-worldwide#avoid-network-hairpins) data path.
 - **Access across multiple Azure regions in a Hub-and-Spoke model:** Private endpoints for the same resource in multiple regions or VNets can introduce significant complexity, especially concerning name resolution. This complexity can outweigh the benefits in scenarios where resources need to be accessed across various Azure regions or during failover situations.
 - **Cloud-native application design:** In cloud-native application design, where the goal is to leverage PaaS services extensively, implementing private endpoints for "grounding" interactions between PaaS components can add unnecessary complexity and costs. VNet integration options for PaaS services often come at premium price points.
 
@@ -112,7 +114,7 @@ Considering that each company may have a unique environment and specific require
 | Storage Account | <p>**Public Endpoints** for publicly accessible storage, such as diagnostic data, Terraform state files, or exchanging information with external parties.<p/> <p>**Service Endpoints** for storage shared across VNets and/or regions.</p> <p>**Private Endpoint** for private data for apps in high-security zone; for file shares when migrating data from on-premise.</p> |
 | Azure KeyVault | <p>_Note: The security of Key Vault is not significantly improved by using Private Endpoints since Key Vault access is protected with Azure AD authentication. Key Vault is not a practical target for data exfiltration, and Key Vault clients still require outbound access to AAD._</p> <p>**Public + Service Endpoints** for shared Key Vaults used by Automation / DevOps / Terraform / PaaS / Admins.</p> <p>**Private Endpoints** for app-specific KVs deployed on-demand for storing private data, like encryption keys.</p> |
 | Azure SQL Database | <p>**Public Endpoints** for cloud-native PaaS apps not integrated into VNet.</p> <p>**Private Endpoints** for private databases when used from IaaS servers.</p> |
-| ..and so on..|  |
+| ..and so on..| |
 
 # Discussion
 
