@@ -9,12 +9,16 @@ permalink: /about/
 
 </div>
 
-Hi, my name is Igor Romanovsky.
+Hi, my name is Igor Romanovsky,
 
-I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud. 
+I'm a Systems Architect with hands-on IT experience since 2005, including roles at Microsoft and EPAM, delivering international flagship projects for Core Infrastructure since 2011, and specializing in Azure Cloud since 2015.
+
+> I help customers by designing and implementing solutions for Core Infrastructure on Azure Cloud. 
 
 To see my proven track record of international flagship projects, check my [LinkedIn profile](https://www.linkedin.com/in/iromanovsky/).
 
-This site is under development. I have many topics to share, along with working on a custom design theme.
+This site is a work in progress. I have plenty of topics to share, along with crafting a custom design theme.
 
 I will post updates on LinkedIn, you are very welcome to connect if not yet.
+
+Thank you for visiting, and stay tuned for exciting updates!
