@@ -39,7 +39,7 @@ theme: minima
 #remote_theme: jekyll/minima
 plugins: #https://jekyllrb.com/docs/github-pages/
   - jekyll-feed
-  - jekyll-sitemap #https://www.sitemaps.org/protocol.html https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+  - jekyll-sitemap #https://github.com/jekyll/jekyll-sitemap #https://www.sitemaps.org/protocol.html https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
   - jekyll-seo-tag
   - jekyll-redirect-from
   - jekyll-avatar
@@ -97,6 +97,7 @@ relative_links:
 
 # jekyll-seo-tag specific
 #https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+#https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/advanced-usage.md
 tagline: "Systems Architect – Azure Cloud" #would be used when page.title is not defined
 twitter:
   username: iromanovsky #the site's Twitter handle
@@ -159,7 +160,7 @@ defaults: #https://jekyllrb.com/docs/configuration/front-matter-defaults/
       path: ""
       type: "pages"
     values:
-      author: Igor    
+      author: Igor #https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/advanced-usage.md
   # - scope:
   #     path: ""
   #   values:
