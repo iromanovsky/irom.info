@@ -134,7 +134,7 @@ social: #for specifying social profiles
 #   - README.md #https://jekyllrb.com/docs/configuration/options/#global-configuration
 #   - CNAME
 
-collections: ##https://jekyllrb.com/docs/collections/
+collections: #https://jekyllrb.com/docs/collections/
   authors:
     output: true
   reviews:
@@ -144,8 +144,7 @@ collections: ##https://jekyllrb.com/docs/collections/
     output: true
     permalink: /go/:name #https://jekyllrb.com/docs/permalinks/#collections
 
-#https://jekyllrb.com/docs/configuration/front-matter-defaults/
-defaults:
+defaults: #https://jekyllrb.com/docs/configuration/front-matter-defaults/
   - scope:
       path: ""
       type: "authors"
@@ -156,7 +155,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-  - scope:
+  - scope: # setting same author on all pages
       path: ""
       type: "pages"
     values:
