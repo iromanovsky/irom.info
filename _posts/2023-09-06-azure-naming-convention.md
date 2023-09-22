@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/b6ce746d-b7e8-48c1-b663-ac49cb298e07
 description: >-
-    In this post, I'm sharing the naming convention I've been using for the biggest Azure infrastructure projects during my career at Microsoft and EPAM. Since 2015, it has proven to work well in enterprise-scale environments long before Microsoft introduced CAF and the concept of Landing Zones.
+    I'm sharing the naming convention I've been using for the biggest Azure infrastructure projects during my career at Microsoft and EPAM since 2015.
 #published: false
 ---
 <div align="center">

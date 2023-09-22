@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802
 description: >-
-    In this post, I will delve into the topic of name resolution for private endpoints and why it is critical. We'll explore the available approaches and my generally recommended solution.
+    Delve into name resolution for private endpoints and why it is critical. We'll explore the available approaches and my generally recommended solution.
 #published: false
 ---
 <div style="text-align: center">

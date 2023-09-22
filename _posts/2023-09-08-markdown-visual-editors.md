@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/bee5bd07-3fe6-4a5c-a373-c2513aec1fd3
 description: >-
-    One thing has been bothering me for all that time: working with tables in Markdown when you need more complex formatting. On the cover picture, you can see how unfriendly it is. In this post, I will share which visual editors for Markdown can solve this issue.
+    It's frustrating to work with tables in Markdown when you need more complex formatting. I will share which visual editors for Markdown can solve this issue.
 #published: false
 ---
 <div aligh="center">
