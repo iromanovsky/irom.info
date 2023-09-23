@@ -101,10 +101,10 @@ relative_links:
 tagline: "Systems Architect – Azure Cloud" #would be used when page.title is not defined
 twitter:
   username: iromanovsky #the site's Twitter handle
-  #card: summary
-social: #for specifying social profiles
-  name: Igor Romanovsky | Systems Architect – Azure Cloud #if the user or organization name differs from the site's name
-  links:
+  #card: summary #the site's default card type
+social: #for specifying social profiles -- used on home and about pages 
+  name: Igor Romanovsky | Systems Architect – Azure Cloud #https://developers.google.com/search/docs/appearance/site-names
+  links: #https://schema.org/sameAs #https://github.com/jekyll/jekyll-seo-tag/blob/master/lib/jekyll-seo-tag/drop.rb
     - https://www.linkedin.com/in/iromanovsky
     - https://github.com/iromanovsky
     - https://twitter.com/iromanovsky
@@ -138,7 +138,7 @@ social: #for specifying social profiles
 collections: #https://jekyllrb.com/docs/collections/
   authors:
     output: true
-  reviews:
+  msg:
     output: true
     sort_by: item_order
   redir: #https://github.com/jekyll/jekyll-redirect-from

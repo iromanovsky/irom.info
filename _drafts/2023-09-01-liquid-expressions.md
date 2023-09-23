@@ -1,18 +1,19 @@
 ---
-layout: post-argon
-title:  Using Liquid expressions
-date:   2023-09-01 12:00:00 +0100
+#layout: post-argon
+title: Using Liquid expressions
+date: 2023-09-01 12:00:00 +0100
 author: Igor
-categories: Blog
-tags: [meta data, blog]
+categories: Internal
+tags: [liquid, expressions, variables, data]
 #permalink: /post1/
 #slug: lorem-ipsum
 excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
 #published: false
+last_modified_at: 2023-09-11 12:00:00 +0100
 ---
 
-This post contains arious liquid expression.
+This post contains various liquid expression.
 
 This will display page title: {{ page.title }}
 
@@ -24,6 +25,8 @@ This will display page title: {{ page.title }}
 
 https://jekyllrb.com/docs/step-by-step/03-front-matter/
 
+[Variables](https://jekyllrb.com/docs/variables/)
+
 | Param | Value |
 | - | - |
 | Page title | {{ page.title }} |
@@ -33,38 +36,36 @@ https://jekyllrb.com/docs/step-by-step/03-front-matter/
 | Page id | {{ page.id }} |
 | Link | [Link to some post]({% post_url 2023-09-04-diagrams-as-code %}) |
 | Current markdown engine |  {{ site.markdown }} |
+| To display liquid code | {% raw %}`{{ page.date }}`{% endraw %} |
+
+{{ page.last-modified-date }}
 
 
-### Using more complex expressions
+## Listings
 
-Listing Authors
-
+### Listing "authors" collections
 <ul>
 {% for author in site.authors %}
-<li>
-<a href="{{ author.url }}">{{ author.name }}</a>
-</li>
+  <li><a href="{{ author.url }}">{{ author.name }}</a></li>
 {% endfor %}
 </ul>
 
-Listing posts by author of this page:
+### Listing posts by author of this page:
 <ul>
 {% assign filtered_posts = site.posts | where: 'author', page.author %}
 {% for post in filtered_posts %}
-<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
 {% endfor %}
 </ul>
 
-
-Listing all posts:
+### Listing all posts
 <ul>
 {% for item in site.posts %}
-<li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>
+  <li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>
 {% endfor %}
 </ul>
 
-Listing real pages:
-
+### Listing "real" pages
 {% assign default_paths = site.pages | map: "path" %}
 {% assign page_paths = site.header_pages | default: default_paths %}
 {% if page_paths %}
@@ -78,92 +79,53 @@ Listing real pages:
 </ul>
 {% endif %}
 
-Listing all pages:
+### Listing all pages
 <ul>
-  {% for item in site.pages %}
-       <li><a href="{{ item.url }}">{{ item.url }} ({{ item.title }})</a></li>
-  {% endfor %}
+{% for item in site.pages %}
+  <li><a href="{{ item.url }}">{{ item.url }} ({{ item.title }})</a></li>
+{% endfor %}
 </ul>
 
-Listing items in custom collections:
+### Listing items in custom collection "msg"
 <ul>
-  {% for item in site.pages1 %}
-    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-  {% endfor %}
+{% for item in site.msg %}
+  <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+{% endfor %}
 </ul>
 
 
-List tags:
-
+### List tags
 {% for item in site.tags %}
   [{{ item[0] }}]
   <ul>
-    {% for post in item[1] %}
-      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
+  {% for post in item[1] %}
+  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
   </ul>
 {% endfor %}
 
 
-List categories:
-
+### List categories
 {% for item in site.categories %}
   [{{ item[0] }}]
   <ul>
-    {% for post in item[1] %}
-      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
+  {% for post in item[1] %}
+  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
   </ul>
 {% endfor %}
 
 
-List site collections:
-
+### List site collections
 <ul>
-  {% for item in site.collections %}
-    <li>{{ item.label }}</li>
-  {% endfor %}
+{% for item in site.collections %}
+  <li>{{ item.label }}</li>
+{% endfor %}
 </ul>
 
 {% if jekyll.environment == "production" %}
   Runnning production
 {% endif %}
-
-## Content filtering
-
-{% raw %}`{{ page.date }}`{% endraw %}
-
-{% capture form %}
-{% raw %}
-<form
-  action="https://formspree.io/f/xdordkpb"
-  method="POST" markdown="0"
->
-  <label>
-    Your email: 
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    &lt;textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-</form>
-{% endraw %}
-{% endcapture %}
-
-{{ form | markdownif }}
-
-
-
-{% comment %}
-{% capture raw_html_content %}
-{% include ar-contact-form.txt %}
-{% endcapture %}
-
-{{ raw_html_content | raw }}
-{% endcomment %}
 
 {% comment %}
 <pre id="jekyll-debug"></pre>

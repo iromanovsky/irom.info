@@ -2,9 +2,20 @@
 layout: page
 title: About
 permalink: /about/
+redirect_from: [/about]
+last_modified_at: 2023-09-23 23:00:00 +0100
 description: >-
     I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.
-redirect_from: [/about]
+image: /assets/favicons/android-chrome-512x512.png
+seo:
+  type: Person
+  name: Igor Romanovsky
+  #date_modified: 2023-09-23 23:30:00 +0100
+  links:
+    - https://irom.info
+    - https://www.linkedin.com/in/iromanovsky
+    - https://github.com/iromanovsky
+    - https://twitter.com/iromanovsky
 ---
 <div style="float: right; padding-left: 1ch">
 
@@ -12,13 +23,17 @@ redirect_from: [/about]
 
 </div>
 
-Hi, my name is Igor Romanovsky,
+<div itemscope itemtype="https://schema.org/Person">
 
-I'm a Systems Architect with hands-on IT experience since 2005, including roles at Microsoft and EPAM, delivering international flagship projects for Core Infrastructure since 2011, and specializing in Azure Cloud since 2015.
+Hi, my name is <span itemprop="name">Igor Romanovsky</span>,
 
-> <div style="font-style: normal">I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.</div>
+I'm a <data itemprop="jobTitle" value="Systems Architect – Azure Cloud">Systems Architect</data> with hands-on IT experience since 2005, including roles at <span itemprop="alumniOf">Microsoft</span> and <span itemprop="affiliation">EPAM</span>, delivering international flagship projects for Core Infrastructure since 2011, and specializing in Azure Cloud since 2015.
+
+> <div itemprop="description" style="font-style: normal">I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.</div>
 
 To see my proven track record of international flagship projects, check my [LinkedIn profile](https://www.linkedin.com/in/iromanovsky/).
+
+</div>
 
 This site is a work in progress. I have plenty of topics to share, along with crafting a custom design theme.
 

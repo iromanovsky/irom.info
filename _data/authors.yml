@@ -3,7 +3,17 @@ Igor:
   url: https://www.linkedin.com/in/iromanovsky
   twitter: iromanovsky
   picture: https://github.com/iromanovsky/irom.info/assets/15823576/14607376-9477-4868-949f-8c4108b5dbee
+  jobTitle: Systems Architect – Azure Cloud
   links: # not sure if seo is using it
     - https://www.linkedin.com/in/iromanovsky
     - https://github.com/iromanovsky
     - https://twitter.com/iromanovsky
+    - https://www.credly.com/users/irom
+Jekyll:
+  name: Igor Romanovsky | Systems Architect – Azure Cloud
+  url: https://jekyllrb.com/
+  twitter: jekyllrb
+  picture: https://jekyllrb.com/img/jekyll-og.png
+  links: # not sure if seo is using it
+    - https://github.com/jekyll/jekyll
+    - https://jekyllrb.com/

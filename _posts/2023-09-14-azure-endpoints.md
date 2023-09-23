@@ -3,7 +3,7 @@
 title: Choosing between Public, Service, and Private Endpoints in Azure
 date: 2023-09-14 08:00:00 +0100
 author: Igor
-categories: Blog
+categories: [Azure, Networking]
 tags: [azure, devops, caf]
 #permalink: /post1/
 slug: azure-endpoints

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Review Page 1
+title: Welcome to Jekyll
 #permalink: /about/
 sitemap: false
 ---

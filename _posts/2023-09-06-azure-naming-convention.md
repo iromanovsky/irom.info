@@ -3,7 +3,7 @@
 title: Naming Convention for Azure Resources
 date: 2023-09-06 08:00:00 +0100
 author: Igor
-categories: Blog
+categories: [Azure, Foundations]
 tags: [azure, devops, caf, naming-convention]
 #permalink: /post1/
 slug: azure-naming-convention
