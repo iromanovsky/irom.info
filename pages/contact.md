@@ -5,6 +5,8 @@ permalink: /contact/
 redirect_from: [/contact]
 description: >-
     If you wish to contact me, the best way is to reach out on LinkedIn. For those who prefer not to use LinkedIn, please use the form on this page.
+seo:
+  type: ContactPage
 ---
 If you wish to contact me, the best way is to reach out on [LinkedIn](https://www.linkedin.com/in/iromanovsky) and describe your query in the connection request, if we are not connected yet.
 

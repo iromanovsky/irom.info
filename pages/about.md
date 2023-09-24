@@ -8,8 +8,8 @@ description: >-
     I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.
 image: /assets/favicons/android-chrome-512x512.png
 seo:
-  type: Person
-  name: Igor Romanovsky
+  type: AboutPage
+  #name: Igor Romanovsky
   #date_modified: 2023-09-23 23:30:00 +0100
   links:
     - https://irom.info
