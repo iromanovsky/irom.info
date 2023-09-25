@@ -1,0 +1,18 @@
+#http://jekyllrb.com/docs/configuration/default/
+#https://jekyllrb.com/docs/configuration/options/
+
+# Filtering Content
+show_drafts         : true
+future              : true
+unpublished         : true
+
+# Serving
+#show_dir_listing    : false
+
+force_polling: true
+
+#permalink: /:categories/:year/:month/:day/:title:output_ext #pretty
+
+# run commands
+#JEKYLL_ENV=production bundle exec jekyll s --watch --force_polling --drafts --future --unpublished
+#JEKYLL_ENV=production bundle exec jekyll s -w --config _config.yml,_devconf.yml

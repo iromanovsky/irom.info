@@ -2,6 +2,7 @@
 #layout: post-argon
 title: Name Resolution for Azure Private Endpoints
 date: 2023-09-20 08:00:00 +0100
+last_modified_at: 2023-09-25 11:00:00 +0100
 author: Igor
 categories: [Azure, Networking]
 tags: [azure, devops, caf]
@@ -159,7 +160,7 @@ In this setup, linking Azure Private DNS zones to AzureFirewallSubnet isn't poss
 
 You can find an in-depth discussion of this solution in the article [Guide to Private Link and DNS in Azure Virtual WAN](https://learn.microsoft.com/en-us/azure/architecture/guide/networking/private-link-virtual-wan-dns-guide).
 
-### 3.3 Private Endpoints of the same resource in multiple VNets
+### 3.3 Private Endpoints of the same resource in multiple VNets <a id="multiple-pe"></a>
 
 There are scenarios where deploying multiple private endpoints for the same resource across various VNets or regions becomes necessary. For instance, it ensures better bandwidth and lower latency by placing dedicated private endpoints closer to clients across different locations. However, this leads to a situation where the same private endpoint resource name must resolve to different IP addresses depending on the client's location:
 
