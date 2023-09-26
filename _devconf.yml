@@ -11,6 +11,18 @@ unpublished         : true
 
 force_polling: true
 
+#https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/setting-a-markdown-processor-for-your-github-pages-site-using-jekyll
+markdown: CommonMarkGhPages #https://jekyllrb.com/docs/configuration/markdown/
+commonmark: #https://github.com/github/jekyll-commonmark-ghpages
+  options: ["UNSAFE", "SMART", "FOOTNOTES" ] #https://github.com/gjtorikian/commonmarker#render-options
+  extensions: ["table", "strikethrough", "autolink", "tasklist"] #https://github.com/gjtorikian/commonmarker#extension-options
+
+#https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/setting-a-markdown-processor-for-your-github-pages-site-using-jekyll
+#markdown: CommonMark #https://jekyllrb.com/docs/configuration/markdown/
+#commonmark: #https://github.com/jekyll/jekyll-commonmark
+#  options: ["UNSAFE", "SMART", "FOOTNOTES" ] #https://github.com/gjtorikian/commonmarker#render-options
+#  extensions: ["table", "strikethrough", "autolink", "tasklist", "header_ids", "description_lists"] #https://github.com/gjtorikian/commonmarker#extension-options
+
 #permalink: /:categories/:year/:month/:day/:title:output_ext #pretty
 
 # run commands

@@ -19,7 +19,7 @@ This will display page title: {{ page.title }}
 
 <!--more-->
 
-## Using Liquid expressions
+## Using Liquid expressions {#custom-id}
 
 ### Using variables
 
@@ -36,10 +36,11 @@ https://jekyllrb.com/docs/step-by-step/03-front-matter/
 | Page id | {{ page.id }} |
 | Link | [Link to some post]({% post_url 2023-09-04-diagrams-as-code %}) |
 | Current markdown engine |  {{ site.markdown }} |
+| Commonmark settings |  `{{ site.commonmark | jsonify }}` |
+| Github repo url |  {{ site.github.repository_url }} |
 | To display liquid code | {% raw %}`{{ page.date }}`{% endraw %} |
 
 {{ page.last-modified-date }}
-
 
 ## Listings
 

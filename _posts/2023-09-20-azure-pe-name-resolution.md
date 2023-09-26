@@ -2,7 +2,7 @@
 #layout: post-argon
 title: Name Resolution for Azure Private Endpoints
 date: 2023-09-20 08:00:00 +0100
-last_modified_at: 2023-09-26 09:00:00 +0100
+last_modified_at: 2023-09-26 16:00:00 +0100
 author: Igor
 categories: [Azure, Networking]
 tags: [azure, devops, caf]
@@ -37,7 +37,7 @@ For instance, your PE might have the IP address `10.18.0.4`, granting access to 
 
 However, it's not advisable to directly use this IP address in your applications. Since most services are protected with SSL encryption, the client needs to validate the resource name. Microsoft still utilizes its wildcard certificate for this purpose, which is issued to `Common Name (CN) *.blob.core.windows.net` by `Microsoft RSA TLS CA 02`.
 
-As a result, attempting to connect via `https://10.18.0.4/` will result in name validation failure. To avoid this, it's essential to use the original URL, ensuring that your queries go through the private endpoint."
+As a result, attempting to connect via `https://10.18.0.4/` will result in name validation failure. To avoid this, it's essential to use the original URL, ensuring that your queries go through the private endpoint.
 
 ```
 nslookup irom.blob.core.windows.net
@@ -47,9 +47,12 @@ irom.blob.core.windows.net canonical name = blob.ams06prdstr05a.store.core.windo
 Name: blob.ams06prdstr05a.store.core.windows.net
 Address: 52.239.141.196
 ```
-If you block the public access on your resource, your query will fail, otherwise, it will be served by the public endpoint, which is probably not what you wanted in the beginning _[did you know that deploying a private endpoint does not block public access for some resources?]_.
 
-Now it's clear that you need to find a way to substitute the public IP for the name `irom.blob.core.windows.net` with your private endpoint IP `10.18.0.4`
+If you block the public access on your resource, your query will fail, otherwise, it will be served by the public endpoint, which is probably not what you wanted in the beginning.
+
+> Did you know that deploying a private endpoint does not block public access for some resources?
+
+Now it's clear that you need to find a way to substitute the public IP for the name `irom.blob.core.windows.net` with your private endpoint IP `10.18.0.4`.
 
 > Within this document, you'll encounter numbered headers denoting different approaches for name resolution with private endpoints. These approaches can be combined to create more intricate solutions, and we've assigned numbers to facilitate cross-referencing.
 
@@ -57,13 +60,17 @@ Lets agree on the terms from the beginning:
 
 <dl>
 <dt><strong>Domain (FQDN)</strong></dt>
-<dd>Refers to a specific name within a DNS hierarchy. For example, "privatelink.blob.core.windows.net" is a domain within the broader hierarchy of the top-level domain "blob.core.windows.net."</dd>
+<dd>Refers to a specific name within a DNS hierarchy. For example, <code>privatelink.blob.core.windows.net</code> is a domain within the broader hierarchy of the top-level domain <code>blob.core.windows.net</code>.</dd>
+
 <dt><strong>Namespace</strong></dt>
-<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <em>irom.privatelink.blob.core.windows.net</em>, if <code>blob.core.windows.net</code> represents the namespace, then <code>irom.privatelink</code> is one of its subdomains.</dd>
+<dd>Used in forwarding, it encompasses everything within a particular domain, including its subdomains. In FQDN <code>irom.privatelink.blob.core.windows.net</code>, if <code>blob.core.windows.net</code> represents the namespace, then <code>irom.privatelink</code> is one of its subdomains.</dd>
+
 <dt><strong>DNS Zone</strong></dt>
-<dd>Employed in DNS servers to store data related to a namespace. For instance the zone <em>privatelink.blob.core.windows.net</em> contains records for private endpoints.</dd>
+<dd>Employed in DNS servers to store data related to a namespace. For instance the zone <code>privatelink.blob.core.windows.net</code> contains records for private endpoints.</dd>
+
 <dt><strong>Private Endpoint</strong></dt>
-<dd>Denotes a specific network interface deployed in a VNet to connect with a resource via a private link.</dd>
+<dd>Denotes a specific network interface deployed in a VNet to connect with a resource via <a href="https://learn.microsoft.com/en-us/azure/private-link/private-link-overview">Azure Private Link</a>.</dd>
+
 <dt><strong>privatelink</strong></dt>
 <dd>Refers to namespaces in the format "*.privatelink.[service]". For instance, <code>privatelink.blob.core.windows.net</code> represents privatelink namespace for blob service on storage account.</dd>
 </dl>
@@ -120,7 +127,7 @@ Pros:
 - Integration of private endpoint name resolution into your custom DNS solution, extending support to on-premise clients.
 
 Cons:
-- Requires separate management or privatelink records lifecycle, losing benefits of Azure Private DNS Zones
+- Requires separate management or privatelink records lifecycle, losing benefits of Azure Private DNS Zones.
 
 ### 2.2 Forwarding privatelink namespaces from custom DNS to Azure DNS
 
@@ -138,7 +145,7 @@ Challenges:
     - For servers hosted in Azure, you need to forward queries to the [Azure Magic IP 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16).
     - For on-premises servers, you can either use existing servers hosted in Azure as forwarders or deploy [Azure Private Resolver](https://learn.microsoft.com/en-us/azure/dns/private-resolver-architecture) within your VNet to facilitate this forwarding process.
 
-> Note: When configuring conditional forwarding from on-premises, it is crucial to forward **privatelink**.service.domain namespaces instead of forwarding the whole **service**.domain namespaces (contrary to [CAF article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)). If forwarding fails, it would result in the loss of resolution for **privatelink** resources only, as opposed to losing access to all resources of the service, which might also employ public endpoints. This targeted forwarding approach helps maintain selective control.
+> Note: When configuring conditional forwarding from on-premises, it is crucial to forward **privatelink**.service.domain namespaces instead of forwarding the whole **service**.domain namespaces (contrary to [MSFT article](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)). If forwarding fails, it would result in the loss of resolution for **privatelink** resources only, as opposed to losing access to all resources of the service, which might also employ public endpoints. This targeted forwarding approach helps maintain selective control.
 
 ## 3. Advanced scenarios
 
@@ -166,7 +173,7 @@ There are scenarios where deploying multiple private endpoints for the same reso
 
 ```
 10.18.0.4 irom.blob.core.windows.net #if the client is in West Europe.
-10.19.0.4 irom.blob.core.windows.net #if the client is in North Europe.
+10.19.0.4 irom.blob.core.windows.net #if the client is in West US.
 ...
 # ..and so on for other regions..
 ```
