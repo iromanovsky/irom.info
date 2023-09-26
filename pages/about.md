@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 redirect_from: [/about]
-last_modified_at: 2023-09-23 23:00:00 +0100
+last_modified_at: 2023-09-26 09:00:00 +0100
 description: >-
     I help global enterprise-scale customers on their cloud adoption journey by designing and implementing effective, reliable, scalable, and secure solutions.
 image: /assets/favicons/android-chrome-512x512.png
@@ -25,7 +25,7 @@ seo:
 
 <div itemscope itemtype="https://schema.org/Person">
 
-Hi, my name is <span itemprop="name">Igor Romanovsky</span>,
+## Hi, my name is <span itemprop="name">Igor Romanovsky</span>
 
 I'm a <data itemprop="jobTitle" value="Systems Architect – Azure Cloud">Systems Architect</data> with hands-on IT experience since 2005, including roles at <span itemprop="alumniOf">Microsoft</span> and <span itemprop="affiliation">EPAM</span>, delivering international flagship projects for Core Infrastructure since 2011, and specializing in Azure Cloud since 2015.
 

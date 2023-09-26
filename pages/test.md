@@ -2,10 +2,15 @@
 layout: page
 title: Test Page
 permalink: /test
-redirect_from: [/test/]
+#redirect_from: [/test/]
 sitemap: false
 published: false
 ---
+
+
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+<div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="light" data-type="VERTICAL" data-vanity="iromanovsky" data-version="v1"  style="float: right; padding-left: 1ch"></div>
+  
 
 ## Content filtering
 
