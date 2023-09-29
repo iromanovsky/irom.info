@@ -1,8 +1,0 @@
----
-sitemap: false
-published: false
-output: false
----
-{% comment %}
-{{ site | jsonify }}
-{% endcomment %}

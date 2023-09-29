@@ -5,45 +5,41 @@ permalink: /test
 #redirect_from: [/test/]
 sitemap: false
 published: false
+#hidden: true # does not work?
+exclude: true # does not worlk too  {% unless page.exclude %}
 ---
 
+ {% include linkedin-badge.html size='medium' %}
 
-<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-<div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="light" data-type="VERTICAL" data-vanity="iromanovsky" data-version="v1"  style="float: right; padding-left: 1ch"></div>
-  
+Links:
 
-## Content filtering
+- [Lorem](../_drafts/2023-03-31-test-post.md)  
+- [Liquid](../_drafts/2023-09-01-liquid-expressions.md)
+- [site.json link]({% link _msg/site.json %})
+- [site.json]({{ '/msg/site.json' |  relative_url}})
+- [versions.json]({{ '/msg/versions.json' |  relative_url}})
 
-{% raw %}`{{ page.date }}`{% endraw %}
+Some [emojis](https://emojipedia.org/)
 
-{% capture form %}
+⚠️ Warning  
+☁️ Cloud  
+ℹ️ Info  
+
+Check shortcodes: :cloud:
+
+## Check some vars
+
+{%- if false -%}
 {% raw %}
-<form
-  action="https://formspree.io/f/xdordkpb"
-  method="POST" markdown="0"
->
-  <label>
-    Your email: 
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    &lt;textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-</form>
+{% include list-params.html size='medium' weight='heavy' %}
 {% endraw %}
-{% endcapture %}
+{%- endif -%}
 
-{{ form | markdownif }}
-
-
-
-{% comment %}
-{% capture raw_html_content %}
-{% include ar-contact-form.txt %}
-{% endcapture %}
-
-{{ raw_html_content | raw }}
-{% endcomment %}
+{%- if true -%}
+<pre id="jekyll-debug"></pre>
+<script>
+  var obj = JSON.parse(decodeURIComponent("{{ site.github.versions | jsonify | uri_escape }}"));
+  var prettyJson = JSON.stringify(obj, null, 4);  // Pretty-printed JSON (indented 4 spaces).
+  document.getElementById("jekyll-debug").textContent = prettyJson;
+</script>
+{%- endif -%}

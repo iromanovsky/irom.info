@@ -38,6 +38,8 @@ https://jekyllrb.com/docs/step-by-step/03-front-matter/
 | Current markdown engine |  {{ site.markdown }} |
 | Commonmark settings |  `{{ site.commonmark | jsonify }}` |
 | Github repo url |  {{ site.github.repository_url }} |
+| Github edit url | <p>This site is open source. <a href="{% github_edit_link %}">Improve this page</a></p> |
+| Github edit liuid link | {% github_edit_link "Improve this page" %} |
 | To display liquid code | {% raw %}`{{ page.date }}`{% endraw %} |
 
 {{ page.last-modified-date }}
@@ -124,9 +126,13 @@ https://jekyllrb.com/docs/step-by-step/03-front-matter/
 {% endfor %}
 </ul>
 
+## Using conditions
+
 {% if jekyll.environment == "production" %}
   Runnning production
 {% endif %}
+
+## Comments
 
 {% comment %}
 <pre id="jekyll-debug"></pre>
@@ -137,8 +143,47 @@ https://jekyllrb.com/docs/step-by-step/03-front-matter/
 </script>
 {% endcomment %}
 
-{% comment %}
+## Inspect
+
+{% raw %}
 {{  site.github.versions | inspect }}
 
 {{  site.github | inspect }}
+{% endraw %}
+
+## Content filtering and capturing
+
+- [Liquid Filters - Jekyll](https://jekyllrb.com/docs/liquid/filters/)
+- [Liquid - Shopify](https://shopify.github.io/liquid/)
+
+{% raw %}`{{ page.date }}`{% endraw %}
+
+{% capture form %}
+{% raw %}
+<form
+  action="https://formspree.io/f/xdordkpb"
+  method="POST" markdown="0"
+>
+  <label>
+    Your email: 
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
+{% endraw %}
+{% endcapture %}
+
+{{ form | markdownify }}
+
+{% comment %}
+{% capture raw_html_content %}
+{% include ar-contact-form.txt %}
+{% endcapture %}
+
+{{ raw_html_content | raw }}
 {% endcomment %}

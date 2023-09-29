@@ -1,0 +1,7 @@
+{% assign vanity = include.vanity | default: 'iromanovsky' %}
+{% assign style = include.style | default: 'float: right; padding-left: 1ch' %}
+{% assign size = include.size | default: 'medium' %}
+{% assign theme = include.theme | default: 'light' %}
+{% assign type = include.type | default: 'HORIZONTAL' %}
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+<div class="badge-base LI-profile-badge" data-locale="en_US" data-size="{{ size }}" data-theme="{{ theme }}" data-type="{{ type }}" data-vanity="{{ vanity }}" data-version="v1" style="{{ style }}"></div>

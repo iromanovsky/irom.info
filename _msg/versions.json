@@ -1,0 +1,7 @@
+---
+sitemap: false
+published: false
+---
+{%- if true -%}
+{{- site.github.versions | jsonify -}}
+{%- endif -%}

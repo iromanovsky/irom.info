@@ -11,6 +11,8 @@ unpublished         : true
 
 force_polling: true
 
+repository: iromanovsky/irom.info
+
 #https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/setting-a-markdown-processor-for-your-github-pages-site-using-jekyll
 markdown: CommonMarkGhPages #https://jekyllrb.com/docs/configuration/markdown/
 commonmark: #https://github.com/github/jekyll-commonmark-ghpages
