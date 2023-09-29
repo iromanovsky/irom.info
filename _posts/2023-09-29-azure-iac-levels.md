@@ -1,6 +1,6 @@
 ---
 #layout: post-argon
-title: Choosing the right Level of Infra as Code management tools for Azure
+title: Choosing the right level of Infra as Code management tools for Azure
 date: 2023-09-29 17:00:00 +0100
 #last_modified_at: 2023-09-26 16:00:00 +0100
 author: Igor
@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
-    There are various tools IaC management at different levels of complexity. Let's explore these and determine which level is the best fit for your requirements.
+    There are various tools for IaC management at different levels of complexity. Let's explore these and determine which level is the best fit for your requirements.
 
 #published: false
 ---
@@ -65,7 +65,7 @@ Hints:
 - **Pure PowerShell**: PowerShell is a robust choice for interacting with the REST API due to its powerful object processing capabilities and built-in support for REST calls and JSON.
 
 
-## Level 2 - Scripting tools
+## Level 1 - Scripting tools
 
 ### Azure CLI
 
