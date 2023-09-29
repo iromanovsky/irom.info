@@ -10,7 +10,7 @@ permalink: /blog/azure-iac-levels
 slug: azure-iac-levels
 excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
-#image: https://github.com/iromanovsky/irom.info/assets/15823576/123e3713-1b0b-449f-a7fe-7e4ca0c09802
+image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
     There are various tools IaC management at different levels of complexity. Let's explore these and determine which level is the best fit for your requirements.
 
@@ -18,7 +18,7 @@ description: >-
 ---
 <div style="text-align: center">
 
-![tree-swing-what-customer-wanted](https://www.susannemadsen.co.uk/uploads/6/3/2/3/6323088/1666550_orig.jpg)
+![tree-swing-what-customer-wanted](https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4)
 
 </div>
 
