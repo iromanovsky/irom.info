@@ -82,7 +82,7 @@ Scripting tools grant you an interface to the Azure API, facilitating the script
 The Azure CLI is frequently featured in educational materials for its apparent simplicity. 
 
 However, it's essential to consider its nuances:
-- Within the az interface, the position of commands and parameters can fluctuate based on the context. An extensive reliance on defaults and aliases may hinder readability, especially for those unfamiliar with such tooling conventions. For instance, learning the command structure for `acr repository` doesn't simplify understanding contexts like `acr run` and `aks:
+- Within the az interface, the position of commands and parameters can fluctuate based on the context. An extensive reliance on defaults and aliases may hinder readability, especially for those unfamiliar with such tooling conventions. For instance, learning the command structure for `acr repository` doesn't simplify understanding contexts like `acr run` and `aks`:
 ```
 # list images in container registry "irominfo"
 az acr repository list --name irominfo
@@ -206,33 +206,35 @@ However, the devil is in the details. While Terraform offers a unified language 
 
 ### Language
 
+Terraform's cloud-agnostic appeal primarily rests in its language. Each cloud, with its distinct resources, services, and structures, requires Terraform to rely on specific "providers". These abstract providers bridge Terraform configurations to the relevant cloud provider's API.
+
 Yes, Terraform is designed to be cloud-agnostic, however this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
 
 So, even though you can utilize a unified language and configuration syntax across multiple cloud providers:
 
 - you still need to understand the intricacies and capabilities of each provider when writing Terraform code;
-- advanced features or services offered by a particular cloud provider may not be immediately supported by Terraform, necessitating either patience for Terraform updates or actively [self contributions](https://github.com/hashicorp/terraform/blob/main/.github/CONTRIBUTING.md) to its development (this is not a joke);
-- the additional abstraction level over Azure API may introduce bizarre quirks that may take ages to fix once they get released.
+- advanced features or services offered by a particular cloud provider may not be immediately supported by Terraform, possibly requiring community contributions or waiting for updates;
+- extra abstraction layers over Azure API can produce quirks, which, once established, might be time-consuming to rectify.
 
-> <a id="tf-private-endpoint"></a>I will never forget how the API attribute [`VirtualNetworkPrivateEndpointNetworkPolicies`](https://learn.microsoft.com/en-us/rest/api/virtualnetwork/subnets/create-or-update?tabs=HTTP#virtualnetworkprivateendpointnetworkpolicies) was confused with  CLI parameter [`--disable-private-link-service-network-policies`](https://learn.microsoft.com/en-us/cli/azure/network/vnet/subnet?view=azure-cli-latest#az-network-vnet-subnet-update()) in the below Terraform [interpretation](https://github.com/hashicorp/terraform-provider-azurerm/blob/8621a756ed4f3e1e14a54e99a3b24602186918df/internal/services/network/subnet_resource.go#L604):  
+> <a id="tf-private-endpoint"></a>A testament to this in how API attribute [`VirtualNetworkPrivateEndpointNetworkPolicies`](https://learn.microsoft.com/en-us/rest/api/virtualnetwork/subnets/create-or-update?tabs=HTTP#virtualnetworkprivateendpointnetworkpolicies) was mixed up with  CLI parameter [`--disable-private-link-service-network-policies`](https://learn.microsoft.com/en-us/cli/azure/network/vnet/subnet?view=azure-cli-latest#az-network-vnet-subnet-update()) in the below Terraform [interpretation](https://github.com/hashicorp/terraform-provider-azurerm/blob/8621a756ed4f3e1e14a54e99a3b24602186918df/internal/services/network/subnet_resource.go#L604):  
 [`enforce_private_link_endpoint_network_policies`](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet#enforce_private_link_endpoint_network_policies) - Setting this to `true` will **Disable** the policy and setting this to `false` will **Enable** the policy.
 
 
 ### State tracking
 
-The second challenge is the **state file**. While many consider the ability to track state a significant advantage of Terraform, there are cons in specific scenarios. I may delve into the topic of state files in detail in a separate post, but here is a high-level overview:
+The second challenge is the **state file**. While many consider the ability to track state a significant advantage of Terraform, there are cons in specific scenarios. A deeper dive might be required, but key points include:
 
-- The state file can hinder scenarios involving multiple users. This can be the case when various teams and policies need to manage shared infrastructure resources from different accounts.
-- Azure infrastructure may not necessarily require external state tracking, as resource states are already stored in Azure, and changes are tracked in the IaC repository anyway.
+- Multi-user scenarios can be obstructed by the state file, particularly when multiple teams and actors (like policies and service principals) need to operate shared resources.
+- Azure already maintains resource states, and tracking changes in the IaC repository might render external state files redundant.
 - Shared infrastructure resources rarely require deletion, and the scenario of redeploying an entire system, like a network hub, is rarely feasible or desirable.
-- There are alternatives to Terraform's "plan" function available in native template tools ([ARM](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if), [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if)).
-- Concerns regarding security (especially handling secrets), consistency (the need to reconcile external changes), locking, scalability, and performance can arise.
+- Alternatives to Terraform's "plan" feature exist in native tools like ([ARM](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if) and [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if)).
+- Concerns regarding security (especially handling secrets), consistency (the need to reconcile external changes), locking, scalability, and performance.
 
 ### Cargo cult and Profits
 
 Lastly, there might be philosophical considerations beneath the technical surface. Some individuals may have an almost religious belief in universal Terraform applicability for any IaC, perhaps because they haven't thoroughly explored alternative options or critically evaluated Terraform's drawbacks. 
 
-On the other hand, certain organizations, especially service providers, might find it more profitable to train their engineering teams to specialize in a single IaC tool. So providing more complex IaC solutions based on Terraform, and demanding more effort to maintain them, may lead to generating more revenue for the service provider.
+On the other hand, certain businesses, particularly service providers, might find it more profitable to train their engineering teams to specialize in a single IaC tool. Selling complex IaC solutions that require more man-hours to maintain can increase revenues.
 
 ### In summary
 
@@ -264,13 +266,16 @@ Terraform may not be the best choice for:
 
 We are launching into space here, my dear readers.
 
-[Pulumi](https://github.com/pulumi/pulumi) adds one more abstraction, which turns your "IaC Tool" into your "IaC Software". Now you can use the language of your choice to manage your cloud.
+[Pulumi](https://github.com/pulumi/pulumi) adds one more abstraction, which is breaking down barriers between traditional software development and infrastructure management. Now you can use the language of your choice to manage your cloud...
 
 This pushes the pros and cons of the previous concept to the next level.
 
 Pulumi is suitable when:
-- you have a team of Software Engineers specializing in specific language,
+- you have a team of Software Engineers proficient in specific language,
 - and management of the cloud is (part of) their software product
+
+You possess a team of software engineers proficient in a specific language. This means they can dive right in without the need to learn a new, domain-specific language.
+Cloud management isn't just a sideline task but is integrated as a core component of the software product they are developing. This allows for a seamless fusion of application development and infrastructure management.
 
 ---
 
@@ -289,15 +294,15 @@ Pulumi is suitable when:
 
 Each tool and level of abstraction offers its own set of benefits and challenges. Your choice should align with your project requirements, team expertise, and the desired level of abstraction. Choose the tool that best aligns with your goals, rather than adapting your goals to fit the tool.
 
-Use the right tool for the right job.
+Use the right tool for the right job:
 
-- Use portal and self-service tools for simple mortal end-users
-- Use scripts for admin tasks
-- Use native templates for infrastructure management
-- Use state tracking "meta"-tools for individual teams and solutions, if they know how to use it
+- portal and self-service tools for simple mortal end-users
+- scripts for admin tasks
+- native templates for foundational infrastructure 
+- state tracking "meta"-tools for specialized teams and solutions
 
- Kind regards,  
- Your Captain Obvious
+Kind regards,  
+Your Captain Obvious
 
 ## Discussion
 
