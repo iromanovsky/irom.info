@@ -34,14 +34,14 @@ IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Her
 
 Good for:
 
-- **Education**: the portal provides an intuitive way to grasp Azure concepts, making it accessible to a broad audience.
+- **Education**: the portal provides an intuitive way to understand Azure concepts, making it accessible to a broad audience
 - **Everyday observation in read-only mode**: when you need to view resources quickly or monitor your Azure environment
-- **Troubleshooting**:iIt's an irreplaceable tool for diagnosing issues and finding solutions, especially for Networking
-- **Emergency changes**: in urgent situations, it allows for quick manual interventions, saving time when IaC automation isn't feasible.
+- **Troubleshooting**: it's irreplaceable tool for diagnosing issues and finding solutions, especially for Networking
+- **Emergency changes**: in urgent situations, it allows for quick manual interventions, saving time when IaC automation isn't feasible
 
 Bad for:
 
-- **Routine change operations**: while the portal is great for emergencies, it's not the ideal choice for routine or repetitive tasks.
+- **Routine change operations**: while the portal is great for emergencies, it's not the right choice for routine or repetitive tasks.
 - **Keeping things in order**
 
 
@@ -73,8 +73,30 @@ The Azure CLI is frequently featured in educational materials for its apparent s
 
 However, it's essential to consider its nuances:
 
-- Within the az interface, the arrangement of commands and parameters can vary based on the context. The extensive use of defaults and aliases can make it less reader-friendly, particularly for those not used to the spirit of this kind of tool.
-- It is primarily designed keeping Linux shell in mind (though you can use PowerShell or even CMD), leveraging advanced text and array processing often necessitates the use of Linux utilities like grep, sed, awk, and others. These tools, while powerful, are quite nerdy and inconsistent in their syntax
+- Within the az interface, the position of commands and parameters can vary based on the context. The extensive use of defaults and aliases can make it less reader-friendly, particularly for those not used to the spirit of this kind of tool. For exmple, learning the command structure for the context of `acr repository` would not help you with `acr run`  and `aks` contexts:
+  ```
+  # list images in container registry "irominfo"
+  az acr repository list --name irominfo
+
+  # on 'irominfo' registry, run command 'jekyll --version' 
+  az acr run --registry irominfo --cmd '$Registry/test/jekyll jekyll --version' /dev/null
+
+  # on 'irominfo' registry, in ACL, allow access from specified cluster
+  az aks update -n ClusterName-aks -g GroupName-rg --attach-acr irominfo
+  ```
+- It is primarily designed keeping Linux shell in mind (though you can use PowerShell or even CMD), so leveraging advanced text and array processing often means to use some Linux utilities like `grep`, `sed`, `awk`, and others. These tools, while powerful, are quite nerdy and inconsistent in their syntax. For example, [courtesy of Cloudtrooper](https://blog.cloudtrooper.net/2023/05/02/you-want-to-use-as-path-as-your-virtual-hub-routing-preference/), the below codes is used:
+   ```
+   az network vhub get-effective-routes --resource-type RouteTable \
+   --resource-id $rt_id -g $rg -n hub1 --query \
+   'value[].{Prefix:addressPrefixes[0], ASPath:asPath, \
+   NextHopType:nextHopType, NextHop:nextHops[0], \
+   Origin:route.Origin} ' -o table | awk \
+   '{ gsub(/\/subscriptions\/'$subscription_id'\/resourceGroups\/'$rg'\/providers\/Microsoft.Network\//,""); \
+   print }'
+   
+   # Just to display these columns:
+   | Prefix | ASPath | NextHopType | NextHop | Origin |
+   ```
 
 Good for:
 
@@ -83,25 +105,27 @@ Good for:
 
 Bad for:
 
-- **Complex scripting**: when it comes to more intricate scripts or automation, the CLI's inconsistent syntax and reliance on Linux utilities can become challenging.
+- **Complex scripting**: when it comes to more sophisticated scripts or automation, the CLI's inconsistent syntax and reliance on Linux utilities can become challenging.
 - **Cross-platform scripting**: for scripts intended to work seamlessly across different platforms.
 - **Educational purposes and exams**: if complexity gets beyond basic commands, this makes it less suitable for educational environments.
 
-### Azure Powershell
+### Azure PowerShell
 
 > **Disclaimer**: I love PowerShell from the beginning. Since it become cross-platform, I love it even more.
 
-It's a great tool for parsing strings and working with arrays, collections, and objects. This makes it very good for processing JSON and general work with REST APIs.
+PowerShell is a great tool for parsing strings and working with arrays, collections, and objects. This makes it very good for processing JSON and general work with REST APIs.
+
+Az module for PowerShell gives you the necessary commands to manage most of the Azure platform features in a consistent, object-oriented way.
 
 Good for:
 
-- **Heavy Scripting**: Az module with the power of PowerShell excels in scripting complex tasks
-- **Cross-Platform Scripting**: for building scripts that work across different operating systems
+- **Heavy scripting**: Az module with the power of PowerShell excels in scripting complex tasks
+- **Cross-platform scripting**: for building scripts that work across different operating systems
 - **Education**: due to its consistent and well-thought-out syntax.
 
 Bad for:
 
-- **YAML Processing**: if your work heavily involves YAML-based configurations, other tools might be more suitable.
+- **YAML processing**: if your work heavily involves YAML-based configurations, other tools might be more suitable.
 - **Religious or philosophical reasons**: may not align with specific beliefs or strong preferences coming from an OSS background.
 
 
@@ -109,7 +133,7 @@ Bad for:
 
 Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, while maintaining idempotency.
 
-When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Microsoft's ARM API into higher abstraction layers, as is the case with Terraform.
+When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Microsoft's ARM API into higher abstraction layers, as is the [case with Terraform](#tf-private-endpoint).
 
 ### ARM templates
 
@@ -125,7 +149,7 @@ Additionally, ARM templates often offer early access to new API features, giving
 
 Good for:
 
-- Deploying complex, comprehensive infrastructure solutions with multiple resource types and intricate dependencies, such as network hubs or network virtual appliances.
+- Deploying complex infrastructure solutions with multiple resource types and intricate dependencies, such as network hubs or network virtual appliances.
 - Embracing new features not yet available in higher-level infrastructure-as-code (IaC) tools.
 - Use cases where no alternatives exist, such as defining policies, blueprints, or Azure Marketplace offers.
 
@@ -157,15 +181,29 @@ Less suitable for:
 
 - Scenarios where fine-grained control, closely resembling API interactions, is crucial. This might be important for preview resources or highly complex deployments, where the translation from Bicep to JSON complicates troubleshooting.
 
+---
+
+<br/>  
+
+> ^^^ This could be a line dividing "right" and "may be too much" levels of abstraction for a general user looking to automate their Azure platform management with IaC, but not required to become a software developer. 
+
 ## Level 3 - Terraform and other "cloud-agnostic" tools 
 
 Many customers are convinced that adopting a multi-cloud strategy and choosing Terraform as a single, "cloud-agnostic" solution for IaC management can streamline their efforts.
 
 ### Language
 
-However, the devil is in the details. While Terraform is designed to be cloud-agnostic, this concept primarily applies within the Terraform language itself. Each cloud provider has its own unique set of resources and services. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
+However, the devil is in the details. While Terraform is designed to be cloud-agnostic, this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
 
-So, even though you can utilize a unified language and configuration syntax across multiple cloud providers, you'll still need to understand the intricacies and capabilities of each provider when writing Terraform code. Additionally, advanced features or services offered by a particular cloud provider may not be immediately supported by Terraform, necessitating either patience for Terraform updates or active contributions to its development to accommodate those features (this is not a joke).
+So, even though you can utilize a unified language and configuration syntax across multiple cloud providers:
+
+- you still need to understand the intricacies and capabilities of each provider when writing Terraform code;
+- advanced features or services offered by a particular cloud provider may not be immediately supported by Terraform, necessitating either patience for Terraform updates or actively [self contributions](https://github.com/hashicorp/terraform/blob/main/.github/CONTRIBUTING.md) to its development (this is not a joke);
+- the additional abstraction level over Azure API may introduce bizarre quirks that may take ages to fix once they get released.
+
+> <a id="tf-private-endpoint"></a>I will never forget how the API attribute [`VirtualNetworkPrivateEndpointNetworkPolicies`](https://learn.microsoft.com/en-us/rest/api/virtualnetwork/subnets/create-or-update?tabs=HTTP#virtualnetworkprivateendpointnetworkpolicies) was confused with  CLI parameter [`--disable-private-link-service-network-policies`](https://learn.microsoft.com/en-us/cli/azure/network/vnet/subnet?view=azure-cli-latest#az-network-vnet-subnet-update()) in the below Terraform [interpretation](https://github.com/hashicorp/terraform-provider-azurerm/blob/8621a756ed4f3e1e14a54e99a3b24602186918df/internal/services/network/subnet_resource.go#L604):  
+[`enforce_private_link_endpoint_network_policies`](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet#enforce_private_link_endpoint_network_policies) - Setting this to `true` will **Disable** the policy and setting this to `false` will **Enable** the policy.
+
 
 ### State tracking
 
@@ -187,9 +225,9 @@ On the other hand, certain organizations, especially service providers, might fi
 
 Terraform is well-suited for:
 - Deploying software products that:
- - require external state tracking and support deletion and complete redeployment,
- - can and should be managed by a single team,
- - of software developers who are proficient in using Terraform.
+  - require external state tracking and support deletion and complete redeployment,
+  - can and should be managed by a single team,
+  - of software developers who are proficient in using Terraform.
 
 Terraform may not be the best choice for:
 - Deploying landing zones and other shared infrastructure that:
@@ -201,13 +239,25 @@ Terraform may not be the best choice for:
 
 We are launching into space here, my dear readers.
 
-[Pulumi](https://github.com/pulumi/pulumi) adds one more abstraction, which redefines IaC "Tool" to IaC "Software". Now you can use the language of your choice to manage your cloud.
+[Pulumi](https://github.com/pulumi/pulumi) adds one more abstraction, which turns your "IaC Tool" into your "IaC Software". Now you can use the language of your choice to manage your cloud.
 
 This pushes the pros and cons of the previous concept to the next level.
 
 Pulumi is suitable when:
-- you have a team of Software Engineers specializing in specific languages,
+- you have a team of Software Engineers specializing in specific language,
 - and management of the cloud is (part of) their software product
+
+---
+
+<br/>
+
+> **"AHA moment"**  
+>
+>  Recently while looking for a proof that I'm not alone who is trying avoid too much abstraction, I stumbled upon a Wikipedia article about [DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and quite liked the alternative AHA principle, which boils down to 
+> 
+>  **"optimizing for change first, and avoiding premature optimization"**  
+>
+ > AHA stands for avoid hasty abstractions. AHA is rooted in the understanding that the deeper the investment we've made into abstracting a piece of software, the more we perceive that the cost of that investment can never be recovered ([sunk cost fallacy](https://en.wikipedia.org/wiki/Sunk_cost)). Thus, engineers tend to continue to iterate on the same abstraction each time the requirement changes. AHA programming assumes that both WET and DRY solutions inevitably create software that is rigid and difficult to maintain. Instead of starting with an abstraction, or abstracting at a specific number of duplications, **software can be more flexible and robust if abstraction is done when it is needed**, or, when the duplication itself has become the barrier and it is known how the abstraction needs to function.
 
 
 ## Conclusion
