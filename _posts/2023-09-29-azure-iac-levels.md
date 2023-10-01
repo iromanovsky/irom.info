@@ -1,6 +1,6 @@
 ---
 #layout: post-argon
-title: Choosing the right level of Infra as Code management tools for Azure
+title: Choosing the right level of IaC management tools for Azure
 date: 2023-09-29 17:00:00 +0100
 #last_modified_at: 2023-09-26 16:00:00 +0100
 author: Igor
@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
-    There are various tools for IaC management at different levels of complexity. Let's explore these and determine which level best fits your requirements.
+    Explore Azure IaC tools like CLI, ARM, Bicep, Terraform & Pulumi. Understand their abstraction levels & find the best fit for your needs.
 
 #published: false
 ---
@@ -22,35 +22,42 @@ description: >-
 
 </div>
 
-When selecting IaC management tools for Azure, it's essential to consider your specific needs and preferences. There are various tools and approaches at different levels of complexity. Let's explore these options and determine which level best fits your requirements.
+# Choosing the right level of IaC management tools for Azure
+
+Things such as CLI & PowerShell, ARM & Bicep templates, Terraform & Pulumi -- are serving as management interfaces between your code and the Azure API, and, in the absence of a better term, all called just "IaC management tools".
+
+When choosing such a tool, it's important to make an informed decision based on your actual needs and capabilities. Various tools span different levels of complexity and abstraction. Let's explore these options and determine which level best fits your situation.
+
+My thoughts on general IaC practices, such as version control, code reuse, CI/CD, and testing will follow separately.
 
 <!--more-->
 
-## Level 0
+## Level 0: Direct Interaction Tools
+
+On this level, you "push the button to get the result". All reasoning and sequence of actions is up to you.
 
 ### Azure Portal
 
-IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Here's when it shines:
+IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Here's where it shines:
 
 Good for:
 
-- **Education**: the portal provides an intuitive way to understand Azure concepts, making it accessible to a broad audience
-- **Everyday observation in read-only mode**: when you need to view resources quickly or monitor your Azure environment
-- **Troubleshooting**: it's an irreplaceable tool for diagnosing issues and finding solutions, especially for Networking
-- **Emergency changes**: in urgent situations, it allows for quick manual interventions, saving time when IaC automation isn't feasible
+- **Education**: user-friendly interface enabling to understand Azure concepts for broader audience
+- **Read-only observation**: efficient for quickly examining resources or overseeing the Azure environment.
+- **Troubleshooting**: vital for diagnosing issues, particularly in networking.
+- **Emergency changes**: useful for immediate manual actions when automation is impractical.
 
 Bad for:
 
-- **Routine change operations**: while the portal is great for emergencies, it's not the right choice for routine or repetitive tasks.
-- **Keeping things in order**
+- **Routine change operations**: not ideal for recurrent tasks.
+- **Keeping things in order** we are here for IaC, right?
 
 
 ### Azure Resource Manager REST API
 
-Azure Resource Manager REST API
 The Azure API is structured according to industry REST standards and is a powerful tool, though not for everyday use.
 
-Use for:
+Good for:
 
 - **When command line tools are unavailable**: in cases where command line tools have limitations or are unavailable, the REST API comes to help.
 - **Building custom solutions**: If you're creating your own solution or tool, the REST API is your way to directly interact with the management plane.
@@ -61,117 +68,120 @@ Too Complex for:
 
 Hints:
 
-- **Browser Dev Tools (F12)**: when higher-level management tools lack specific functionality that the portal offers, you can inspect the REST API calls made by the portal in your browser's developer tools. This insight can be valuable for building custom solutions.
-- **Pure PowerShell**: PowerShell is a robust choice for interacting with the REST API due to its powerful object processing capabilities and built-in support for REST calls and JSON.
+- **Browser Dev Tools (F12)**: when higher-level management tools lack specific functionality that is suddenly available on the portal, you can inspect the REST API calls made by the portal in your browser's developer tools. This insight can be valuable for building custom solutions.
+- **Pure PowerShell**: PowerShell is a proven choice for interacting with the REST API due to its powerful object processing capabilities and built-in support for REST calls and JSON.
 
 
-## Level 1 - Scripting tools
+## Level 1: Scripting tools
+
+Scripting tools grant you an interface to the Azure API, facilitating the scripting of actions. This promotes the creation of more repeatable, precise, and complex scenarios.
+
 
 ### Azure CLI
 
 The Azure CLI is frequently featured in educational materials for its apparent simplicity. 
 
 However, it's essential to consider its nuances:
+- Within the az interface, the position of commands and parameters can fluctuate based on the context. An extensive reliance on defaults and aliases may hinder readability, especially for those unfamiliar with such tooling conventions. For instance, learning the command structure for `acr repository` doesn't simplify understanding contexts like `acr run` and `aks:
+```
+# list images in container registry "irominfo"
+az acr repository list --name irominfo
 
-- Within the az interface, the position of commands and parameters can vary based on the context. The extensive use of defaults and aliases can make it less reader-friendly, particularly for those not used to the spirit of this kind of tool. For example, learning the command structure for the context of `acr repository` would not help you with `acr run` and `aks` contexts:
-  ```
-  # list images in container registry "irominfo"
-  az acr repository list --name irominfo
+# on 'irominfo' registry, run command 'jekyll --version' 
+az acr run --registry irominfo --cmd '$Registry/test/jekyll jekyll --version' /dev/null
 
-  # on 'irominfo' registry, run command 'jekyll --version' 
-  az acr run --registry irominfo --cmd '$Registry/test/jekyll jekyll --version' /dev/null
+# on 'irominfo' registry, in ACL, allow access from specified cluster
+az aks update -n ClusterName-aks -g GroupName-rg --attach-acr irominfo
+```
+- Because Azure CLI is tailored for the Linux shell (however it can be used in PowerShell or CMD), if you go for advanced text and array processing, you'll often need Linux utilities like `grep`, `sed`, and `awk`. These tools, while being powerful, might be perceived as esoteric and have an inconsistent syntax. For example, [courtesy of Cloudtrooper](https://blog.cloudtrooper.net/2023/05/02/you-want-to-use-as-path-as-your-virtual-hub-routing-preference/), the below codes is used:
 
-  # on 'irominfo' registry, in ACL, allow access from specified cluster
-  az aks update -n ClusterName-aks -g GroupName-rg --attach-acr irominfo
-  ```
-- It is primarily designed keeping Linux shell in mind (though you can use PowerShell or even CMD), so leveraging advanced text and array processing often means using some Linux utilities like `grep`, `sed`, `awk`, and others. These tools, while powerful, are quite nerdy and inconsistent in their syntax. For example, [courtesy of Cloudtrooper](https://blog.cloudtrooper.net/2023/05/02/you-want-to-use-as-path-as-your-virtual-hub-routing-preference/), the below codes is used:
-   ```
-   az network vhub get-effective-routes --resource-type RouteTable \
-   --resource-id $rt_id -g $rg -n hub1 --query \
-   'value[].{Prefix:addressPrefixes[0], ASPath:asPath, \
-   NextHopType:nextHopType, NextHop:nextHops[0], \
-   Origin:route.Origin} ' -o table | awk \
-   '{ gsub(/\/subscriptions\/'$subscription_id'\/resourceGroups\/'$rg'\
-   /providers\/Microsoft.Network\//,""); \
-   print }'
+```
+az network vhub get-effective-routes --resource-type RouteTable \
+--resource-id $rt_id -g $rg -n hub1 --query \
+'value[].{Prefix:addressPrefixes[0], ASPath:asPath, \
+NextHopType:nextHopType, NextHop:nextHops[0], \
+Origin:route.Origin} ' -o table | awk \
+'{ gsub(/\/subscriptions\/'$subscription_id'\/resourceGroups\/'$rg'\
+/providers\/Microsoft.Network\//,""); \
+print }'
    
-   # Just to display these columns:
-   | Prefix | ASPath | NextHopType | NextHop | Origin |
-   ```
+# ... just to display these columns:
+| Prefix | ASPath | NextHopType | NextHop | Origin |
+```
 
 Good for:
 
-- **Simple, quick commands**: for straightforward, fast operations.
+- **Simple, quick commands**:  for quick, straightforward operations..
 - **Nerds**: with a background in open-source and hardcore networking (such as Cisco CLI), some people may feel at home with this tool.
 
 Bad for:
 
-- **Complex scripting**: when it comes to more sophisticated scripts or automation, the CLI's inconsistent syntax and reliance on Linux utilities can become challenging.
-- **Cross-platform scripting**: for scripts intended to work seamlessly across different platforms.
+- **Complex scripting**: the CLI's fluctuating syntax and dependence on Linux utilities can be challenging.
+- **Cross-platform scripting**: for scripts intended to work seamlessly across various platforms.
 - **Educational purposes and exams**: if complexity gets beyond basic commands, this makes it less suitable for educational environments.
 
 ### Azure PowerShell
 
 > **Disclaimer**: I love PowerShell from the beginning. Since it become cross-platform, I love it even more.
 
-PowerShell is a great tool for parsing strings and working with arrays, collections, and objects. This makes it very good for processing JSON and general work with REST APIs.
+PowerShell excels at string parsing and working with arrays, collections, and objects. This makes it very good for processing JSON and interfacing with REST APIs.
 
-Az module for PowerShell gives you the necessary commands to manage most of the Azure platform features in a consistent, object-oriented way.
+Az module for PowerShell gives you the necessary commands to manage the most of the Azure platform in a consistent, object-oriented way.
 
 Good for:
 
-- **Heavy scripting**: Az module with the power of PowerShell excels in scripting complex tasks
-- **Cross-platform scripting**: for building scripts that work across different operating systems
-- **Education**: due to its consistent and well-thought-out syntax.
+- **Heavy scripting**: leverages PowerShell's capabilities for intricate tasks.
+- **Cross-platform scripting**: provides consistent scripting experience across operating systems.
+- **Education**: due to its coherent and intuitive syntax
 
 Bad for:
 
 - **YAML processing**: if your work heavily involves YAML-based configurations, other tools might be more suitable.
-- **Religious or philosophical reasons**: may not align with specific beliefs or strong preferences coming from an OSS background.
+- **Religious or philosophical reasons**: may not align with specific beliefs or [strong preferences](https://en.wikipedia.org/wiki/Not_invented_here) coming from an OSS background.
 
 
 ## Level 2 - Native declarative templates
 
 Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, while maintaining idempotency.
 
-When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Microsoft's ARM API into higher abstraction layers, as is the [case with Terraform](#tf-private-endpoint).
+When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Azure API into higher abstraction layers, as is the [case with Terraform](#tf-private-endpoint).
 
 ### ARM templates
 
 I've already mentioned the ARM REST API, right? Policies, event logs, error messages, interactions in the portal and CLI, and even the internal definitions of Azure resources – they're all in JSON.
 
-Well, ARM templates come incredibly close to the ARM API because they're based on JSON format. This is what makes ARM templates the most precise and the least abstracting tool for IaC while maintaining a declarative approach.
+Well, ARM templates come incredibly close to the Azure API because they're based on JSON format. This is what makes ARM templates the most precise and the least abstracting tool for IaC while maintaining a declarative approach.
 
 Some people don't like JSON for ugly presentation when unformatted, and low tolerance for errors with commas. ARM Template [expressions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-expressions) and [fucntions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-functions) may look too complex and fragile until you get used to them.
 
-One significant benefit of ARM templates is their ability to closely mirror the API. You can refer to API representations of resources (JSON View, Error Messages, CLI Debug) as a reference while creating templates. This minimizes the chances of errors in attribute names and the overall object structure.
+Significant benefit of ARM templates is their ability to closely follow the Azure API. You can refer to API representations of resources (JSON View, Error Messages, CLI Debug) as a reference while creating templates. This minimizes the chances of errors in attribute names and the overall object structure.
 
 Additionally, ARM templates often offer early access to new API features, giving you an advantage over tools like Terraform.
 
 Good for:
 
 - Deploying complex infrastructure solutions with multiple resource types and intricate dependencies, such as network hubs or network virtual appliances.
-- Embracing new features not yet available in higher-level infrastructure-as-code (IaC) tools.
+- Implementing new, public, and private preview features not yet available in higher-level IaC tools.
 - Use cases where no alternatives exist, such as defining policies, blueprints, or Azure Marketplace offers.
 
 Challenging for:
 
-- Adopting a modular approach, especially when you intend to maintain templates as building blocks or modules for your customers to employ in constructing their systems.
-- Seeking greater accessibility for both authoring and usage among a broader audience.
+- Adopting a modular approach, especially when you intend to maintain templates as building blocks for your customers to re-use in constructing their own systems.
+- Seeking greater accessibility for both "writers" and "readors" among a broader audience.
 
 
 ### Bicep templates
 
-Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep#benefits-of-bicep). While Bicep templates use YAML syntax for readability, they are internally compiled into JSON for Azure deployment.
+Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep#benefits-of-bicep). While Bicep templates use YAML syntax for readability, they are internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API.
 
 Benefits of Bicep Templates Include:
 
-- **Simplified syntax**: Bicep makes the template syntax more human-readable, enhancing the overall developer experience and reducing the likelihood of syntax-related errors.
-- **Functionality enhancements**: Bicep introduces functionality that simplifies common tasks and improves usability, making it easier to work with templates as modules.
+- **Simplified syntax**: makes the template syntax more human-readable, enhancing the overall developer experience and reducing the likelihood of syntax-related errors.
+- **Functionality enhancements**: that simplify common tasks and improves usability, making it easier to work with templates as modules.
 
 Challenges of Bicep Templates Include:
 
-- **YAML to JSON compilation**: Although Bicep uses YAML for a more accessible syntax, it is internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API. This abstraction can complicate troubleshooting, as your configuration source is in Bicep/YAML, while Azure interactions and messages remain in JSON.
+- **YAML to JSON compilation**: this translation can complicate troubleshooting, as your configuration source is in Bicep/YAML, while Azure interactions and messages remain in JSON.
 
 Good for:
 
@@ -192,9 +202,11 @@ Less suitable for:
 
 Many customers are convinced that adopting a multi-cloud strategy and choosing Terraform as a single, "cloud-agnostic" solution for IaC management can streamline their efforts.
 
+However, the devil is in the details. While Terraform offers a unified language for multiple cloud providers, it brings its own set of complexities.
+
 ### Language
 
-However, the devil is in the details. While Terraform is designed to be cloud-agnostic, this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
+Yes, Terraform is designed to be cloud-agnostic, however this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
 
 So, even though you can utilize a unified language and configuration syntax across multiple cloud providers:
 
@@ -208,12 +220,12 @@ So, even though you can utilize a unified language and configuration syntax acro
 
 ### State tracking
 
-The second challenge is the **state file**. While many consider the ability to track state a significant advantage of Terraform, there are cons in specific scenarios. I will delve into the topic of state files in detail in a separate post, but here is a high-level overview:
+The second challenge is the **state file**. While many consider the ability to track state a significant advantage of Terraform, there are cons in specific scenarios. I may delve into the topic of state files in detail in a separate post, but here is a high-level overview:
 
 - The state file can hinder scenarios involving multiple users. This can be the case when various teams and policies need to manage shared infrastructure resources from different accounts.
-- Azure infrastructure may not necessarily require external state tracking, as resource states are stored in Azure, and changes are tracked in the IaC repository.
+- Azure infrastructure may not necessarily require external state tracking, as resource states are already stored in Azure, and changes are tracked in the IaC repository anyway.
 - Shared infrastructure resources rarely require deletion, and the scenario of redeploying an entire system, like a network hub, is rarely feasible or desirable.
-- There are alternatives to Terraform's "plan" function available in native template tools.
+- There are alternatives to Terraform's "plan" function available in native template tools ([ARM](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if), [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if)).
 - Concerns regarding security (especially handling secrets), consistency (the need to reconcile external changes), locking, scalability, and performance can arise.
 
 ### Cargo cult and Profits
@@ -221,6 +233,18 @@ The second challenge is the **state file**. While many consider the ability to t
 Lastly, there might be philosophical considerations beneath the technical surface. Some individuals may have an almost religious belief in universal Terraform applicability for any IaC, perhaps because they haven't thoroughly explored alternative options or critically evaluated Terraform's drawbacks. 
 
 On the other hand, certain organizations, especially service providers, might find it more profitable to train their engineering teams to specialize in a single IaC tool. So providing more complex IaC solutions based on Terraform, and demanding more effort to maintain them, may lead to generating more revenue for the service provider.
+
+### In summary
+
+Pros:
+
+- **State Management**: if you really need it.
+
+Cons:
+
+- **Provider limitations**: requires understanding of each cloud provider's specifics.
+- **State file challenges**: can complicate multi-user scenarios and might not be necessary for some Azure implementations.
+- **Abstraction layer**: introduces potential quirks that can complicate Azure interactions.
 
 ### Do's and Don'ts
 
@@ -262,6 +286,8 @@ Pulumi is suitable when:
 
 
 ## Conclusion
+
+Each tool and level of abstraction offers its own set of benefits and challenges. Your choice should align with your project requirements, team expertise, and the desired level of abstraction. Choose the tool that best aligns with your goals, rather than adapting your goals to fit the tool.
 
 Use the right tool for the right job.
 
