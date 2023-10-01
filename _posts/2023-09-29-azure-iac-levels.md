@@ -62,12 +62,12 @@ Good for:
 
 Too Complex for:
 
-- **General daily usage**: Due to its complexity and low-level nature, the REST API isn't suitable for typical daily tasks, unless you wrap it into your own script snippets.
+- **General daily usage**: Due to its complexity and low-level nature, the REST API isn't suitable for bare-handed humans, unless you wrap it into your own script snippets.
 
 Hints:
 
 - **Browser Dev Tools (F12)**: when higher-level management tools lack specific functionality that is suddenly available on the portal, you can inspect the REST API calls made by the portal in your browser's developer tools. This insight can be valuable for building custom solutions.
-- **Pure PowerShell**: PowerShell is a proven choice for interacting with the REST API due to its powerful object processing capabilities and built-in support for REST calls and JSON.
+- **Pure PowerShell**: PowerShell is a handy choice for interacting with the REST API due to its built-in support for REST calls and JSON with powerful object processing capabilities.
 
 
 ## Level 1: Scripting tools
@@ -130,7 +130,7 @@ Good for:
 
 - **Heavy scripting**: leverages PowerShell's capabilities for intricate tasks.
 - **Cross-platform scripting**: provides consistent scripting experience across operating systems.
-- **Education**: due to its coherent and intuitive syntax
+- **Education**: due to its coherent and intuitive syntax.
 
 Bad for:
 
@@ -170,7 +170,7 @@ Challenging for:
 
 ### Bicep templates
 
-Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep#benefits-of-bicep). While Bicep templates use YAML syntax for readability, they are internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API.
+Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview). While Bicep templates use YAML syntax for readability, they are internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API.
 
 Benefits of Bicep Templates Include:
 
@@ -194,7 +194,7 @@ Less suitable for:
 
 <br/>  
 
-> ^^^ This could be a line dividing "right" and "may be too much" levels of abstraction for a general user looking to automate their Azure platform management with IaC, but not required to become a software developer. 
+> ^^^ This could be a line dividing "just right" and "may be too much" levels of abstraction for a general user looking to automate their Azure platform management with IaC, but not required to become a software developer. 
 
 ## Level 3 - Terraform and other "cloud-agnostic" tools 
 
@@ -220,8 +220,8 @@ So, even though you can utilize a unified language for configuration across mult
 
 The second challenge is the **state file**. While many consider the ability to track state a significant advantage of Terraform, there are cons in specific scenarios. A deeper dive might be required, but key points include:
 
+- Azure already [maintains](https://learn.microsoft.com/en-us/azure/developer/terraform/comparing-terraform-and-bicep) resource state, and while tracking changes in the IaC repository, do you really need an additional external state stored on some storage account?
 - Multi-user scenarios can be obstructed by the state file, particularly when multiple teams and actors (like policies and service principals) need to operate shared resources.
-- Azure already maintains resource states, and tracking changes in the IaC repository might render external state files redundant.
 - Shared infrastructure resources rarely require deletion, and the scenario of redeploying an entire system, like a network hub, is rarely feasible or desirable.
 - Alternatives to Terraform's "plan" feature exist in native tools like ([ARM](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if) and [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if)).
 - Concerns regarding security (especially handling secrets), consistency (the need to reconcile external changes), locking, scalability, and performance.
@@ -236,7 +236,7 @@ On the other hand, certain businesses, particularly service providers, might fin
 
 Pros:
 
-- **State Management**: if you really need it.
+- **External state management**: if you really need it.
 
 Cons:
 
@@ -254,7 +254,7 @@ Terraform is well-suited for:
 
 Terraform may not be the best choice for:
 - Deploying landing zones and other shared infrastructure that:
-  - require management or modifications by multiple principals, including Azure policies,
+  - require management by multiple actors, including Azure policies,
   - don't need routine deletions and complete redeployments,
   - and managed by a team dedicated to specific cloud rather than general software development
 
