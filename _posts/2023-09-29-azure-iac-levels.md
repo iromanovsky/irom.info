@@ -288,11 +288,11 @@ Cloud management isn't just a sideline task but is integrated as a core componen
 
 ## Conclusion
 
-Each tool and level of abstraction offers its own set of benefits and challenges. Your choice should align with your project requirements, team expertise, and the desired level of abstraction. Choose the tool that best aligns with your goals, rather than adapting your goals to fit the tool.
+Each tool and level of abstraction offers its own set of benefits and challenges. Your choice should align with your project requirements, team expertise, and the desired level of abstraction.
 
-Use the right tool for the right job:
+_Choose the right tool to reach your goals, don't adapt your goals to fit the tool:_
 
-- portal and self-service tools for simple mortal end-users
+- portal and self-service tools for [~~simple kinds of men~~](https://www.youtube.com/watch?v=Mqfwbf3X8SA) end-users
 - scripts for admin tasks
 - native templates for foundational infrastructure 
 - state tracking "meta"-tools for specialized teams who know what they are doing
