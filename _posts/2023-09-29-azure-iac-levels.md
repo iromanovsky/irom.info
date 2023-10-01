@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
-    There are various tools for IaC management at different levels of complexity. Let's explore these and determine which level is the best fit for your requirements.
+    There are various tools for IaC management at different levels of complexity. Let's explore these and determine which level best fits your requirements.
 
 #published: false
 ---
@@ -36,7 +36,7 @@ Good for:
 
 - **Education**: the portal provides an intuitive way to understand Azure concepts, making it accessible to a broad audience
 - **Everyday observation in read-only mode**: when you need to view resources quickly or monitor your Azure environment
-- **Troubleshooting**: it's irreplaceable tool for diagnosing issues and finding solutions, especially for Networking
+- **Troubleshooting**: it's an irreplaceable tool for diagnosing issues and finding solutions, especially for Networking
 - **Emergency changes**: in urgent situations, it allows for quick manual interventions, saving time when IaC automation isn't feasible
 
 Bad for:
@@ -73,7 +73,7 @@ The Azure CLI is frequently featured in educational materials for its apparent s
 
 However, it's essential to consider its nuances:
 
-- Within the az interface, the position of commands and parameters can vary based on the context. The extensive use of defaults and aliases can make it less reader-friendly, particularly for those not used to the spirit of this kind of tool. For exmple, learning the command structure for the context of `acr repository` would not help you with `acr run`  and `aks` contexts:
+- Within the az interface, the position of commands and parameters can vary based on the context. The extensive use of defaults and aliases can make it less reader-friendly, particularly for those not used to the spirit of this kind of tool. For example, learning the command structure for the context of `acr repository` would not help you with `acr run` and `aks` contexts:
   ```
   # list images in container registry "irominfo"
   az acr repository list --name irominfo
@@ -84,14 +84,15 @@ However, it's essential to consider its nuances:
   # on 'irominfo' registry, in ACL, allow access from specified cluster
   az aks update -n ClusterName-aks -g GroupName-rg --attach-acr irominfo
   ```
-- It is primarily designed keeping Linux shell in mind (though you can use PowerShell or even CMD), so leveraging advanced text and array processing often means to use some Linux utilities like `grep`, `sed`, `awk`, and others. These tools, while powerful, are quite nerdy and inconsistent in their syntax. For example, [courtesy of Cloudtrooper](https://blog.cloudtrooper.net/2023/05/02/you-want-to-use-as-path-as-your-virtual-hub-routing-preference/), the below codes is used:
+- It is primarily designed keeping Linux shell in mind (though you can use PowerShell or even CMD), so leveraging advanced text and array processing often means using some Linux utilities like `grep`, `sed`, `awk`, and others. These tools, while powerful, are quite nerdy and inconsistent in their syntax. For example, [courtesy of Cloudtrooper](https://blog.cloudtrooper.net/2023/05/02/you-want-to-use-as-path-as-your-virtual-hub-routing-preference/), the below codes is used:
    ```
    az network vhub get-effective-routes --resource-type RouteTable \
    --resource-id $rt_id -g $rg -n hub1 --query \
    'value[].{Prefix:addressPrefixes[0], ASPath:asPath, \
    NextHopType:nextHopType, NextHop:nextHops[0], \
    Origin:route.Origin} ' -o table | awk \
-   '{ gsub(/\/subscriptions\/'$subscription_id'\/resourceGroups\/'$rg'\/providers\/Microsoft.Network\//,""); \
+   '{ gsub(/\/subscriptions\/'$subscription_id'\/resourceGroups\/'$rg'\
+   /providers\/Microsoft.Network\//,""); \
    print }'
    
    # Just to display these columns:
@@ -219,7 +220,7 @@ The second challenge is the **state file**. While many consider the ability to t
 
 Lastly, there might be philosophical considerations beneath the technical surface. Some individuals may have an almost religious belief in universal Terraform applicability for any IaC, perhaps because they haven't thoroughly explored alternative options or critically evaluated Terraform's drawbacks. 
 
-On the other hand, certain organizations, especially service providers, might find it more profitable to have their engineering teams specialize in a single IaC tool, providing complex IaC solutions based on Terraform that could demand more effort to maintain them.
+On the other hand, certain organizations, especially service providers, might find it more profitable to train their engineering teams to specialize in a single IaC tool. So providing more complex IaC solutions based on Terraform, and demanding more effort to maintain them, may lead to generating more revenue for the service provider.
 
 ### Do's and Don'ts
 
@@ -253,7 +254,7 @@ Pulumi is suitable when:
 
 > **"AHA moment"**  
 >
->  Recently while looking for a proof that I'm not alone who is trying avoid too much abstraction, I stumbled upon a Wikipedia article about [DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and quite liked the alternative AHA principle, which boils down to 
+>  Recently while looking for proof that I'm not alone who is trying to avoid too much abstraction, I stumbled upon a Wikipedia article about [DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and quite liked the alternative AHA principle, which boils down to 
 > 
 >  **"optimizing for change first, and avoiding premature optimization"**  
 >
