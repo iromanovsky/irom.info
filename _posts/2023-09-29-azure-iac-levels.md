@@ -295,7 +295,7 @@ Use the right tool for the right job:
 - portal and self-service tools for simple mortal end-users
 - scripts for admin tasks
 - native templates for foundational infrastructure 
-- state tracking "meta"-tools for specialized teams and solutions
+- state tracking "meta"-tools for specialized teams who know what they are doing
 
 Kind regards,  
 Your Captain Obvious
