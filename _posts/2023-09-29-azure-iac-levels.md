@@ -30,7 +30,7 @@ My thoughts on general IaC practices, such as version control, code reuse, CI/CD
 
 <!--more-->
 
-## Level 0: Direct Interaction Tools
+## Level 0: Direct interaction tools
 
 On this level, you "push the button to get the result". All reasoning and sequence of actions is up to you.
 
@@ -40,7 +40,7 @@ IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Her
 
 Good for:
 
-- **Education**: user-friendly interface enabling understanding Azure concepts for a broader audience
+- **Education**: user-friendly interface enabling understanding of Azure concepts for a broader audience
 - **Read-only observation**: efficient for quickly examining resources or overseeing the Azure environment.
 - **Troubleshooting**: vital for diagnosing issues, particularly in networking.
 - **Emergency changes**: useful for immediate manual actions when automation is impractical.
