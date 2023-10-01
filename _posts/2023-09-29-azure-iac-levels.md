@@ -22,9 +22,7 @@ description: >-
 
 </div>
 
-# Choosing the right level of IaC management tools for Azure
-
-Things such as CLI & PowerShell, ARM & Bicep templates, Terraform & Pulumi -- are serving as management interfaces between your code and the Azure API, and, in the absence of a better term, all called just "IaC management tools".
+Tools such as CLI & PowerShell, ARM & Bicep templates, Terraform & Pulumi -- are serving as management interfaces between your code and the Azure API, and, in the absence of a better term, all called just "IaC management tools".
 
 When choosing such a tool, it's important to make an informed decision based on your actual needs and capabilities. Various tools span different levels of complexity and abstraction. Let's explore these options and determine which level best fits your situation.
 
