@@ -22,9 +22,9 @@ description: >-
 
 </div>
 
-Tools such as CLI & PowerShell, ARM & Bicep templates, Terraform & Pulumi -- are serving as management interfaces between your code and the Azure API, and, in the absence of a better term, all called just "IaC management tools".
+Tools such as CLI & PowerShell, ARM & Bicep templates, Terraform & Pulumi -- are serving as management interfaces between your code and the Azure API, and, in the absence of a better term, all called just "Infa as Code management tools".
 
-When choosing such a tool, it's important to make an informed decision based on your actual needs and capabilities. Various tools span different levels of complexity and abstraction. Let's explore these options and determine which level best fits your situation.
+When choosing such a tool, it's important to make an informed decision based on your actual needs and capabilities. Various IaC tools span different levels of complexity and abstraction. Let's explore these options and determine which level best fits your situation.
 
 My thoughts on general IaC practices, such as version control, code reuse, CI/CD, and testing will follow separately.
 
@@ -40,7 +40,7 @@ IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Her
 
 Good for:
 
-- **Education**: user-friendly interface enabling to understand Azure concepts for broader audience
+- **Education**: user-friendly interface enabling understanding Azure concepts for a broader audience
 - **Read-only observation**: efficient for quickly examining resources or overseeing the Azure environment.
 - **Troubleshooting**: vital for diagnosing issues, particularly in networking.
 - **Emergency changes**: useful for immediate manual actions when automation is impractical.
@@ -124,7 +124,7 @@ Bad for:
 
 PowerShell excels at string parsing and working with arrays, collections, and objects. This makes it very good for processing JSON and interfacing with REST APIs.
 
-Az module for PowerShell gives you the necessary commands to manage the most of the Azure platform in a consistent, object-oriented way.
+Az module for PowerShell gives you the necessary commands to manage most of the Azure platform in a consistent, object-oriented way.
 
 Good for:
 
@@ -152,7 +152,7 @@ Well, ARM templates come incredibly close to the Azure API because they're based
 
 Some people don't like JSON for ugly presentation when unformatted, and low tolerance for errors with commas. ARM Template [expressions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-expressions) and [fucntions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-functions) may look too complex and fragile until you get used to them.
 
-Significant benefit of ARM templates is their ability to closely follow the Azure API. You can refer to API representations of resources (JSON View, Error Messages, CLI Debug) as a reference while creating templates. This minimizes the chances of errors in attribute names and the overall object structure.
+The significant benefit of ARM templates is their ability to closely follow the Azure API. You can refer to API representations of resources (JSON View, Error Messages, CLI Debug) as a reference while creating templates. This minimizes the chances of errors in attribute names and the overall object structure.
 
 Additionally, ARM templates often offer early access to new API features, giving you an advantage over tools like Terraform.
 
@@ -165,7 +165,7 @@ Good for:
 Challenging for:
 
 - Adopting a modular approach, especially when you intend to maintain templates as building blocks for your customers to re-use in constructing their own systems.
-- Seeking greater accessibility for both "writers" and "readors" among a broader audience.
+- Seeking greater accessibility for both "writers" and "readers" among a broader audience.
 
 
 ### Bicep templates
@@ -175,7 +175,7 @@ Bicep is an abstraction layer built on top of ARM templates, designed to simplif
 Benefits of Bicep Templates Include:
 
 - **Simplified syntax**: makes the template syntax more human-readable, enhancing the overall developer experience and reducing the likelihood of syntax-related errors.
-- **Functionality enhancements**: that simplify common tasks and improves usability, making it easier to work with templates as modules.
+- **Functionality enhancements**: simplify common tasks and improve usability, making it easier to work with templates as modules.
 
 Challenges of Bicep Templates Include:
 
@@ -206,7 +206,7 @@ However, the devil is in the details. While Terraform offers a unified language 
 
 Terraform's cloud-agnostic appeal primarily rests in its language. Each cloud, with its distinct resources, services, and structures, requires Terraform to rely on specific "providers". These abstract providers bridge Terraform configurations to the relevant cloud provider's API.
 
-Yes, Terraform is designed to be cloud-agnostic, however this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
+Yes, Terraform is designed to be cloud-agnostic, however, this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
 
 So, even though you can utilize a unified language and configuration syntax across multiple cloud providers:
 
@@ -242,7 +242,7 @@ Pros:
 
 Cons:
 
-- **Provider limitations**: requires understanding of each cloud provider's specifics.
+- **Provider limitations**: requires an understanding of each cloud provider's specifics.
 - **State file challenges**: can complicate multi-user scenarios and might not be necessary for some Azure implementations.
 - **Abstraction layer**: introduces potential quirks that can complicate Azure interactions.
 
@@ -269,7 +269,7 @@ We are launching into space here, my dear readers.
 This pushes the pros and cons of the previous concept to the next level.
 
 Pulumi is suitable when:
-- you have a team of Software Engineers proficient in specific language,
+- you have a team of Software Engineers proficient in a specific language,
 - and management of the cloud is (part of) their software product
 
 You possess a team of software engineers proficient in a specific language. This means they can dive right in without the need to learn a new, domain-specific language.
