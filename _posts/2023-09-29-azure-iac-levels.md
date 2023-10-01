@@ -204,11 +204,9 @@ However, the devil is in the details. While Terraform offers a unified language 
 
 ### Language
 
-Terraform's cloud-agnostic appeal primarily rests in its language. Each cloud, with its distinct resources, services, and structures, requires Terraform to rely on specific "providers". These abstract providers bridge Terraform configurations to the relevant cloud provider's API.
-
 Yes, Terraform is designed to be cloud-agnostic, however, this concept primarily applies within the Terraform language itself. Each cloud provider has its own set of resources and services with their unique attributes, object structures, and dependencies. Terraform relies on abstract "providers" for each cloud, responsible for translating Terraform configurations into API calls specific to that cloud provider.
 
-So, even though you can utilize a unified language and configuration syntax across multiple cloud providers:
+So, even though you can utilize a unified language for configuration across multiple cloud providers:
 
 - you still need to understand the intricacies and capabilities of each provider when writing Terraform code;
 - advanced features or services offered by a particular cloud provider may not be immediately supported by Terraform, possibly requiring community contributions or waiting for updates;
