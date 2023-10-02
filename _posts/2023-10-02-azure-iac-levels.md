@@ -40,7 +40,7 @@ IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Her
 
 Good for:
 
-- **Education**: user-friendly interface enabling understanding of Azure concepts for a broader audience
+- **Education**: user-friendly interface enabling understanding of Azure concepts for a broader audience.
 - **Read-only observation**: efficient for quickly examining resources or overseeing the Azure environment.
 - **Troubleshooting**: vital for diagnosing issues, particularly in networking.
 - **Emergency changes**: useful for immediate manual actions when automation is impractical.
@@ -109,7 +109,7 @@ print }'
 
 Good for:
 
-- **Simple, quick commands**:  for quick, straightforward operations.
+- **Simple, quick commands**: for quick, straightforward operations.
 - **Nerds**: with a background in open-source and hardcore networking (such as Cisco CLI), some people may feel at home with this tool.
 
 Bad for:
@@ -256,7 +256,7 @@ Terraform may not be the best choice for:
 - Deploying landing zones and other shared infrastructure that:
   - require management by multiple actors, including Azure policies,
   - don't need routine deletions and complete redeployments,
-  - and managed by a team dedicated to specific cloud rather than general software development
+  - and managed by a team dedicated to specific cloud rather than general software development.
 
 ## Level 4 - Pulumi and other "language-agnostic" tools
 
@@ -271,8 +271,7 @@ Pulumi is suitable when:
 - and management of the cloud _is_ the functionality of their software product,
 - so while employing other domain-specific language is not feasible,
 - they still need an abstraction layer for state tracking and other benefits,
-- because going directly to REST API is too much for them
-
+- because going directly to REST API is too much for them.
 
 ---
 
