@@ -1,11 +1,11 @@
 ---
 #layout: post-argon
 title: Choosing the right level of IaC management tools for Azure
-date: 2023-09-29 17:00:00 +0100
-#last_modified_at: 2023-09-26 16:00:00 +0100
+date: 2023-10-02 08:00:00 +0100
+last_modified_at: 2023-10-02 08:30:00 +0100
 author: Igor
 categories: [Azure, Networking]
-tags: [azure, devops, caf]
+tags: [azure, architecture, iac, deployment, automation, tools]
 permalink: /blog/azure-iac-levels
 slug: azure-iac-levels
 excerpt_separator: <!--more-->
@@ -58,11 +58,11 @@ The Azure API is structured according to industry REST standards and is a powerf
 Good for:
 
 - **When command line tools are unavailable**: in cases where command line tools have limitations or are unavailable, the REST API comes to help.
-- **Building custom solutions**: If you're creating your own solution or tool, the REST API is your way to directly interact with the management plane.
+- **Building custom solutions**: if you're creating your own solution or tool, the REST API is your way to directly interact with the management plane.
 
 Too Complex for:
 
-- **General daily usage**: Due to its complexity and low-level nature, the REST API isn't suitable for bare-handed humans, unless you wrap it into your own script snippets.
+- **General daily usage**: due to its low-level nature, the REST API isn't suitable for bare-handed humans, unless you wrap it into your own script snippets.
 
 Hints:
 
@@ -109,7 +109,7 @@ print }'
 
 Good for:
 
-- **Simple, quick commands**:  for quick, straightforward operations..
+- **Simple, quick commands**:  for quick, straightforward operations.
 - **Nerds**: with a background in open-source and hardcore networking (such as Cisco CLI), some people may feel at home with this tool.
 
 Bad for:
@@ -140,7 +140,7 @@ Bad for:
 
 ## Level 2 - Native declarative templates
 
-Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, while maintaining idempotency.
+Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, _while maintaining idempotency_.
 
 When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Azure API into higher abstraction layers, as is the [case with Terraform](#tf-private-endpoint).
 
@@ -268,10 +268,11 @@ This pushes the pros and cons of the previous concept to the next level.
 
 Pulumi is suitable when:
 - you have a team of Software Engineers proficient in a specific language,
-- and management of the cloud is (part of) their software product
+- and management of the cloud _is_ the functionality of their software product,
+- so while employing other domain-specific language is not feasible,
+- they still need an abstraction layer for state tracking and other benefits,
+- because giong direct to REST API is too much for them
 
-You possess a team of software engineers proficient in a specific language. This means they can dive right in without the need to learn a new, domain-specific language.
-Cloud management isn't just a sideline task but is integrated as a core component of the software product they are developing. This allows for a seamless fusion of application development and infrastructure management.
 
 ---
 
@@ -302,4 +303,4 @@ Your Captain Obvious
 
 ## Discussion
 
-Happy to discuss and learn new things from you. 
+Happy to discuss and learn new things from you. You are welcome to comments.
