@@ -271,7 +271,7 @@ Pulumi is suitable when:
 - and management of the cloud _is_ the functionality of their software product,
 - so while employing other domain-specific language is not feasible,
 - they still need an abstraction layer for state tracking and other benefits,
-- because giong direct to REST API is too much for them
+- because going directly to REST API is too much for them
 
 
 ---
