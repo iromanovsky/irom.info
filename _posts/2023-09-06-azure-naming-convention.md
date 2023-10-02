@@ -2,6 +2,7 @@
 #layout: post-argon
 title: Naming Convention for Azure Resources
 date: 2023-09-06 08:00:00 +0100
+last_modified_at: 2023-10-02 14:30:00 +0100
 author: Igor
 categories: [Azure, Foundations]
 tags: [azure, devops, caf, naming-convention]
@@ -11,7 +12,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/lorem, /post/lorem]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/b6ce746d-b7e8-48c1-b663-ac49cb298e07
 description: >-
-    I'm sharing the naming convention I've been using for the biggest Azure infrastructure projects during my career at Microsoft and EPAM since 2015.
+    Sharing the naming convention I've been using for the biggest Azure iInfrastructure projects during my career at Microsoft and EPAM since 2015.
 #published: false
 ---
 <div align="center">
@@ -28,7 +29,7 @@ It's probably too late for you to change the naming convention of Azure resource
 
 <!--more-->
 
-# Naming principles
+## Naming principles
 <!--
 $$
 \underbrace{SAP}_{\text{< System >}} - \underbrace{PRD}_{\text{< Env >}} - \underbrace{EUW}_{\text{< Region >}} - \underbrace{App1\_DB}_{\text{[ Component ]}} - \underbrace{rg}_{\text{< res_type >}}
@@ -60,7 +61,7 @@ For example, virtual network gateways are attached to a virtual network, so they
 - Names of globally unique resources like storage accounts should have short suffix derived from the company name, like '**iro**' (as abbreviation of my name) to avoid overlapping with resource names of other customers
 - No need to spend time to define conventions for all possible resource types in Azure, using the same principles you can expand your convention when needed
 
-# Naming sections
+## Naming sections
 
 Below are the sections of the resource names in the order they should be used.
 |Naming section | Description | Examples |
@@ -71,7 +72,7 @@ Below are the sections of the resource names in the order they should be used.
 | Component | Optional name of system's component, such as application, workload, or service that the resource is a part of. <br/><br/>Used to distinguish subsystems within the same System. <br/><br/>**Order position 4**, since inside the same environment and region the system might have various logical parts. By dividing a system into logical components that share the same lifecycle and purpose, you leverage the intended use of _Resource Groups_ concept. | Network, ADDC, ADFS, NVA_Int, NVA_Ext, FrontEnd, BackEnd, App1_DB <br/><br/>_**Note** the optional instance indicator that could be included into this segment as a digit or text like DB, see description of virtual Instance section below_ |
 |Resource type| Always at the end of the resource name, with some rare exceptions. <br/><br/>**Order position 5**, contrary to the popular example of the naming convention in CAF, resource type should be at the end of the name (suffix) to support the whole concept or name section ordering from big taxons to small. Putting the resource type at the beginning of the names (prefix) breaks this whole concept and leads to a naming standard that is not convenient to use on a big scale. | vnet, nsg, log, …|
 
-Virtual naming sections:
+### Virtual naming sections
 
 The sections below are virtual -- they are constructed based on the sections defined above for the purpose of grouping and automation.
 
@@ -81,16 +82,16 @@ The sections below are virtual -- they are constructed based on the sections def
 | Instance | **Optional** instance indicator for a specific resource, to differentiate it from other resources in the same logical array, like disks, virtual machine instances of the same service, and cluster nodes. <br/><br/>Many organizations used to use _padding_ for the instance count, no matter if the resource could even have multiple instances and how many of them are possible. <br/><br/>It is recommended to be wise and use padding only when necessary, for example, if in your organization you have only 6 domain controllers, no need to pad their instance counts into 4 digits, like DC0001, DC0002; padding with 2 digits like DC01, DC02 is enough for this purpose. | `NVAPEUWFW01`<br/>`NVAPEUWFW02`<br/> <small>instance count is padded as XX for 2 firewall instances, it supports upgrade and migration scenarios when you need room for more instances in the name</small> <br/><br/>`PlatConn-PRD-EUW-Hub-vnet-afw` <br/>`PlatCon-PRD-EUW-Hub-vnet-bas` <br/> <small>a vnet can have only one firewall and one bastion resource attached, so it does not make sense to include any instance count in the name of the resource</small> <br/><br/>`NVAPEUWFW01-D_LUN01-md` <br/>`NVAPEUWFW01-D_LUN02-md` <br/>`NVAPEUWFW01-D_Log1-md`<br/>`NVAPEUWFW01-D_Log2-md` <small>these are examples of multiple managed disk instances attached to the same vm with name NVAPEUWFW01</small> | 
 
 <details>
-<summary>Note on padding from CAF</summary>
+<summary>[expand to see] A note on padding from CAF</summary>
 
-> [CAF: Define your naming convention](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-<br/><br/>Padding improves readability and sorting of assets when those assets are managed in a configuration management database (CMDB), IT Asset Management tool, or traditional accounting tools. When the deployed asset is managed centrally as part of a larger inventory or portfolio of IT assets, the padding approach aligns with interfaces those systems use to manage inventory naming.
-<br/><br/>Unfortunately, the traditional asset padding approach can prove problematic in infrastructure-as-code approaches that might iterate through assets based on a non-padded number. This approach is common during deployment or automated configuration management tasks. Those scripts would have to routinely strip the padding and convert the padded number to a real number, which slows script development and run time.
-<br/><br/>Choose an approach that's suitable for your organization. Before choosing a numbering scheme, with or without padding, evaluate what will affect long-term operations more: CMDB and asset management solutions or code-based inventory management. Then, consistently follow the padding option that best fits your operational needs.
+>  <p>Padding improves readability and sorting of assets when those assets are managed in a configuration management database (CMDB), IT Asset Management tool, or traditional accounting tools. When the deployed asset is managed centrally as part of a larger inventory or portfolio of IT assets, the padding approach aligns with interfaces those systems use to manage inventory naming.</p>
+>  <p>Unfortunately, the traditional asset padding approach can prove problematic in infrastructure-as-code approaches that might iterate through assets based on a non-padded number. This approach is common during deployment or automated configuration management tasks. Those scripts would have to routinely strip the padding and convert the padded number to a real number, which slows script development and run time.</p>
+> <p>Choose an approach that's suitable for your organization. Before choosing a numbering scheme, with or without padding, evaluate what will affect long-term operations more: CMDB and asset management solutions or code-based inventory management. Then, consistently follow the padding option that best fits your operational needs.</p>
+--- [CAF: Define your naming convention](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
+</details><br/>
 
-</details>
+### Resource type abbreviations
 
-## Resource type abbreviations
 The table below illustrates abbreviations for the most used resources. When expanding existing naming convention for new resource types, it's a good practice to use well-known abbreviations from [CAF: Abbreviation examples for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
 
 | Resource type | Abbreviation |
@@ -102,7 +103,8 @@ The table below illustrates abbreviations for the most used resources. When expa
 |Managed Disk | md|
 | .. | .. |
 
-## Region abbreviations
+### Region abbreviations
+
 Contrary to CAF which provides examples for region abbreviation as `westus`, `eastus2`, `westeu`; it's better to follow the logic of natural grouping by regions when alphabetically sorting the resources, so West and North Europe should be abbreviated as EUW and EUW, East and West US should be abbreviated USW and USE respectively.
 
 | Region | Abbreviation |
@@ -116,12 +118,14 @@ Contrary to CAF which provides examples for region abbreviation as `westus`, `ea
 
 _Note: The list of regions is constantly expanding, it will be challenging to accommodate all possible regions into 3 characters and keep it readable, so it's a good idea to have region abbreviation flexible._
 
-## Naming restrictions
+### Naming restrictions
+
 Please be aware that most Azure resources have restrictions in terms of length and characters, and may require to be globally unique across all Azure customers. 
 
 Please refer to [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) for details and updates.
 
-# Naming convention table
+## Naming convention table
+
 The table below describes common resource naming conventions with comments explaining cases _when naming does not exactly follow the common pattern_:
 
 > \<System\>-\<Environment\>-\<Region\>[-Component]\-<res_type\> 
@@ -171,8 +175,8 @@ The table is supposed to be a living document, and be updated as new resource ty
 |Azure SQL Database|Global|**\<system\>\<env\>\<region\>[component]-irosql** <br/><small>up to 63 chars, lowercase letters, numbers, and hyphens</small><br/>&bull; `sap-prd-euw-bwdata-irosql`|
 | .. and so on .. | ... | ...|
 
-# Comparison with CAF convention
-## What happens if CAF convention is followed literally
+## Comparison with CAF convention
+### What happens if CAF convention is followed literally
 
 You probably know this picture? I see it cited all the time, like a bible. The issue with this picture is that it is _an example, not a bible_. Its intended purpose is to show the important naming parts, not to propose the exact naming convention.
 
@@ -185,16 +189,17 @@ This is what happens when customers take this picture literally and turn it into
 - Parent-child relationships between resources are not visible, however you see mixed resources from different systems and environments together, which may lead to confusion and operating mistakes
 
 <details>
-<summary>Expand to see the pictures...</summary>
+<summary>[expand to see] the pictures...</summary>
 <div style="max-width:80%;">
 
 ![naming-caf1](https://github.com/iromanovsky/irom.info/assets/15823576/84c7179d-b4b2-4920-9e8f-8ee5336e1720)
 ![naming-caf2](https://github.com/iromanovsky/irom.info/assets/15823576/ad63911b-990d-4704-bbf7-2bbe63ea066f)
 
 </div>
-</details>
+</details><br/>
 
-## How the proposed convention looks in real life
+### How the proposed convention looks in real life
+
 - Names constructed to reflect relations between resources, the resource type is used as a suffix 
 - You can easily search resources and see related 'child' resources 
 - You can still sort by resource type if needed
@@ -203,7 +208,7 @@ This is what happens when customers take this picture literally and turn it into
 I can't share screenshots from customers' environments due to NDA restrictions and will update this post with screenshots from my lab environment when I get it rebuilt. Meanwhile, here is a list of typical resources of a small Landing Zone environment using the suggested naming convention, in YAML format: 
 
 <details>
-<summary>Expand to see sample-landing-zone.yaml...</summary>
+<summary>[expand to see] sample-landing-zone.yaml...</summary>
 
 <!--
 {% gist d2ff5edba7e48cc3044433a4cef7d3c4 sample-landing-zone.yaml %}
@@ -302,13 +307,17 @@ SharedSvc-PRD-sub: # shared services subscription
   - SharedSvc-PRD-EUW-App1_BE-rg: []
 ```
 
-</details>
+</details><br/>
 
 <!--
 <script src="https://gist.github.com/iromanovsky/d2ff5edba7e48cc3044433a4cef7d3c4.js"></script>
 -->
 
-# Change my mind
+## Links
+
+- This is a Microsoft article from golden times (2016) that got lost, but not forgotten: [Recommended naming conventions for Azure resources](https://github.com/MicrosoftDocs/azure-docs/blob/350b597783e508a3987a0e3116e12fee325bc9f3/articles/guidance/guidance-naming-conventions.md)
+
+## Change my mind
 
 The cover picture in this post is not a complete joke. Even though I've been using and refining this convention for so many years and customers, I'm eager to hear your opinion and change my mind if you propose justified improvements. 
 
