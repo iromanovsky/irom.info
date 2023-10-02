@@ -135,7 +135,7 @@ Good for:
 Bad for:
 
 - **YAML processing**: if your work heavily involves YAML-based configurations, other tools might be more suitable.
-- **Religious or philosophical reasons**: may not align with specific beliefs or [strong preferences](https://en.wikipedia.org/wiki/Not_invented_here) coming from an OSS background.
+- **Religious or philosophical reasons**: may not align with [specific beliefs](https://web.archive.org/web/20141217092043/https://www.drdobbs.com/windows/a-brief-history-of-windows-programming-r/225701475) or [strong preferences](https://en.wikipedia.org/wiki/Not_invented_here) coming from an OSS background.
 
 
 ## Level 2 - Native declarative templates
