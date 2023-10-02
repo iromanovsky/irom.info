@@ -303,4 +303,4 @@ Your Captain Obvious
 
 ## Discussion
 
-Happy to discuss and learn new things from you. You are welcome to comments.
+Happy to discuss and learn new things from you. You are welcome to [comments](https://www.linkedin.com/feed/update/urn:li:share:7114514947425886208/).
