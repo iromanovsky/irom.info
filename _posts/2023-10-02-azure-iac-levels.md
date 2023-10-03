@@ -40,7 +40,7 @@ IaC enthusiasts often underestimate the Azure Portal, but it has its merits. Her
 
 Good for:
 
-- **Education**: user-friendly interface enabling understanding of Azure concepts for a broader audience.
+- **Education**: user-friendly interface embracing understanding of Azure concepts for a broader audience.
 - **Read-only observation**: efficient for quickly examining resources or overseeing the Azure environment.
 - **Troubleshooting**: vital for diagnosing issues, particularly in networking.
 - **Emergency changes**: useful for immediate manual actions when automation is impractical.
@@ -140,7 +140,7 @@ Bad for:
 
 ## Level 2 - Native declarative templates
 
-Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, _while maintaining idempotency_.
+Native declarative templates enable you to define resources in a declarative manner, focusing on describing the desired end state. The template processing engine then takes care of deploying the resources in the correct order, while maintaining [_idempotence_](https://learn.microsoft.com/en-us/devops/deliver/what-is-infrastructure-as-code) and enabling _[incremental deployment](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes#incremental-mode) style_.
 
 When using native Microsoft tools, you gain early access to the latest features and reduce the likelihood of errors introduced by translating Azure API into higher abstraction layers, as is the [case with Terraform](#tf-private-endpoint).
 
@@ -246,13 +246,13 @@ Cons:
 
 ### Do's and Don'ts
 
-Terraform is well-suited for:
+Terraform is well-suited for ["complete mode"](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes#complete-mode) deployment styles, when:
 - Deploying software products that:
   - require external state tracking and support deletion and complete redeployment,
   - can and should be managed by a single team,
   - of software developers who are proficient in using Terraform.
 
-Terraform may not be the best choice for:
+Terraform may not be the best choice for ["incremental mode"](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes#incremental-mode) deployment styles, when:
 - Deploying landing zones and other shared infrastructure that:
   - require management by multiple actors, including Azure policies,
   - don't need routine deletions and complete redeployments,
@@ -290,12 +290,14 @@ Pulumi is suitable when:
 
 Each tool and level of abstraction offers its own set of benefits and challenges. Your choice should align with your project requirements, team expertise, and the desired level of abstraction.
 
-_Choose the right tool to reach your goals, don't adapt your goals to fit the tool:_
+_Choose the right tool to reach your goals:_
 
 - portal and self-service tools for [~~simple kinds of men~~](https://www.youtube.com/watch?v=Mqfwbf3X8SA) end-users
 - scripts for admin tasks
 - native templates for foundational infrastructure 
 - state tracking "meta"-tools for specialized teams who know what they are doing
+
+_And don't adapt your goals to fit the tool._
 
 Kind regards,  
 Your Captain Obvious
