@@ -105,7 +105,7 @@ twitter:
 social: #for specifying social profiles -- used on home and about pages 
   name: Igor Romanovsky | Systems Architect – Azure Cloud #https://developers.google.com/search/docs/appearance/site-names
   links: #https://schema.org/sameAs #https://github.com/jekyll/jekyll-seo-tag/blob/master/lib/jekyll-seo-tag/drop.rb
-    - https://www.linkedin.com/in/iromanovsky
+    - https://uk.linkedin.com/in/iromanovsky
     - https://github.com/iromanovsky
     - https://twitter.com/iromanovsky
 
