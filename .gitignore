@@ -7,3 +7,4 @@ _site/
 vendor/
 # Custom added
 Gemfile.lock
+_posts/9*.md

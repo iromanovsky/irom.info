@@ -2,7 +2,7 @@
 #layout: post-argon
 title: Choosing the right level of IaC management tools for Azure
 date: 2023-10-02 08:00:00 +0100
-last_modified_at: 2023-10-02 08:30:00 +0100
+last_modified_at: 2023-11-01 11:00:00 +0000
 author: Igor
 categories: [Azure, Networking]
 tags: [azure, architecture, iac, deployment, automation, tools]
@@ -170,7 +170,7 @@ Challenging for:
 
 ### Bicep templates
 
-Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview). While Bicep templates use YAML syntax for readability, they are internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API.
+Bicep is an abstraction layer built on top of ARM templates, designed to simplify syntax, improve readability, reduce errors, and introduce [additional functionality](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview). While Bicep templates use YAML syntax for readability, they are internally [compiled into JSON](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/frequently-asked-questions#what-happens-to-my-existing-arm-templates) for interactions with ARM API, so you see your deployemnts on the portal as JSON.
 
 Benefits of Bicep Templates Include:
 
