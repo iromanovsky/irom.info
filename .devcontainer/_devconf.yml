@@ -30,3 +30,4 @@ commonmark: #https://github.com/github/jekyll-commonmark-ghpages
 # run commands
 #JEKYLL_ENV=production bundle exec jekyll s --watch --force_polling --drafts --future --unpublished
 #JEKYLL_ENV=production bundle exec jekyll s -w --config _config.yml,_devconf.yml
+#JEKYLL_ENV=production bundle exec jekyll s -w --config _config.yml,.devcontainer/_devconf.yml
