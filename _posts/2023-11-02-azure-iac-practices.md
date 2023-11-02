@@ -1,8 +1,8 @@
 ---
 #layout: post-argon
 title: General thoughts on IaC practices for Azure management
-date: 2023-11-02 09:00:00 +0000
-last_modified_at: 2023-11-02 10:00:00 +0000
+date: 2023-11-02 12:00:00 +0000
+last_modified_at: 2023-11-02 13:00:00 +0000
 author: Igor
 categories: [Azure, Networking]
 tags: [azure, iac, management, practices, automation, tools]
@@ -13,7 +13,7 @@ excerpt_separator: <!--more-->
 image: https://github.com/iromanovsky/irom.info/assets/15823576/f68c5c7d-3bd0-4394-b6b7-aa3d73526feb
 description: >-
     Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state management
-published: false
+#published: false
 ---
 <div style="text-align: center">
 
@@ -347,4 +347,4 @@ As with most technology choices, it's not about which is universally better, but
 
 ## Discussion
 
-As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use this link to react, comment, or repost.
+As usual, I'm happy to discuss these topics with you in LinkedIn comments. If you want to support this post to get more exposure, please use this link to react, comment, or repost.
