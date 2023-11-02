@@ -341,4 +341,4 @@ As with most technology choices, it's not about which is universally better, but
 
 ## Discussion
 
-As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use this LinkedIn update to react, comment, or repost.
+As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use this link to react, comment, or repost.
