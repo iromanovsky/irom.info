@@ -12,20 +12,27 @@ excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
-    My thoughts on general IaC practices, such as version control, code reuse, CI/CD, and testing.
+    Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state manegement
 published: false
 ---
 
-My thoughts on general IaC practices, such as version control, code reuse, CI/CD, and testing.
+In this post, I share my thoughts on established IaC practices for Azure management, often regarded as "best practices." However, they may benefit from a deeper, critical examination.
+
+We will explore themes such as [Centralization and Democratization](#centralization-vs-democratization), [Solution accelerators](#solution-accelerators), treating [Infastructure as Software](#admins-vs-developers), the need to [Automate every task](#when-to-use-automation), [Modularization and version control](#code-structure), [Automated testing](#automated-testing), [State management](#terraform-state), and choosing the right [Configuration format](#yaml-vs-json).
+
+Intended to evolve, this document will be periodically revised and expanded as I learn new insights and industry shifts occur.
 
 <!--more-->
 
-# General thoughts on IaC practices for Azure management
+<div style="padding-left: 50%; font-style: normal">
 
-"best practices"
+> Watch what you say,  
+> They'll be calling you a radical  
+> A liberal,  
+> Oh, fanatical, criminal  
+> <br/>&mdash; ["The Logical Song"](https://youtu.be/kln_bIndDJg) by Supertramp
 
-My thoughts on general IaC practices, such as version control, code reuse, CI/CD, and testing.
-
+</div>
 
 ## Centralization vs. Democratization
 
@@ -67,9 +74,9 @@ It is a good idea to establish the CCoE for managing shared resources, defining 
 - [Operating model comparison](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/operating-model/compare#operating-model-comparison)
 
 
-## Solution accelerators: a gastronomic analogy
+## Solution accelerators
 
-Navigating the world of solution accelerators is like choosing a dining experience:
+Let's use a gastronomic analogy for navigating the world of solution accelerators.
 
 - **Public Code Repositories**: Comparable to frozen pizzas. They're readily available and probably can feed you without damaging your health, but with the right culinary skills, you can make something more interesting based on them by adding the ingredients you like.
 - **Proprietary Quickstart Accelerators**: Offered by IT integrators, are like the fast-food chains of the IT world. In McDonald's, you get predictable quality, but very little choice and customization possible.
