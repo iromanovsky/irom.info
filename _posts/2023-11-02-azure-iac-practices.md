@@ -10,11 +10,17 @@ permalink: /blog/azure-iac-practices
 slug: azure-iac-practices
 excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
-image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
+image: https://github.com/iromanovsky/irom.info/assets/15823576/f68c5c7d-3bd0-4394-b6b7-aa3d73526feb
 description: >-
     Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state management
 published: false
 ---
+<div style="text-align: center">
+
+![Underpants Gnomes Meme](https://github.com/iromanovsky/irom.info/assets/15823576/f68c5c7d-3bd0-4394-b6b7-aa3d73526feb)
+
+</div>
+
 
 In this post, I share my thoughts on established IaC practices for Azure management, often regarded as "best practices." However, they may benefit from a deeper, critical examination.
 
