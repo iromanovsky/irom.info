@@ -5,14 +5,14 @@ date: 2023-11-02 09:00:00 +0000
 last_modified_at: 2023-11-02 10:00:00 +0000
 author: Igor
 categories: [Azure, Networking]
-tags: [azure, architecture, iac, deployment, automation, tools]
+tags: [azure, iac, management, practices, automation, tools]
 permalink: /blog/azure-iac-practices
 slug: azure-iac-practices
 excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/ac2a60ea-0ab3-4823-a3d7-32f7a695bcb4
 description: >-
-    Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state manegement
+    Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state management
 published: false
 ---
 
