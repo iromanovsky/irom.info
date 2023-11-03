@@ -36,7 +36,7 @@ Intended to evolve, this document will be periodically revised and expanded as I
 > They'll be calling you a radical  
 > A liberal,  
 > Oh, fanatical, criminal  
-> <br/>&mdash; ["The Logical Song"](https://youtu.be/kln_bIndDJg) by Supertramp
+> <br/>&mdash; ["The Logical Song"](https://www.youtube.com/watch?v=nT9WUWTPQrs) by Supertramp
 
 </div>
 
