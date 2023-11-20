@@ -21,7 +21,7 @@ description: >-
 
 </div>
 
-LinkedIn's 'Easy Apply' feature improves job applications by allowing candidates to submit their profiles directly to recruiters, skipping the need to fill additional forms and attaching resumes as separate files. Many respects to those employers who use this feature. It is a way to stand out and get the best from the competitive "candidate's market".
+LinkedIn's 'Easy Apply' feature improves job applications by allowing candidates to submit their profiles directly to recruiters, skipping the need to fill additional forms and attaching resumes as separate files. Many respects to those employers who use this feature. It is a way to stand out and get the best from the competitive candidate-driven market.
 
 However, the currently employer-driven market often dictates different requirements, including the need for a detailed resume in a printable document format.  This poses a challenge as LinkedIn's current functionality limits exporting profiles to PDFs without significant data loss and with little control over the layout.
 
