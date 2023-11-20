@@ -17,7 +17,7 @@ description: >-
 ---
 <div style="text-align: center">
 
-![[Rock Star Developer Meme](https://github.com/iromanovsky/irom.info/assets/15823576/15eb18df-9c96-401d-b88d-14aa1ccb96a7)
+![Rock Star Developer Meme](https://github.com/iromanovsky/irom.info/assets/15823576/15eb18df-9c96-401d-b88d-14aa1ccb96a7)
 
 </div>
 
