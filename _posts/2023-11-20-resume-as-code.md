@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-pe-name-resolution]
 image: https://github.com/iromanovsky/irom.info/assets/15823576/15eb18df-9c96-401d-b88d-14aa1ccb96a7
 description: >-
-    Exploring the depths of IaC practices for Azure, such as centralization, accelerators, need for automation, code structure, automated testing, and state management
+    Explore how to use LinkedIn data to create versatile resumes in PDF/web formats, overcoming limitations of LinkedIn's export function
 #published: false
 ---
 <div style="text-align: center">
