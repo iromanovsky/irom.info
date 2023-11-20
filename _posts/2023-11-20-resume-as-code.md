@@ -76,4 +76,4 @@ Consider these alternatives:
 
 ## Discussion
 
-As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link]() to react, comment, or repost.
+As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/feed/update/urn:li:share:7132473822053564417/) to react, comment, or repost.
