@@ -2,7 +2,7 @@
 #layout: post-argon
 title: Resume as Code
 date: 2023-11-20 18:00:00 +0000
-last_modified_at: 2023-11-20 18:30:00 +0000
+last_modified_at: 2023-11-20 21:30:00 +0000
 author: Igor
 categories: [Life, Code]
 tags: [career, code, oss]
@@ -76,4 +76,4 @@ Consider these alternatives:
 
 ## Discussion
 
-As usual, I'm happy to discuss these topics with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link]() to react, comment, or repost.
+As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link]() to react, comment, or repost.
