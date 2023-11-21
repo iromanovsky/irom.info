@@ -31,7 +31,7 @@ This post explores how you can use LinkedIn as your primary data source to craft
 
 ## Step 1. Export your resume data to a standard format
 
-The [JSON Resume](https://jsonresume.org/) project seeks to standardize resume data in JSON format, providing a flexible foundation for various applications.
+The [JSON Resume](https://jsonresume.org/) project seeks to standardize resume data in JSON format, providing a foundation for various applications.
 
 To export your LinkedIn profile into JSON Resume format, use the [JSON Resume Exporter](https://chrome.google.com/webstore/detail/json-resume-exporter/caobgmmcpklomkcckaenhjlokpmfbdec), a Chrome extension that also functions in Edge.
 
@@ -41,7 +41,7 @@ Additionally, for those with a technical inclination, the [LinkedIn API](https:/
 
 ## Step 2. Check and amend your data if necessary
 
-Once you have exported your data, it's important to thoroughly review it for any personal or sensitive information. Ensure that all details are accurate and relevant to your purposes.
+Once you have exported your data, it's important to thoroughly review it for any personal or sensitive information. Ensure that all details are accurate and relevant to your purposes, amend if necessary.
 
 For assistance with syntax validation according to the [JSON Resume Schema](https://jsonresume.org/schema/), consider using the [JSONResume Editor](https://marketplace.visualstudio.com/items?itemName=reflog.jsonresume) plugin for VS Code. This tool can also potentially help with previewing your resume and generating a PDF version.
 
@@ -49,7 +49,7 @@ For assistance with syntax validation according to the [JSON Resume Schema](http
 
 Upload your JSON Resume data as a [gist](https://gist.github.com/) named exactly `resume.json`, similar to [this example](https://gist.github.com/iromanovsky/1437d070ab6bc06164b9e2aed6ca7a39). You can then view your resume by visiting `https://registry.jsonresume.org/{your_github_username}`, like [my own resume here](https://registry.jsonresume.org/iromanovsky).
 
-For customization, explore different themes by previewing them [here](https://registry.jsonresume.org/themes). You can preview a theme with your data by appending its name to your resume URL, such as `?theme=Resu` ([see my themed resume preview](https://registry.jsonresume.org/iromanovsky?theme=Resu)). Keep in mind that various themes might alter the visibility and layout of your resume's sections, some of them honor rich formatting and markdown, some are not. Once satisfied with a theme, update the `meta` section in your `resume.json` gist with `"theme": "Theme-Name"`.
+For customization, explore different themes by previewing them [here](https://registry.jsonresume.org/themes). You can preview a theme with your data by appending its name to your resume URL, such as `?theme=Resu` ([see my themed resume preview](https://registry.jsonresume.org/iromanovsky?theme=Resu)). Keep in mind that various themes might alter the visibility and layout of your resume's sections, some of them honor rich formatting and markdown, and some do not. Once satisfied with a theme, update the `meta` section in your `resume.json` gist with `"theme": "Theme-Name"`.
 
 To convert your resume into a PDF, simply use the print function in your browser.
 
@@ -61,15 +61,15 @@ resume export igor.pdf --resume ./my-resume.json -t ./node_modules/jsonresume-th
 
 ## Step 4. Profit
 
-You now have a versatile algorithm for on-demand generation of PDFs suitable for job applications or web pages ready to be hosted on platforms like GitHub Pages or Azure Storage.
+You now have a versatile algorithm for the on-demand generation of PDFs suitable for job applications or web pages ready to be hosted on platforms like GitHub Pages or Azure Storage.
 
 ## Alternatives
 
 For different approaches, consider these options:
 
 - [Reactive Resume](https://rxresu.me/): A free, open-source graphical resume builder compatible with the JSON Resume data format.
-- Static Site Generators: Tools like Jekyll offer resume themes, one notable example being [online-cv](https://github.com/sharu725/online-cv).
-- Specialized Services: Platforms such as [resume.io](https://resume.io/) can be useful, particularly for exporting data from LinkedIn.
+- Static site generators: Tools like [Jekyll](https://jekyllrb.com/showcase/) offer resume themes, one notable example being [online-cv](https://github.com/sharu725/online-cv).
+- Proprietary services: Platforms like [resume.io](https://resume.io/) might offer LinkedIn data export capabilities. However, they may involve costs and use proprietary standards, potentially limiting customization options.
 
 ## Discussion
 
