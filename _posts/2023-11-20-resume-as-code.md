@@ -2,7 +2,7 @@
 #layout: post-argon
 title: Resume as Code
 date: 2023-11-20 18:00:00 +0000
-last_modified_at: 2023-11-20 21:30:00 +0000
+last_modified_at: 2023-11-21 09:30:00 +0000
 author: Igor
 categories: [Life, Code]
 tags: [career, code, oss]
