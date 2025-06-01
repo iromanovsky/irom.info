@@ -10,14 +10,14 @@ tags: [azure, security]
 slug: azure-network-security-modes
 excerpt_separator: <!--more-->
 #redirect_from: [/post/azure-network-security-modes]
-image: https://github.com/iromanovsky/irom.info/assets/15823576/15eb18df-9c96-401d-b88d-14aa1ccb96a7
+image: https://github.com/user-attachments/assets/6ad6c2fb-d4fa-4544-bde6-02d0eb3e508d
 description: >-
     Describing network security modes
 #published: false
 ---
 <div style="text-align: center">
 
-![Picture]()
+![Network Diagram - Modes](https://github.com/user-attachments/assets/6ad6c2fb-d4fa-4544-bde6-02d0eb3e508d)
 
 </div>
 
