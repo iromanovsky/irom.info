@@ -21,7 +21,7 @@ description: >-
 
 </div>
 
-Organic, AI-free.
+Organic, AI-free. Work in progress.
 
 <!--more-->
 
@@ -121,19 +121,19 @@ Here is the comparison table:
 |Criteria / Mode | Mode 1. <br/>Firewall between VNets <br/>Inter-VNet FW <br/>(Cloud Native) | Mode 2. <br/>Firewall between Subnets <br/>Inter-subnet FW <br/>(Traditional) | Mode 3. <br/>Firewall between NICs <br/>"Intra-Subnet FW"<br/>(Micro-Segmented) |
 |--|--|--|--|
 |Traffic Filtering|	VNET <->VNET via FW <br/>Subnet <-> Subnet via NSG <br/>Inside Subnet via NSG/ASG |VNET <->VNET via FW <br/>Subnet <-> Subnet via FW <br/>Inside Subnet via NSG	| <br/>VNET <->VNET -> FW <br/>Subnet <-> Subnet via FW <br/>Inside Subnet -> FW|
-| Cost Impact | Low/Med – NSGs are free, however Flow Logs cost should be considered. |	Medium – Costs to FW traffic and scaling | High – More costs to FW traffic and scaling |
-| Management Efforts | 	High – if management of traffic filtering (both FW and NSG) is centralized to Network team. <br/>Med - if atomated end-to-end via code <br/>Low – if NSG management is delegated to Applications team, but requires level of trust |Medium/Low - centralisation of filtering management to FW reduces management efforts rpvided inter-subnet filtering is managed by app teams |Med/High - need to filter and monitor all traffic increases management efforts |
+| Cost Impact | Low/Med – NSGs are free; however, Flow Logs costs should be considered. |	Medium – Costs to FW traffic and scaling | High – More costs to FW traffic and scaling |
+| Management Efforts | 	High – if management of traffic filtering (both FW and NSG) is centralised to the Network team. <br/>Med - if automated end-to-end via code <br/>Low – if NSG management is delegated to Applications team, but requires level of trust |Medium/Low - centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams |Med/High - need to filter and monitor all traffic increases management efforts |
 | Routing |Simple, standardized UDR for all subnets	| Unique UDR for each subnet with a few Routes | Simple, standardized UDR for all subnets |
 | Performance and Latency | 	Max performance, minimum latency | As platform-native for traffic inside Subnets <br/>Limited by FW for traffic between subnets | Limited by FW performance and scale <br/>May not be supported by some high demanding apps |
-| Log Management Costs and Efforts | Med - Fragmented log collection on NSG and FW, however may stream to same Log Analytics workspace | 	Low - Centralised log collection on FW, low volumes if NSG logs are not collected	| 	Low - Centralised log collection, but high volumes |
+| Log Management Costs and Efforts | Med - Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace | 	Low - Centralised log collection on FW, low volumes if NSG logs are not collected	| 	Low - Centralised log collection, but high volumes |
 | Visibility coverege |	100 %| Filtering between different application tiers is not applied	| 100 % |
-| Reliability | High -- FW is only a point of failure for traffic between VNets | Medium -- FW becomes point of failure between subnets | Low -- FW is PoF for any traffic |
-| Use cases	| VNets for shared platform components that can protect themself with NSGs or personal firewalls <br/>VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes) <br/>VNets with decentralized management model (where apps are managing their own NSGs) | Shared vnets, hosting multiple apps with centralized security management (where central team is managing communications between apps)	| Special zones requiring maximum security (should only be used where absolutely required by regulations) |
+| Reliability | High -- FW is only a point of failure for traffic between VNets | Medium -- FW becomes a point of failure between subnets | Low -- FW is PoF for any traffic |
+| Use cases	| VNets for shared platform components that can protect themself with NSGs or personal firewalls <br/>VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes) <br/>VNets with a decentralised management model (where apps are managing their own NSGs) | Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps)	| Special zones requiring maximum security (should only be used where absolutely required by regulations) |
 
 
 # Implementation
 
-To implement the security modes described above, here is some high level technical documentation.
+To implement the security modes described above, here is some high-level technical documentation.
 
 ## VNet Topology
 
@@ -141,11 +141,11 @@ Traditional "Regional Hub-and-Spokes", where in each region there is a dedicated
 
 ## VNet Structure
 
-A spoke vnet should be used as a security boundary, and Security mode should be assigned for the vnet at the creation time.
+A spoke VNet should be used as a security boundary, and Security mode should be assigned for the VNet at the time of creation.
 
-Because VNets cannot span across Azure subscriptions, VNets structure should follow subscriptions structure of the company.
+Because VNets cannot span across Azure subscriptions, the VNets structure should follow the subscription structure of the company.
 
-This means there could be separate vnets for company business units, service lines, and environments.
+This means there could be separate VNets for company business units, service lines, and environments.
 
 ## Subnets Structure
 
@@ -155,45 +155,45 @@ In Traditional and Native security modes,
 - Separate subnets can be used to delegate NSG control to specific application owners
 
 In MicroSeg security mode,
-- Network security may not rely on subnets, big flat subnets can be used in conjunction with centrally managed NSGs and application specific ASGs (details below)
+- Network security may not rely on subnets; big flat subnets can be used in conjunction with centrally managed NSGs and application-specific ASGs (details below)
 
 
 ## Filtering principles
 
-When necessary, traffic filtering is applied at destination (on FW or NSG). Traffic is not filtered at source unless absolutely necessary (like opening flows to internet destinations).
+When necessary, traffic filtering is applied at the destination (on FW or NSG). Traffic is not filtered at source unless absolutely necessary (like opening flows to internet destinations).
 
-This approach allows single point of control without spreading security between sources and destinations.
+This approach allows a single point of control without spreading security between sources and destinations.
 
 ## Traffic Routing
 
 All traffic routing to and from any Spoke Vnet is traversing the regional Hub FW:
 1. Between Spokes in the same region connected via peerings
 2. Between Spoke in the region and Virtual Network Gateways (Express Route, VPN, Other Regions connected to the same ER circuits)
-3. Between Spoke and The internet
+3. Between Spoke and the Internet
 4. Between Spoke and Hubs in other regions connected via global peerings
 
-This requires each spoke VNet to have assignemnt of Route tables (UDR) containing:
+This requires each spoke VNet to have an assignment of Route tables (UDR) containing:
 - BGP route propagation = disabled
 - Single route to 0.0.0.0/0 via Hub NVA
 
 For filtering traffic on FW between subnets, the route table should also contain:
 - Route to current VNet address space via Hub NVA
 
-For filtering traffic inside subnet, the route table should also contain:
-- Route to current Subnet address space via Hub NVA
+For filtering traffic inside the subnet, the route table should also contain:
+- Route to the current Subnet address space via Hub NVA
 
 Route table content can be enforced or checked for compliance with Azure Policies.
 
 ## Security Zones
 
-In some complex situations where you need flexibility to bypass firewall fileting between endpoints in different sunents, but keep filtering for any other subents, you might need to implement a concept of security zones.
+In some complex situations where you need flexibility to bypass firewall filtering between endpoints in different subnets, but keep filtering for any other subnets, you might need to implement a concept of security zones.
 
-Security Zone consist of subnets which have the same level of trust. Security zone can be represented by single subnet, a set of subnets in the same vnet, or even set of subnets from different vnets (in rare cases, where it is required to peer vnets directly).
+Security Zone consists of subnets which have the same level of trust. Security zone can be represented by a single subnet, a set of subnets in the same VNet, or even a set of subnets from different VNets (in rare cases, where it is required to peer VNets directly).
 
-- The traffic within the same security zone can travel directly between VMs bypassing firewall, however still can be controlled on NSGs
+- The traffic within the same security zone can travel directly between VMs, bypassing the firewall; however, it can still be controlled on NSGs
 - The traffic between different security zones should pass firewall for inspection.
 
-For this to work, route tables should be configured for combination of security modes described.
+For this to work, route tables should be configured for a combination of the security modes described.
 
 
 ## Firewalls
@@ -202,42 +202,42 @@ In MicroSeg security mode:
 - Any undefined inbound and outbound traffic is denied for Spoke Vnets
 - Undefined traffic between different security zones in the same VNet is denied as well
 - Only explicitly defined traffic is allowed
-- The traffic between the subnets of the same security zone is not passing thru the firewall
+- The traffic between the subnets of the same security zone is not passing through the firewall
 
 In Traditional security mode:
 - Any undefined inbound traffic is denied for Spoke Vnets
 - Outbound traffic from Spoke Vnets is allowed by default
 - Only explicitly defined incoming traffic is allowed to Spoke Vnets
-- The traffic between the subnets Spoke VNet is not passing thru the firewall
+- The traffic between the subnets Spoke VNet is not passing through the firewall
 
 In Native security mode:
 - Any undefined inbound and outbound traffic is allowed for Spoke Vnets
-- The traffic between the subnets Spoke VNet is not passing thru the firewall
+- The traffic between the subnets Spoke VNet is not passing through the firewall
 
 Central Management: if both Regional Hub NVA
 
 ## Network Security Groups
 
 In MicroSeg Security Mode, 
-- A single NSG created for each spoke Vnet.  
-- Same NSG is applied to all subnets in the VNet
+- A single NSG created for each spoke VNet.  
+- The same NSG is applied to all subnets in the VNet
 - NSG is managed by the central team
 - 3rd party solutions can be used to centrally manage multiple NSGs
- - Last rule in NSG is to block any incoming traffic.
-- Outbound traffic is not filtered on NSG level. It can be filtered on Hub Firewall level, if necessary.
-- Any rules allowing communications between applications or for incoming traffic should be done with ASG where possible (and load balancer Ips where not possible to use ASG)
+ - The last rule in NSG is to block any incoming traffic.
+- Outbound traffic is not filtered on the NSG level. It can be filtered on the Hub Firewall level, if necessary.
+- Any rules allowing communications between applications or for incoming traffic should be done with ASG, where possible (and load balancer IPs where not possible to use ASG)
 
 In Traditional and Native security modes,
-- NSG management is delegated to application owners, so they can control the traffic for their applications on their own. These NSGs are attached on the NIC level to respective virtual machines.
+- NSG management is delegated to application owners, so they can control the traffic for their applications on their own. These NSGs are attached at the NIC level to the respective virtual machines.
 
 ## Application Security Groups
 
 In MicroSeg security mode
-- Application owners have to create ASG themselves request the central teams to create NSG rules with these ASGs
+- Application owners have to create ASGs themselves and request the central teams to create NSG rules with these ASGs
 - Communications between any VMs are possible only after NSG rules are created by the central team and ASGs are assigned to VMs by application owners
 
 In Traditional and Native security modes:
-- Application owners are encouraged to use ASGs to manage their NSG. This practice is required to be able to define in Dev/Test env the working rules for MicroSeg security mode.
+- Application owners are encouraged to use ASGs to manage their NSGs. This practice is required to be able to define in the Dev/Test environment the working rules for MicroSeg security mode.
 
 
 ## Discussion
