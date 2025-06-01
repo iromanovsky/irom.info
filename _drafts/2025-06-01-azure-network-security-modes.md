@@ -84,14 +84,14 @@ More than that,
 
 This all makes the concept of network segmentation mostly irrelevant for Azure virtual networks, since issues that segmentation was initially addressing no longer exist.
 
-Henceforth, I declare the traditional network segmentation obsolete.
+_Henceforth_, I declare the traditional network segmentation obsolete.
 
 
 # Azure Network Security Modes
 
 New times are coming, security guys stay the same.
 
-They still want to control and see the traffic on a firewall, and don't want to rely on zero trust principles. To 
+They still want to control and see the traffic on a firewall, and don't want to rely on zero trust principles.
 
 To please them, I want to introduce you to a modern way of organising network filtering, which I call Azure Network Security Modes.
 
