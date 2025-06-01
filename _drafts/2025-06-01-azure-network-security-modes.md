@@ -25,11 +25,11 @@ Organic, AI-free. Work in progress.
 
 <!--more-->
 
-# Network segmentation
+# Network segmentation rationale
 
 In the old days, when servers were living in on-premise datacenters, there was a concept of network segmentation.
 
-Hubs and Switches
+**Hubs and Switches**
 
 Servers were connected by hubs and switches.
 
@@ -84,7 +84,7 @@ More than that,
 
 This all makes the concept of network segmentation mostly irrelevant for Azure virtual networks, since issues that segmentation was initially addressing no longer exist.
 
-Hereby, I declare the traditional network segmentation obsolete.
+Henceforth, I declare the traditional network segmentation obsolete.
 
 
 # Azure Network Security Modes
