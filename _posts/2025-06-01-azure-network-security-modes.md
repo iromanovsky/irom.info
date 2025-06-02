@@ -35,7 +35,7 @@ In the old days, when servers were living in on-premise datacenters, there was a
 
 Servers were connected by hubs and switches.
 
-Every server connected to the same network hub was receiving the same datagrams, including ones not addressed to them. These hubs were also called repeaters.
+Every server connected to the same network hub was receiving the same [datagrams](## "messages on the network"), including ones not addressed to them. These hubs were also called repeaters.
 
 Network switches are helping to reduce the number of situations where datagrams are repeated on multiple ports when the switch "remembers" who is on the port. It is still not perfect at remembering everyone, especially in big networks.
 
