@@ -31,7 +31,7 @@ Organic, AI-free. Work in progress.
 
 ### Ancient times
 
-In the old days, when servers were living in on-premise datacenters, there was a concept of network segmentation.
+In the old days, when servers lived in on-premise datacenters, there was a concept of network segmentation.
 
 **Hubs and Switches**
 
@@ -51,9 +51,9 @@ To reiterate: any traffic in the subnet is broadcast and can be overheard by any
 
 Limiting broadcast traffic is good, but routers are expensive. That's why subnets were big and had many servers.
 
-Traditional routers were not smart, so they were not able to filter ports, protocols, and other attributes that security guys like.
+Traditional routers were not as smart as today's, so they could not filter ports, protocols, and other attributes that security guys like.
 
-**Firewalls** are used to filter traffic, and were even rarer and expensive than routers.
+**Firewalls** are used to filter traffic and are even rarer and more expensive than routers.
 
 It was so expensive that it was only placed on critical network boundaries, like dividing internal networks from DMZ and internets.
 
@@ -69,13 +69,13 @@ Authentication protocols and passwords were weak (and no MFA!) -- to the pleasur
 
 These aspects led to the necessity of making sure that all neighbours in the networks are trusted.
 
-Here comes a concept of network segment -- a part of a network that groups servers with a similar level of trust together, protected by a single firewall.
+Here comes the concept of a network segment -- a part of a network that groups servers with a similar level of trust together, protected by a single firewall.
 
-Typical network segments were Prod / Dev / Workplace / DMZ / Internet, and all devices within the same segment were treated the same.
+Typical network segments were Prod / Dev / Workplace / DMZ / Internet, and all devices within the same segment were treated equally.
 
 ### Modern times
 
-Nowadays, when you hear the term network hub, it does not mean repeater, but it means a central place connecting multiple virtual networks, where routing and traffic filtering happen.
+Nowadays, when you hear the term network hub, it does not mean repeater, but a central place connecting multiple virtual networks where routing and traffic filtering happen.
 
 Virtual Networks in Azure run in a shared, multitenant environment of the cloud provider, and
 
@@ -87,7 +87,7 @@ More than that,
 - modern operating systems have firewalls enabled by default (and it's a shame if your company disable them as a standard)
 - modern network protocols keep traffic properly authenticated (MFA/SSO/SAML/OAuth -- all these beauties) and encrypted (TLS/AES/oh-yes) from end-to-end
 
-This all makes the concept of network segmentation mostly irrelevant for Azure virtual networks, since issues that segmentation was initially addressing no longer exist.
+This makes the concept of network segmentation mostly irrelevant for Azure virtual networks since the issues that segmentation was initially addressing no longer exist.
 
 _Henceforth_, I declare the traditional network segmentation obsolete.
 
@@ -95,7 +95,7 @@ _Henceforth_, I declare the traditional network segmentation obsolete.
 
 New times are coming, security guys stay the same.
 
-They still want to control and see the traffic on a firewall, and don't want to rely on zero trust principles.
+They still want to control and see the traffic on a firewall and don't want to rely on zero-trust principles.
 
 To please them, I want to introduce you to a modern way of organising network filtering, which I call Azure Network Security Modes.
 
@@ -185,15 +185,15 @@ Here is the comparison table:
     </tr>
     <tr>
       <td><strong>Management Efforts</strong></td>
-      <td>&bull; High &ndash; if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; Med &ndash; if automated end-to-end via code<br/>&bull; Low &ndash; if NSG management is delegated to Applications team, but requires level of trust</td>
+      <td>&bull; High &ndash; if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; Med &ndash; if automated end-to-end via code<br/>&bull; Low &ndash; if NSG management is delegated to Applications team, but requires a level of trust</td>
       <td>&bull; Medium/Low &ndash; centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
       <td>&bull; Med/High &ndash; need to filter and monitor all traffic increases management efforts</td>
     </tr>
     <tr>
       <td><strong>Routing</strong></td>
-      <td>Simple, standardized UDR for all subnets</td>
+      <td>Simple, standardised UDR for all subnets</td>
       <td>Unique UDR for each subnet with a few Routes</td>
-      <td>Simple, standardized UDR for all subnets</td>
+      <td>Simple, standardised UDR for all subnets</td>
     </tr>
     <tr>
       <td><strong>Throughput and Latency</strong></td>
@@ -230,24 +230,28 @@ Here is the comparison table:
 
 ## Implementation
 
-To implement the security modes described above, here is some example technical documentation.
+Here is some example technical documentation for implementing the security modes described above.
 
 ### VNet Topology
 
-Traditional "Regional Hub-and-Spokes", where in each region there is a dedicated Hub Vnet with a Firewall used for traffic routing and filtering, and several spoke VNets are created for workloads.
+Traditional "Regional Hub-and-Spokes", wherein each region has a dedicated Hub VNet with a Firewall used for traffic routing and filtering, and several spoke VNets hosting workloads are attached via peerings.
 
-| Region        | Address Space   | Address Range                |
-|-------------- |----------------|------------------------------|
-| West Europe   | 10.0.0.0/10    | 10.0.0.0 – 10.63.255.255     |
-| North Europe  | 10.64.0.0/10   | 10.64.0.0 – 10.127.255.255   |
+| Region        | Address Spaces   | Address Range                | Remarks |
+|-------------- |----------------|------------------------------| --|
+| West Europe   | 10.0.0.0/10    | 10.0.0.0 – 10.63.255.255     | It is always recommended to pre-allocate simpler, reasonable chunks of IP space to specific regions... |
+| North Europe  | 10.64.0.0/10   | 10.64.0.0 – 10.127.255.255   | ... This makes routing tables simpler and helps to avoid unnecessary complexity and hitting limits for the number of routes... |
+| New region  | 10.128.0.0/10   | 10.128.0.0 – 10.191.255.255   | ...  As you need to provision new spokes, you cut IP addresses from these pre-allocated ranges... |
+| Free  | 10.192.0.0/10   |  10.192.0.0 – 10.255.255.255   | ... But always keep free space for potential growth... |
+
+I might write a separate article on efficient IP range allocation. However, special tools for [IPAM](## "IP address management") exist, like Efficient IP and Azure IPAM.
 
 ### VNet Structure
 
-A spoke VNet should be used as a security boundary, and Security mode should be assigned for the VNet at the time of creation.
+A spoke VNet should be used as a security boundary, and Security mode should be assigned to the VNet at its creation.
 
 Because VNets cannot span across Azure subscriptions, the VNets structure should follow the subscription structure of the company.
 
-This means there could be separate VNets for company business units, service lines, and environments.
+This means separate VNets could exist for company business units, service lines, and environments.
 
 | VNet Name   | Address Space | Region      | Subscription | Comments                                                                      |
 | ----------- | ------------- | ----------- | ------------ | ----------------------------------------------------------------------------- |
@@ -256,13 +260,13 @@ This means there could be separate VNets for company business units, service lin
 | Shared-vnet | 10.2.0.0/16   | West Europe | Shared-sub   | Mode 2: VNet is hosting multiple apps managed by different teams              |
 | Secret-vnet | 10.3.0.0/16   | West Europe | Secret-sub   | Mode 3: VNet is hosting apps that need to comply with insane regulations      |
 
-Once assigned, security mode sets the default level for the workload provisoned in the spoke. Since we are in the cloud with software defined networks, flexibility of changing this is possible for some subnets or even for the whole VNets, but it is not possible to change VNet name. That's why I don't encourage to tattoo the initial network security mode in the VNet name
+Once assigned, security mode sets the default level for the workload provisioned in the spoke. Since we are in the cloud with software-defined networks, the flexibility of changing this is possible for some subnets or even for the whole VNet, but it is not possible to change the VNet name. That's why I don't encourage "tattooing" the initial network security mode in the VNet name.
 
 ### Subnets Structure
 
-Separate Subnets should be used only when necessary, to simplify management or to implement security requirements like different route tables and NSGs.
+Separate subnets should be used only when necessary to simplify management or implement security requirements like different route tables and NSGs.
 
-In Native and Traditional and security modes,
+In Native and Traditional security modes,
 
 - Separate subnets can be used to delegate NSG control to specific application owners
 
@@ -287,11 +291,6 @@ In MicroSeg security mode,
 |             | PCIDSS      | 10.3.0.0/24   |                                                                              |
 |             | HIPAA       | 10.3.1.0/24   |                                                                              |
 
-### Filtering principles
-
-When necessary, traffic filtering is applied at the destination (on FW or NSG). Traffic is not filtered at source unless absolutely necessary (like opening flows to internet destinations).
-
-This approach allows a single point of control without spreading security between sources and destinations.
 
 ### Traffic Routing
 
@@ -329,7 +328,7 @@ Here is the configuration example:
 | Secret-vnet-udr             | Secret-vnet / *Subnets | 0.0.0.0/0 → NVA IP (Firewall)   | To override system route pointing to Internet                                        |
 |                             | Secret-vnet / *Subnets | 10.3.0.0/16 → NVA IP (Firewall) | To override system route to VNet Address Space pointing to Virtual Network           |
 
-As you see, to implement Mode 2 you need to have a separate UDR resource for each subnet in the VNet, and that is complicating management, unless is fully automated.
+As you see, to implement Mode 2, you need a separate UDR resource for each subnet in the VNet, which complicates management unless it is fully automated.
 
 To implement modes 1 and 3, a single route table object per VNet is enough.
 
@@ -339,21 +338,21 @@ Route table content can be enforced or checked for compliance with Azure Policie
 
 In some complex situations where you need flexibility to bypass firewall filtering between endpoints in different subnets, but keep filtering for any other subnets, you might need to implement a concept of security zones.
 
-Security Zone consists of subnets which have the same level of trust. Security zone can be represented by a single subnet, a set of subnets in the same VNet, or even a set of subnets from different VNets (in rare cases, where it is required to peer VNets directly).
+A Security Zone consists of subnets with the same level of trust. A security zone can be represented by a single subnet, a set of subnets in the same VNet, or even a set of subnets from different VNets (in rare cases, where it is required to peer VNets directly).
 
 - The traffic within the same security zone can travel directly between VMs, bypassing the firewall; however, it can still be controlled on NSGs
-- The traffic between different security zones should pass firewall for inspection.
+- The traffic between different security zones should pass through the firewall for inspection.
 
 For this to work, route tables should be configured for a combination of the security modes described.
 
-We might call it Mode 1.5, where some subnets are routed directly, and other subnets are routed thru firewall.
+We might call it Mode 1.5, in which some subnets are routed directly, but other subnets are still routed through a firewall.
 
-I don't encourage to use this mode, and describing it here to demonstrate the beauty of SDWAN flexibility
+I don't encourage using this mode, and describing it here is to demonstrate the beauty of SDWAN flexibility.
 
 
-In a nutshell, a VNet with a single security zone (all subnets equal) becomes Mode 1, and a VNet with security zones = number of subnets becomes Mode 2.
+In a nutshell, a VNet with a single security zone (all subnets equal) becomes Mode 1, and a VNet with security zones equal to the number of subnets becomes Mode 2.
 
-I recommend to use either mode 1 or 2, and keep option for Security zones for special occasions, that might never happen.
+I recommend using either mode 1 or 2 and keeping the option for Security zones for special occasions that might never happen.
 
 | UDR Name                  | Assigned to         | Routes                                                         | Comments                                                                            |
 | ------------------------- | ------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -364,56 +363,58 @@ I recommend to use either mode 1 or 2, and keep option for Security zones for sp
 |                           | App4_FE <br>App4_BE | 10.2.0.0/16 → NVA IP (Firewall)                                | To override system route to VNet Address Space pointing to Virtual Network          |
 |                           | App4_FE <br>App4_BE | 10.2.4.0/16 → Virtual Network<br>10.2.5.0/24 → Virtual Network | To override route above to enable direct communication between  App1_FE and App1_BE |
 
+### Filtering principles
+
+Traffic filtering is applied at the destination (on FW or NSG) when necessary. Traffic is not filtered at the source unless absolutely necessary (like opening flows to internet destinations).
+
+This approach allows a single control point without spreading security between sources and destinations.
 
 ### Firewalls
 
-In MicroSeg security mode:
+In Native security mode:
 
-- Any undefined inbound and outbound traffic is denied for Spoke Vnets
-- Undefined traffic between different security zones in the same VNet is denied as well
-- Only explicitly defined traffic is allowed
-- The traffic between the subnets of the same security zone is not passing through the firewall
+- Any undefined inbound and outbound traffic is allowed into this spoke VNet
+- The traffic between the subnets of this spoke VNet is not passing through the firewall
 
 In Traditional security mode:
 
-- Any undefined inbound traffic is denied for Spoke Vnets
-- Outbound traffic from Spoke Vnets is allowed by default
-- Only explicitly defined incoming traffic is allowed to Spoke Vnets
-- The traffic between the subnets Spoke VNet is not passing through the firewall
+- Any undefined inbound traffic is denied for this spoke VNet
+- Outbound traffic this spoke VNet is allowed by default
+- From other spokes, only explicitly defined traffic is allowed
+- The traffic between the subnets of Spoke VNet is passing through the firewall and should be explicitly opened
 
-In Native security mode:
+In MicroSeg security mode:
 
-- Any undefined inbound and outbound traffic is allowed for Spoke Vnets
-- The traffic between the subnets Spoke VNet is not passing through the firewall
-
-Central Management: if both Regional Hub NVA
+- Any undefined inbound and outbound traffic is denied for this spoke VNet
+- From other spokes, only explicitly defined traffic is allowed
+- Any traffic in the subnets is passing through the firewall and should be explicitly opened
 
 ### Network Security Groups
+
+In Traditional and Native security modes,
+
+- NSG management is delegated to application owners so they can control the traffic for their applications on their own. These NSGs are attached at the NIC level to the respective virtual machines.
 
 In MicroSeg Security Mode,
 
 - A single NSG created for each spoke VNet.
 - The same NSG is applied to all subnets in the VNet
-- NSG is managed by the central team
+- The central team manages NSG
 - 3rd party solutions can be used to centrally manage multiple NSGs
   - The last rule in NSG is to block any incoming traffic.
 - Outbound traffic is not filtered on the NSG level. It can be filtered on the Hub Firewall level, if necessary.
 - Any rules allowing communications between applications or for incoming traffic should be done with ASG, where possible (and load balancer IPs where not possible to use ASG)
 
-In Traditional and Native security modes,
-
-- NSG management is delegated to application owners, so they can control the traffic for their applications on their own. These NSGs are attached at the NIC level to the respective virtual machines.
-
 ### Application Security Groups
+
+In Traditional and Native security modes:
+
+- Application owners are encouraged to use ASGs to manage their NSGs. This practice is required to define in the Dev/Test environment the working rules for MicroSeg security mode.
 
 In MicroSeg security mode
 
 - Application owners have to create ASGs themselves and request the central teams to create NSG rules with these ASGs
-- Communications between any VMs are possible only after NSG rules are created by the central team and ASGs are assigned to VMs by application owners
-
-In Traditional and Native security modes:
-
-- Application owners are encouraged to use ASGs to manage their NSGs. This practice is required to be able to define in the Dev/Test environment the working rules for MicroSeg security mode.
+- Communications between any VMs are possible only after the central team creates NSG rules and ASGs are assigned to VMs by application owners
 
 <!--
 ## Discussion
