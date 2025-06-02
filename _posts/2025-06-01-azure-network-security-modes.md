@@ -6,7 +6,7 @@ date: 2025-06-01 18:00:00 +0000
 author: Igor
 categories: [Azure, Networking]
 tags: [azure, security]
-#permalink: /blog/azure-network-security-modes
+permalink: /blog/azure-network-security-modes
 slug: azure-network-security-modes
 excerpt_separator: <!--more-->
 redirect_from: [/post/azure-network-security-modes]
