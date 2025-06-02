@@ -371,23 +371,40 @@ This approach allows a single control point without spreading security between s
 
 ### Firewalls
 
-In Native security mode:
+For spokes in Native security mode:
 
-- Any undefined inbound and outbound traffic is allowed into this spoke VNet
+- Any undefined inbound and outbound traffic is allowed for this spoke VNet (but still managed on NSG)
 - The traffic between the subnets of this spoke VNet is not passing through the firewall
 
-In Traditional security mode:
+For spokes in Traditional security mode:
 
 - Any undefined inbound traffic is denied for this spoke VNet
-- Outbound traffic this spoke VNet is allowed by default
-- From other spokes, only explicitly defined traffic is allowed
+- Outbound traffic from this spoke VNet is allowed by default
+- Explicitly defined Inbound traffic is allowed
 - The traffic between the subnets of Spoke VNet is passing through the firewall and should be explicitly opened
 
-In MicroSeg security mode:
+For spokes in MicroSeg security mode:
 
 - Any undefined inbound and outbound traffic is denied for this spoke VNet
-- From other spokes, only explicitly defined traffic is allowed
-- Any traffic in the subnets is passing through the firewall and should be explicitly opened
+- Any traffic in the subnets of this spoke VNet is passing through the firewall and should be explicitly opened (no point to manage on NSG, unless required)
+
+Here is the example of Firewall policy configuration to enable this model:
+
+| Rule   Collection Group     | From                     | To                       | Settings                                                           |
+| --------------------------- | ------------------------ | ------------------------ | ------------------------------------------------------------------ |
+| Core   outbound - Local     | {All   connected spokes} | {Local   ranges}         | Permitted   core services, like AD, DSN, NTP, etc                  |
+| Core   outbound - Internet  | {All   connected spokes} | {Internet}               | Safe Internet destinations, like Azure Portal, Windows Update, etc |
+| Mode 1   - inbound          | *                        | {All   spokes in Mode 1} | Any   traffic -- not filtered on firewall, managed on NSG          |
+| Mode 1   - outbound         | {All   spokes in Mode 1} | *                        | Any   traffic -- not filtered on firewall, managed on NSG          |
+| Mode   2  - App1 - outbound | App1   Subnet            | {Internet}               | Rules   for outbound traffic from App1                             |
+| Mode   2  - App1 - inbound  | *                        | App1   Subnet            | Rules   for inbound traffic from App1                              |
+| Mode   2  - App1_to_App2    | App1   Subnet            | App2   Subnet            | Rules   between App1 and App2                                      |
+| Mode   3  - NIC1 - inbound  | NIC1 IP                  | {Internet}               | Rules   for outbound traffic from NIC1 in Secret Vnet              |
+| Mode   3  - NIC1 - outbound | *                        | NIC1 IP                  | Rules   publishing specific services on NIC1 in VNetVNet           |
+
+The rules above are for example only, you need to carefully consider rules order to make sure that rules opening from Mode 1 do not affect, for instance, traffic in Mode 2 and 3, since tha same firewall is used for all networks.
+
+This also show benefits of the option of using NSG when you cannot full trust the firewall configuration.
 
 ### Network Security Groups
 
