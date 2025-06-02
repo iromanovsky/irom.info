@@ -416,6 +416,18 @@ In MicroSeg Security Mode,
 
 - Use of NSGs does not make a lot of sense, since the Firewall already filters all traffic, unless you need additional protection and logging on top of the Firewall
 
+Here is an example of NSGs' configuration to enable this model:
+
+| NSG                         | Source                  | Destination  | Settings            | Remarks                                                              |
+| --------------------------- | ----------------------- | ------------ | ------------------- | -------------------------------------------------------------------- |
+| SAP-vnet-nsg                | {Local   ranges}        | *            | Allow   In TCP_3389 | Opening   flow to all destination in the VNet                        |
+|                             | *                       | 10.1.2.0/24  | Allow   In TCP_443  | Opening   flow to GRC subnet                                         |
+|                             | {Some   Trusted Source} | {SAP_DB-asg} | Allow   In TCP_1433 | Opening   flow to specific ASG                                       |
+|                             | *                       | *            | Deny In   *         | Deny   all not explicitly open inbound traffic                       |
+| Shared-vnet_Subnet_App1-nsg | {Local   ranges}        | 10.2.0.0/24  | Allow   In TCP_3389 | Opening   flow to App1 subnet                                        |
+| Shared-vnet_Subnet_App2-nsg | {Local   ranges}        | 10.2.1.0/24  | Allow   In TCP_22   | Opening   flow to App2 subnet                                        |
+| Secret-vnet-nsg             |                         |              | {empty}             | No   point managing NSG for Mode 3 as everything is controlled on FW |
+
 ### Application Security Groups
 
 In Traditional and Native security modes:
