@@ -5,7 +5,7 @@ date: 2025-06-01 18:00:00 +0000
 #last_modified_at: 2025-06-01 18:00:00 +0000
 author: Igor
 categories: [Azure, Networking]
-tags: [azure, security]
+tags: [azure, network, security, architecture]
 permalink: /blog/azure-network-security-modes
 slug: azure-network-security-modes
 excerpt_separator: <!--more-->
@@ -107,7 +107,7 @@ To please them, I want to introduce you to a modern way of organising network fi
 - FW and (optionally) NSG Flogs are streamed to Log Analytics
 
 ### Mode 2, aka Traditional
-> _this is when you mimic network segmentation described above_
+> _this is when you mimic a traditional datacenter_
 - Traffic between VNets is routed and filtered by the Hub Firewall
   - Firewall is managing core security rules here
 - Traffic between subnets is routed and filtered by the Hub Firewall, too
@@ -115,7 +115,7 @@ To please them, I want to introduce you to a modern way of organising network fi
 - Traffic inside the subnet is routed directly by the virtual network and can be optionally filtered on the NSG
 
 ### Mode 3, aka Micro-Segmented
-> _this is when you go insane to please some regulations_
+> _this is where you go to please some insane regulations_
 - Traffic between VNets is routed and filtered by the Hub Firewall
 - Traffic between subnets is routed and filtered by the Hub Firewall
 - Traffic inside the subnet is routed and filtered by the Hub Firewall
