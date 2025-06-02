@@ -23,7 +23,9 @@ description: >-
 
 </div>
 
-This was originally intended to debunk the concept of network segmentation as obsolete in context of Azure, and briefly offer a replacement concept of Network Security Modes.  While expanding the context, I ended up giving away my principles for network architecture documentation that I was refining for the last 10+ years. It's only one step away from complete LLD that you can reuse to build modern Hub-and-Spoke network topology in Azure.
+This was initially intended to debunk the traditional concept of network segmentation as obsolete in the context of Azure, and briefly offer a better replacement: the concept of Network Security Modes. 
+
+While expanding the context, I ended up giving away my principles for network architecture documentation, which I have been refining for the last 10+ years. I keep it abstracted to only one step away from a complete LLD that you can reuse to build a modern Hub-and-Spoke network topology in Azure.
 
 Organic, AI-free writing.
 
@@ -204,25 +206,18 @@ Here is the comparison table:
       <td>&bull; Limited by FW performance and scale<br/>&bull; May not be supported by some high demanding apps</td>
     </tr>
     <tr>
-      <td>Log Management Costs and Efforts</td>
+      <td><strong>Log Management Costs and Efforts</strong>strong></td>
       <td>Med &ndash; Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace</td>
       <td>Low &ndash; Centralised log collection on FW, low volumes if NSG logs are not collected</td>
-      <td>Low &ndash; Centralised log collection, but high volumes</td>
+      <td>Low &ndash; Centralised log collection on FW, but high volumes</td>
     </tr>
-    <tr>
-      <td>Visibility coverage</td>
-      <td>100 %</td>
-      <td>Filtering between different application tiers is not applied</td>
-      <td>100 %</td>
-    </tr>
-    <tr>
-      <td>Reliability</td>
+      <td><strong>Reliability</strong></td>
       <td>High &ndash; FW is only a point of failure for traffic between VNets</td>
       <td>Medium &ndash; FW becomes a point of failure between subnets</td>
       <td>Low &ndash; FW is PoF for any traffic</td>
     </tr>
     <tr>
-      <td>Use cases</td>
+      <td><strong>Use cases</strong></td>
       <td>&bull; VNets for shared platform components that can protect themselves with NSGs or personal firewalls<br/>&bull; VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes)<br/>&bull; VNets with a decentralised management model (where apps are managing their own NSGs)</td>
       <td>&bull; Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps)</td>
       <td>&bull; Special zones requiring maximum security (should only be used where absolutely required by regulations)</td>
@@ -349,8 +344,7 @@ For this to work, route tables should be configured for a combination of the sec
 
 We might call it Mode 1.5, in which some subnets are routed directly, but other subnets are still routed through a firewall.
 
-I don't encourage using this mode, and describing it here is to demonstrate the beauty of SDWAN flexibility.
-
+I don't encourage using this mode, but I am describing it here to demonstrate the beauty of SDWAN flexibility.
 
 In a nutshell, a VNet with a single security zone (all subnets equal) becomes Mode 1, and a VNet with security zones equal to the number of subnets becomes Mode 2.
 
@@ -384,13 +378,14 @@ For spokes in Traditional security mode:
 - Outbound traffic from this spoke VNet is allowed by default
 - Explicitly defined Inbound traffic is allowed
 - The traffic between the subnets of Spoke VNet is passing through the firewall and should be explicitly opened
+- Any traffic within the same subnet of this spoke VNet is not passing through the firewall (but still can be managed on NSG)
 
 For spokes in MicroSeg security mode:
 
 - Any undefined inbound and outbound traffic is denied for this spoke VNet
 - Any traffic in the subnets of this spoke VNet is passing through the firewall and should be explicitly opened (no point to manage on NSG, unless required)
 
-Here is the example of Firewall policy configuration to enable this model:
+Here is an example of Firewall policy configuration to enable this model:
 
 | Rule   Collection Group     | From                     | To                       | Settings                                                           |
 | --------------------------- | ------------------------ | ------------------------ | ------------------------------------------------------------------ |
@@ -404,25 +399,22 @@ Here is the example of Firewall policy configuration to enable this model:
 | Mode   3  - NIC1 - inbound  | NIC1 IP                  | {Internet}               | Rules   for outbound traffic from NIC1 in Secret Vnet              |
 | Mode   3  - NIC1 - outbound | *                        | NIC1 IP                  | Rules   publishing specific services on NIC1 in VNetVNet           |
 
-The rules above are for example only, you need to carefully consider rules order to make sure that rules opening from Mode 1 do not affect, for instance, traffic in Mode 2 and 3, since tha same firewall is used for all networks.
+The rules above are for example only. You need to carefully consider the rules' order to ensure that rules opening from Mode 1 do not affect traffic in Modes 2 and 3, since the same firewall is used for all networks.
 
-This also show benefits of the option of using NSG when you cannot full trust the firewall configuration.
+This also shows the benefits of using NSG when you cannot fully trust the firewall configuration.
 
 ### Network Security Groups
 
 In Traditional and Native security modes,
 
-- NSG management is delegated to application owners so they can control the traffic for their applications on their own. These NSGs are attached at the NIC level to the respective virtual machines.
+- NSG management can be delegated to application owners so they can control their applications' traffic independently
+- NSGs are attached at the Subnet level. Attaching NSGs to individual NICs is not encouraged due to overkill management complexity and overlapping functionality with personal firewalls.
+- If required, NSGs can be managed centrally via code or 3rd party solutions like AlgoSec
+- Use of ASG is encouraged to simplify and organise NSGs, where possible (several services like load balancer IPs are not able to use ASG)
 
 In MicroSeg Security Mode,
 
-- A single NSG created for each spoke VNet.
-- The same NSG is applied to all subnets in the VNet
-- The central team manages NSG
-- 3rd party solutions can be used to centrally manage multiple NSGs
-  - The last rule in NSG is to block any incoming traffic.
-- Outbound traffic is not filtered on the NSG level. It can be filtered on the Hub Firewall level, if necessary.
-- Any rules allowing communications between applications or for incoming traffic should be done with ASG, where possible (and load balancer IPs where not possible to use ASG)
+- Use of NSGs does not make a lot of sense, since the Firewall already filters all traffic, unless you need additional protection and logging on top of the Firewall
 
 ### Application Security Groups
 
