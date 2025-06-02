@@ -23,7 +23,7 @@ description: >-
 
 </div>
 
-This was initially intended to debunk the traditional concept of network segmentation as obsolete in the context of Azure, and briefly offer a better replacement: the concept of Network Security Modes. 
+This was initially intended to debunk the traditional concept of network segmentation as obsolete in the context of Azure, and briefly offer a better replacement: the concept of Network Security Modes.
 
 While expanding the context, I ended up giving away my principles for network architecture documentation, which I have been refining for the last 10+ years. I keep it abstracted to only one step away from a complete LLD that you can reuse to build a modern Hub-and-Spoke network topology in Azure.
 
@@ -288,7 +288,6 @@ In MicroSeg security mode,
 |             | PCIDSS      | 10.3.0.0/24   |                                                                              |
 |             | HIPAA       | 10.3.1.0/24   |                                                                              |
 
-
 ### Traffic Routing
 
 All traffic routing to and from any Spoke Vnet is traversing the regional Hub FW:
@@ -432,15 +431,26 @@ Here is an example of NSGs' configuration to enable this model:
 
 In Traditional and Native security modes:
 
-- Application owners are encouraged to use ASGs to manage their NSGs. This practice is required to define in the Dev/Test environment the working rules for MicroSeg security mode.
+- Use of ASG is encouraged to simplify and organise NSGs, where possible (several services like load balancer IPs are not able to use ASG)
+- ASG may also be used to delegate some freedom to application teams, while NSG management is centralised and not in their control
 
-In MicroSeg security mode
+In MicroSeg security mode:
 
-- Application owners have to create ASGs themselves and request the central teams to create NSG rules with these ASGs
-- Communications between any VMs are possible only after the central team creates NSG rules and ASGs are assigned to VMs by application owners
+- ASG may enable some flexibility when NSGs are still used in addition to the firewall
 
-<!--
+Here is an example of ASGs' configuration of this model:
+
+| Network   Interface Config                                                      | Member   of ASG |
+| ------------------------------------------------------------------------------- | --------------- |
+| SAP-GRC-DB01-nic     SAP-GRC-DB02-nic     SAP-CRM-DB01-nic     SAP-SRM-DB01-nic | SAP_DB-asg      |
+| SAP-GRC-FE01-nic     SAP-GRC-FE02-nic     SAP-CRM-FE01-nic     SAP-SRM-FE01-nic | SAP_FE-asg      |
+
+## Diagram
+
+The diagram from the page cover was used for attention and does not completely reflect the architecture described here. Once I update it, I will post the diagram in bigger resolution here.
+
 ## Discussion
 
+This page ended up much bigger than I originally expected, and might need polishing.
+
 As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/in/iromanovsky) to react, comment, or repost.
--->
