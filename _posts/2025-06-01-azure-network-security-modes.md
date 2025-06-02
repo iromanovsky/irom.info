@@ -177,15 +177,15 @@ Here is the comparison table:
     </tr>
     <tr>
       <td><strong>Cost Impact</strong></td>
-      <td>Low/Med -- NSGs are free; however, Flow Logs costs should be considered.</td>
-      <td>Medium -- Costs to FW traffic and scaling</td>
-      <td>High -- More costs to FW traffic and scaling</td>
+      <td>Low/Med &ndash; NSGs are free; however, Flow Logs costs should be considered.</td>
+      <td>Medium &ndash; Costs to FW traffic and scaling</td>
+      <td>High &ndash; More costs to FW traffic and scaling</td>
     </tr>
     <tr>
       <td><strong>Management Efforts</strong></td>
-      <td>&bull; **High** -- if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; **Med** - if automated end-to-end via code<br/>&bull; **Low** -- if NSG management is delegated to Applications team, but requires level of trust</td>
-      <td>&bull; **Medium/Low** -- centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
-      <td>&bull; **Med/High** -- need to filter and monitor all traffic increases management efforts</td>
+      <td>&bull; High &ndash; if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; Med &ndash; if automated end-to-end via code<br/>&bull; Low &ndash; if NSG management is delegated to Applications team, but requires level of trust</td>
+      <td>&bull; Medium/Low &ndash; centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
+      <td>&bull; Med/High &ndash; need to filter and monitor all traffic increases management efforts</td>
     </tr>
     <tr>
       <td><strong>Routing</strong></td>
@@ -201,9 +201,9 @@ Here is the comparison table:
     </tr>
     <tr>
       <td>Log Management Costs and Efforts</td>
-      <td>**Med** -- Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace</td>
-      <td>**Low** -- Centralised log collection on FW, low volumes if NSG logs are not collected</td>
-      <td>**Low** -- Centralised log collection, but high volumes</td>
+      <td>Med &ndash; Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace</td>
+      <td>Low &ndash; Centralised log collection on FW, low volumes if NSG logs are not collected</td>
+      <td>Low &ndash; Centralised log collection, but high volumes</td>
     </tr>
     <tr>
       <td>Visibility coverage</td>
@@ -213,9 +213,9 @@ Here is the comparison table:
     </tr>
     <tr>
       <td>Reliability</td>
-      <td>**High** -- FW is only a point of failure for traffic between VNets</td>
-      <td>**Medium** -- FW becomes a point of failure between subnets</td>
-      <td>**Low** -- FW is PoF for any traffic</td>
+      <td>High &ndash; FW is only a point of failure for traffic between VNets</td>
+      <td>Medium &ndash; FW becomes a point of failure between subnets</td>
+      <td>Low &ndash; FW is PoF for any traffic</td>
     </tr>
     <tr>
       <td>Use cases</td>
