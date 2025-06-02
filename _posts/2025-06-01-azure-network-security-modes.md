@@ -25,7 +25,9 @@ Organic, AI-free. Work in progress.
 
 <!--more-->
 
-# Network segmentation rationale
+## Network segmentation rationale
+
+### Ancient times
 
 In the old days, when servers were living in on-premise datacenters, there was a concept of network segmentation.
 
@@ -69,7 +71,7 @@ Here comes a concept of network segment -- a part of a network that groups serve
 
 Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices in segments were treated the same.
 
-**Modern times**
+### Modern times
 
 Nowadays, when you hear the term network hub, it does not mean repeater, but it means a central place connecting multiple virtual networks, where routing and traffic filtering happen.
 
@@ -87,7 +89,7 @@ This all makes the concept of network segmentation mostly irrelevant for Azure v
 _Henceforth_, I declare the traditional network segmentation obsolete.
 
 
-# Azure Network Security Modes
+## Azure Network Security Modes
 
 New times are coming, security guys stay the same.
 
@@ -95,7 +97,8 @@ They still want to control and see the traffic on a firewall, and don't want to 
 
 To please them, I want to introduce you to a modern way of organising network filtering, which I call Azure Network Security Modes.
 
-In Mode 1, aka Cloud Native (this is when you implement Virtual WAN in default configuration):
+### Mode 1, aka Cloud Native 
+> _this is when you implement Virtual WAN in default configuration_
 - Traffic between VNets is routed and filtered by the Hub Firewall
   - Firewal is managing only core security rules, like filtering connectivity between spokes and outside, and outbound internet, of course
 - Traffic between subnets is routed directly by the virtual network and filtered on the NSG
@@ -104,19 +107,22 @@ In Mode 1, aka Cloud Native (this is when you implement Virtual WAN in default c
 - Traffic inside the subnet is routed directly by the virtual network and can be optionally filtered on the NSG
 - FW and (optionally) NSG Flogs are streamed to Log Analytics
 
-In Mode 2, aka Traditional:
+### Mode 2, aka Traditional
+> _this is when you mimic network segmentatin described above_
 - Traffic between VNets is routed and filtered by the Hub Firewall
- - Firewal is managing core security rules here
+  - Firewal is managing core security rules here
 - Traffic between subnets is routed and filtered by the Hub Firewall too
- - Firewal is additinally filtering traffic between sunets, becomes and additinal point of failure, latency, and costs
+  - Firewal is additinally filtering traffic between sunets, becomes an additinal point of failure, latency, and costs
 - Traffic inside the subnet is routed directly by the virtual network and can be optionally filtered on the NSG
 
-In Mode 3, aka Micro-Segmented:
+### Mode 3, aka Micro-Segmented
+> _this is when you go insane to please some regulations_
 - Traffic between VNets is routed and filtered by the Hub Firewall
 - Traffic between subnets is routed and filtered by the Hub Firewall
 - Traffic inside the subnet is routed and filtered by the Hub Firewall
   - All work and no play makes Firewall a dull boy: a point of failure, latency, and costs for all traffic in the subnet
 
+### Comparison
 
 Here is the comparison table:
 
