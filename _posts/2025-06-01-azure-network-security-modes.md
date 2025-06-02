@@ -138,15 +138,15 @@ Here is the comparison table:
 | Use cases	| VNets for shared platform components that can protect themself with NSGs or personal firewalls <br/>VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes) <br/>VNets with a decentralised management model (where apps are managing their own NSGs) | Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps)	| Special zones requiring maximum security (should only be used where absolutely required by regulations) |
 
 
-# Implementation
+## Implementation
 
 To implement the security modes described above, here is some high-level technical documentation.
 
-## VNet Topology
+### VNet Topology
 
 Traditional "Regional Hub-and-Spokes", where in each region there is a dedicated Hub Vnet with a Firewall used for traffic routing and filtering, and several spoke VNets are created for workloads.
 
-## VNet Structure
+### VNet Structure
 
 A spoke VNet should be used as a security boundary, and Security mode should be assigned for the VNet at the time of creation.
 
@@ -154,7 +154,7 @@ Because VNets cannot span across Azure subscriptions, the VNets structure should
 
 This means there could be separate VNets for company business units, service lines, and environments.
 
-## Subnets Structure
+### Subnets Structure
 
 Separate Subnets should be used only when necessary, to simplify management or to implement security requirements like different route tables and NSGs. 
 
@@ -165,13 +165,13 @@ In MicroSeg security mode,
 - Network security may not rely on subnets; big flat subnets can be used in conjunction with centrally managed NSGs and application-specific ASGs (details below)
 
 
-## Filtering principles
+### Filtering principles
 
 When necessary, traffic filtering is applied at the destination (on FW or NSG). Traffic is not filtered at source unless absolutely necessary (like opening flows to internet destinations).
 
 This approach allows a single point of control without spreading security between sources and destinations.
 
-## Traffic Routing
+### Traffic Routing
 
 All traffic routing to and from any Spoke Vnet is traversing the regional Hub FW:
 1. Between Spokes in the same region connected via peerings
@@ -191,7 +191,7 @@ For filtering traffic inside the subnet, the route table should also contain:
 
 Route table content can be enforced or checked for compliance with Azure Policies.
 
-## Security Zones
+### Security Zones
 
 In some complex situations where you need flexibility to bypass firewall filtering between endpoints in different subnets, but keep filtering for any other subnets, you might need to implement a concept of security zones.
 
@@ -202,7 +202,7 @@ Security Zone consists of subnets which have the same level of trust. Security z
 
 For this to work, route tables should be configured for a combination of the security modes described.
 
-## Firewalls
+### Firewalls
 
 In MicroSeg security mode:
 - Any undefined inbound and outbound traffic is denied for Spoke Vnets
@@ -222,7 +222,7 @@ In Native security mode:
 
 Central Management: if both Regional Hub NVA
 
-## Network Security Groups
+### Network Security Groups
 
 In MicroSeg Security Mode, 
 - A single NSG created for each spoke VNet.  
@@ -236,7 +236,7 @@ In MicroSeg Security Mode,
 In Traditional and Native security modes,
 - NSG management is delegated to application owners, so they can control the traffic for their applications on their own. These NSGs are attached at the NIC level to the respective virtual machines.
 
-## Application Security Groups
+### Application Security Groups
 
 In MicroSeg security mode
 - Application owners have to create ASGs themselves and request the central teams to create NSG rules with these ASGs
