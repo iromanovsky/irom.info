@@ -445,12 +445,23 @@ Here is an example of ASGs' configuration of this model:
 | SAP-GRC-DB01-nic <br/>SAP-GRC-DB02-nic     <br/>SAP-CRM-DB01-nic     <br/>SAP-SRM-DB01-nic     | SAP_DB-asg      |
 | SAP-GRC-FE01-nic     <br/>SAP-GRC-FE02-nic     <br/>SAP-CRM-FE01-nic     <br/>SAP-SRM-FE01-nic | SAP_FE-asg      |
 
+
+## Conclusion
+
+What model should you use? The comparison table provides the pros and cons, and the details are in the section above. I have listed the models in the order of my personal preference.
+
+- Use Mode 1 by default 
+- Use Mode 2 when required 
+- Try not to use Mode 3.
+
+Be creative in meeting regulatory requirements and responding to audit reports written by someone who does not care how you should live with this.
+
 ## Diagram
 
-The diagram from the page cover was used for attention and does not completely reflect the architecture described here. Once I update it, I will post the diagram in bigger resolution here.
+The diagram from the page cover was used to draw attention. It does not completely reflect the architecture described here (but it is still better than a generic AI-generated picture). Once I update it, I will post the diagram in a higher resolution here.
 
 ## Discussion
 
-This page ended up much bigger than I originally expected, and might need polishing.
+This page ended up much bigger than I initially expected, and might need polishing.
 
 As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/in/iromanovsky) to react, comment, or repost.
