@@ -78,7 +78,7 @@ Nowadays, when you hear the term network hub, it does not mean repeater, but it 
 Virtual Networks in Azure run in a shared, multitenant environment of the cloud provider, and
 
 - network virtualisation protocol ensures that traffic is not visible to other customers -- no bad neighbours in the subnet can overhear your conversations
-- traffic filtering platform is processing every datagram - firewall capabilities are available on every connected interface via NSG
+- traffic filtering platform is processing every datagram -- firewall capabilities are available on every connected interface via NSG
 
 More than that,
 
@@ -132,17 +132,99 @@ To please them, I want to introduce you to a modern way of organising network fi
 
 Here is the comparison table:
 
-|Criteria / Mode | Mode 1. <br/>Firewall between VNets <br/>Inter-VNet FW <br/>(Cloud Native) | Mode 2. <br/>Firewall between Subnets <br/>Inter-subnet FW <br/>(Traditional) | Mode 3. <br/>Firewall between NICs <br/>"Intra-Subnet FW"<br/>(Micro-Segmented) |
-|--|--|--|--|
-|Traffic Filtering| VNET <->VNET via FW <br/>Subnet <-> Subnet via NSG <br/>Inside Subnet via NSG/ASG |VNET <->VNET via FW <br/>Subnet <-> Subnet via FW <br/>Inside Subnet via NSG | <br/>VNET <->VNET -> FW <br/>Subnet <-> Subnet via FW <br/>Inside Subnet -> FW|
-| Cost Impact | Low/Med – NSGs are free; however, Flow Logs costs should be considered. | Medium – Costs to FW traffic and scaling | High – More costs to FW traffic and scaling |
-| Management Efforts |  High – if management of traffic filtering (both FW and NSG) is centralised to the Network team. <br/>Med - if automated end-to-end via code <br/>Low – if NSG management is delegated to Applications team, but requires level of trust |Medium/Low - centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams |Med/High - need to filter and monitor all traffic increases management efforts |
-| Routing |Simple, standardized UDR for all subnets | Unique UDR for each subnet with a few Routes | Simple, standardized UDR for all subnets |
-| Performance and Latency |  Max performance, minimum latency | As platform-native for traffic inside Subnets <br/>Limited by FW for traffic between subnets | Limited by FW performance and scale <br/>May not be supported by some high demanding apps |
-| Log Management Costs and Efforts | Med - Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace |  Low - Centralised log collection on FW, low volumes if NSG logs are not collected |  Low - Centralised log collection, but high volumes |
-| Visibility coverege | 100 %| Filtering between different application tiers is not applied | 100 % |
-| Reliability | High -- FW is only a point of failure for traffic between VNets | Medium -- FW becomes a point of failure between subnets | Low -- FW is PoF for any traffic |
-| Use cases | VNets for shared platform components that can protect themself with NSGs or personal firewalls <br/>VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes) <br/>VNets with a decentralised management model (where apps are managing their own NSGs) | Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps) | Special zones requiring maximum security (should only be used where absolutely required by regulations)|
+<table>
+  <thead>
+    <tr>
+      <th>Criteria / Mode</th>
+      <th>Mode 1.
+          <br/>Firewall between VNets
+          <br/>Inter-VNet FW
+          <br/>(Cloud Native)</th>
+      <th>Mode 2.
+          <br/>Firewall between Subnets
+          <br/>Inter-subnet FW
+          <br/>(Traditional)</th>
+      <th>Mode 3.
+          <br/>Firewall between NICs
+          <br/>"Intra-Subnet FW"
+          <br/>(Micro-Segmented)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Traffic Filtering</strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>VNet &lt;-&gt; VNet</td>
+      <td>via FW</td>
+      <td>via FW</td>
+      <td>via FW</td>
+    </tr>
+    <tr>
+      <td>Subnet &lt;-&gt; Subnet</td>
+      <td>via NSG</td>
+      <td>via FW</td>
+      <td>via FW</td>
+    </tr>  
+    <tr>
+      <td>Inside Subnet</td>
+      <td>via NSG</td>
+      <td>via NSG</td>
+      <td>via FW</td>
+    </tr>
+    <tr>
+      <td><strong>Cost Impact</strong></td>
+      <td>Low/Med -- NSGs are free; however, Flow Logs costs should be considered.</td>
+      <td>Medium -- Costs to FW traffic and scaling</td>
+      <td>High -- More costs to FW traffic and scaling</td>
+    </tr>
+    <tr>
+      <td><strong>Management Efforts</strong></td>
+      <td>&bull; **High** -- if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; **Med** - if automated end-to-end via code<br/>&bull; **Low** -- if NSG management is delegated to Applications team, but requires level of trust</td>
+      <td>&bull; **Medium/Low** -- centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
+      <td>&bull; **Med/High** -- need to filter and monitor all traffic increases management efforts</td>
+    </tr>
+    <tr>
+      <td><strong>Routing</strong></td>
+      <td>Simple, standardized UDR for all subnets</td>
+      <td>Unique UDR for each subnet with a few Routes</td>
+      <td>Simple, standardized UDR for all subnets</td>
+    </tr>
+    <tr>
+      <td><strong>Throughput and Latency</strong></td>
+      <td>&bull; Max throughput, minimum latency</td>
+      <td>&bull; As platform-native for traffic inside Subnets <br/>&bull; Limited by FW for traffic between subnets</td>
+      <td>&bull; Limited by FW performance and scale<br/>&bull; May not be supported by some high demanding apps</td>
+    </tr>
+    <tr>
+      <td>Log Management Costs and Efforts</td>
+      <td>**Med** -- Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace</td>
+      <td>**Low** -- Centralised log collection on FW, low volumes if NSG logs are not collected</td>
+      <td>**Low** -- Centralised log collection, but high volumes</td>
+    </tr>
+    <tr>
+      <td>Visibility coverage</td>
+      <td>100 %</td>
+      <td>Filtering between different application tiers is not applied</td>
+      <td>100 %</td>
+    </tr>
+    <tr>
+      <td>Reliability</td>
+      <td>**High** -- FW is only a point of failure for traffic between VNets</td>
+      <td>**Medium** -- FW becomes a point of failure between subnets</td>
+      <td>**Low** -- FW is PoF for any traffic</td>
+    </tr>
+    <tr>
+      <td>Use cases</td>
+      <td>&bull; VNets for shared platform components that can protect themselves with NSGs or personal firewalls<br/>&bull; VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes)<br/>&bull; VNets with a decentralised management model (where apps are managing their own NSGs)</td>
+      <td>&bull; Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps)</td>
+      <td>&bull; Special zones requiring maximum security (should only be used where absolutely required by regulations)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Implementation
 
