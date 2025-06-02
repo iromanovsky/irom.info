@@ -12,9 +12,11 @@ excerpt_separator: <!--more-->
 redirect_from: [/blog/2025/06/01/azure-network-security-modes]
 image: https://github.com/user-attachments/assets/6ad6c2fb-d4fa-4544-bde6-02d0eb3e508d
 description: >-
-    Describing network security modes
+  Describing network security modes
+
 #published: false
 ---
+
 <div style="text-align: center">
 
 ![Network Diagram - Modes](https://github.com/user-attachments/assets/6ad6c2fb-d4fa-4544-bde6-02d0eb3e508d)
@@ -69,7 +71,7 @@ These aspects led to the necessity of making sure that all neighbours in the net
 
 Here comes a concept of network segment -- a part of a network that groups servers with a similar level of trust together, protected by a single firewall.
 
-Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices within the same segment were treated the same.
+Typical network segments were Prod / Dev / Workplace / DMZ / Internet, and all devices within the same segment were treated the same.
 
 ### Modern times
 
@@ -228,11 +230,16 @@ Here is the comparison table:
 
 ## Implementation
 
-To implement the security modes described above, here is some high-level technical documentation.
+To implement the security modes described above, here is some example technical documentation.
 
 ### VNet Topology
 
 Traditional "Regional Hub-and-Spokes", where in each region there is a dedicated Hub Vnet with a Firewall used for traffic routing and filtering, and several spoke VNets are created for workloads.
+
+| Region        | Address Space   | Address Range                |
+|-------------- |----------------|------------------------------|
+| West Europe   | 10.0.0.0/10    | 10.0.0.0 – 10.63.255.255     |
+| North Europe  | 10.64.0.0/10   | 10.64.0.0 – 10.127.255.255   |
 
 ### VNet Structure
 
@@ -242,17 +249,43 @@ Because VNets cannot span across Azure subscriptions, the VNets structure should
 
 This means there could be separate VNets for company business units, service lines, and environments.
 
+| VNet Name   | Address Space | Region      | Subscription | Comments                                                                      |
+| ----------- | ------------- | ----------- | ------------ | ----------------------------------------------------------------------------- |
+| Hub-vnet    | 10.0.0.0/24   | West Europe | Hub-sub      | Regional Hub                                                                  |
+| SAP-vnet    | 10.1.0.0/16   | West Europe | SAP-sub      | Mode 1: VNet is dedicated to SAP application landscapes that trust each other |
+| Shared-vnet | 10.2.0.0/16   | West Europe | Shared-sub   | Mode 2: VNet is hosting multiple apps managed by different teams              |
+| Secret-vnet | 10.3.0.0/16   | West Europe | Secret-sub   | Mode 3: VNet is hosting apps that need to comply with insane regulations      |
+
+Once assigned, security mode sets the default level for the workload provisoned in the spoke. Since we are in the cloud with software defined networks, flexibility of changing this is possible for some subnets or even for the whole VNets, but it is not possible to change VNet name. That's why I don't encourage to tattoo the initial network security mode in the VNet name
+
 ### Subnets Structure
 
 Separate Subnets should be used only when necessary, to simplify management or to implement security requirements like different route tables and NSGs.
 
-In Traditional and Native security modes,
+In Native and Traditional and security modes,
 
 - Separate subnets can be used to delegate NSG control to specific application owners
 
 In MicroSeg security mode,
 
 - Network security may not rely on subnets; big flat subnets can be used in conjunction with centrally managed NSGs and application-specific ASGs (details below)
+
+| VNet Name   | Subnet Name | Address Space | Comments                                                                     |
+| ----------- | ----------- | ------------- | ---------------------------------------------------------------------------- |
+| SAP-vnet    |             | 10.1.0.0/16   | Apps in this VNet are managed by the same team and use NSG/ASG               |
+|             | SPM         | 10.1.0.0/24   |                                                                              |
+|             | GRC         | 10.1.2.0/25   |                                                                              |
+|             | CRM         | 10.1.3.0/25   |                                                                              |
+| Shared-vnet |             | 10.2.0.0/16   | Apps in this VNet are managed by different teams who do not trust each other |
+|             | App1        | 10.2.0.0/24   | App 1                                                                        |
+|             | App2        | 10.2.1.0/24   | App 2                                                                        |
+|             | App3_FE     | 10.2.2.0/24   | App 3 Front-end                                                              |
+|             | App3_BE     | 10.2.3.0/24   | App 3 Back-end                                                               |
+|             | App4_FE     | 10.2.4.0/24   | App 4 Front-end                                                              |
+|             | App4_BE     | 10.2.5.0/24   | App 4 Back-end                                                               |
+| Secret-vnet |             | 10.3.0.0/16   | Apps in this VNet have to comply with strict industry regulations            |
+|             | PCIDSS      | 10.3.0.0/24   |                                                                              |
+|             | HIPAA       | 10.3.1.0/24   |                                                                              |
 
 ### Filtering principles
 
@@ -278,9 +311,27 @@ For filtering traffic on FW between subnets, the route table should also contain
 
 - Route to current VNet address space via Hub NVA
 
-For filtering traffic inside the subnet, the route table should also contain:
+For enable direct traffic inside the subnet, the route table should also contain:
 
-- Route to the current Subnet address space via Hub NVA
+- Route to the current Subnet address space via Virtual Network
+
+Here is the configuration example:
+
+| UDR Name                    | Assigned to            | Routes                          | Comments                                                                             |
+| --------------------------- | ---------------------- | ------------------------------- | ------------------------------------------------------------------------------------ |
+| SAP-vnet-udr                | SAP-vnet / *Subnets    | 0.0.0.0/0 → NVA IP (Firewall)   | To override system route pointing to Internet                                        |
+| Shared-vnet-Subnet_App1-udr | App1                   | 0.0.0.0/0 → NVA IP (Firewall)   | To override system route pointing to Internet                                        |
+|                             | App1                   | 10.2.0.0/16 → NVA IP (Firewall) | To override system route to VNet Address Space pointing to Virtual Network           |
+|                             | App1                   | 10.2.0.0/24 → Virtual Network   | To override route above to enable direct communication for interfaces in App1 subnet |
+| Shared-vnet-Subnet_App2-udr | App2                   | 0.0.0.0/0 → NVA IP (Firewall)   | To override system route pointing to Internet                                        |
+|                             | App2                   | 10.2.0.0/16 → NVA IP (Firewall) | To override system route to VNet Address Space pointing to Virtual Network           |
+|                             | App2                   | 10.2.1.0/24 → Virtual Network   | To override route above to enable direct communication for interfaces in App2 subnet |
+| Secret-vnet-udr             | Secret-vnet / *Subnets | 0.0.0.0/0 → NVA IP (Firewall)   | To override system route pointing to Internet                                        |
+|                             | Secret-vnet / *Subnets | 10.3.0.0/16 → NVA IP (Firewall) | To override system route to VNet Address Space pointing to Virtual Network           |
+
+As you see, to implement Mode 2 you need to have a separate UDR resource for each subnet in the VNet, and that is complicating management, unless is fully automated.
+
+To implement modes 1 and 3, a single route table object per VNet is enough.
 
 Route table content can be enforced or checked for compliance with Azure Policies.
 
@@ -294,6 +345,25 @@ Security Zone consists of subnets which have the same level of trust. Security z
 - The traffic between different security zones should pass firewall for inspection.
 
 For this to work, route tables should be configured for a combination of the security modes described.
+
+We might call it Mode 1.5, where some subnets are routed directly, and other subnets are routed thru firewall.
+
+I don't encourage to use this mode, and describing it here to demonstrate the beauty of SDWAN flexibility
+
+
+In a nutshell, a VNet with a single security zone (all subnets equal) becomes Mode 1, and a VNet with security zones = number of subnets becomes Mode 2.
+
+I recommend to use either mode 1 or 2, and keep option for Security zones for special occasions, that might never happen.
+
+| UDR Name                  | Assigned to         | Routes                                                         | Comments                                                                            |
+| ------------------------- | ------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Shared-vnet_Zone_App3-udr | App3_FE <br>App3_BE | 0.0.0.0/0 → NVA IP (Firewall)                                  | To override system route pointing to Internet                                       |
+|                           | App3_FE <br>App3_BE | 10.2.0.0/16 → NVA IP (Firewall)                                | To override system route to VNet Address Space pointing to Virtual Network          |
+|                           | App3_FE <br>App3_BE | 10.2.2.0/16 → Virtual Network<br>10.2.3.0/24 → Virtual Network | To override route above to enable direct communication between  App3_FE and App3_BE |
+| Shared-vnet-Zone_App4-udr | App4_FE <br>App4_BE | 0.0.0.0/0 → NVA IP (Firewall)                                  | To override system route pointing to Internet                                       |
+|                           | App4_FE <br>App4_BE | 10.2.0.0/16 → NVA IP (Firewall)                                | To override system route to VNet Address Space pointing to Virtual Network          |
+|                           | App4_FE <br>App4_BE | 10.2.4.0/16 → Virtual Network<br>10.2.5.0/24 → Virtual Network | To override route above to enable direct communication between  App1_FE and App1_BE |
+
 
 ### Firewalls
 
@@ -322,7 +392,7 @@ Central Management: if both Regional Hub NVA
 
 In MicroSeg Security Mode,
 
-- A single NSG created for each spoke VNet.  
+- A single NSG created for each spoke VNet.
 - The same NSG is applied to all subnets in the VNet
 - NSG is managed by the central team
 - 3rd party solutions can be used to centrally manage multiple NSGs
