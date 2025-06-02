@@ -53,7 +53,7 @@ Traditional routers were not smart, so they were not able to filter ports, proto
 
 **Firewalls** are used to filter traffic, and were even rarer and expensive than routers.
 
-It was so expensive that it was only placed on critical network boundaries, like dividing internal networks from DMZS and internets.
+It was so expensive that it was only placed on critical network boundaries, like dividing internal networks from DMZ and internets.
 
 The cost and rarity of firewalls forced companies to group their servers into network segments, where everyone trusts each other.
 
@@ -69,7 +69,7 @@ These aspects led to the necessity of making sure that all neighbours in the net
 
 Here comes a concept of network segment -- a part of a network that groups servers with a similar level of trust together, protected by a single firewall.
 
-Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices in segments were treated the same.
+Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices withing same segment were treated the same.
 
 ### Modern times
 
@@ -82,7 +82,6 @@ Virtual Networks in Azure run in a shared, multitenant environment of the cloud 
 More than that, 
 - modern operating systems have firewalls enabled by default (and it's a shame if your company disable them as a standard)
 - modern network protocols keep traffic authenticated and encrypted from end-to-end
-
 
 This all makes the concept of network segmentation mostly irrelevant for Azure virtual networks, since issues that segmentation was initially addressing no longer exist.
 
@@ -203,7 +202,6 @@ Security Zone consists of subnets which have the same level of trust. Security z
 
 For this to work, route tables should be configured for a combination of the security modes described.
 
-
 ## Firewalls
 
 In MicroSeg security mode:
@@ -247,7 +245,8 @@ In MicroSeg security mode
 In Traditional and Native security modes:
 - Application owners are encouraged to use ASGs to manage their NSGs. This practice is required to be able to define in the Dev/Test environment the working rules for MicroSeg security mode.
 
-
+<!--
 ## Discussion
 
-As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/feed/update/urn:li:share:7132473822053564417/) to react, comment, or repost.
+As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/in/iromanovsky) to react, comment, or repost.
+-->
