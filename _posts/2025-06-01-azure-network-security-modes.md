@@ -23,7 +23,9 @@ description: >-
 
 </div>
 
-Organic, AI-free. Work in progress.
+This was originally intended to debunk the concept of network segmentation as obsolete in context of Azure, and briefly offer a replacement concept of Network Security Modes.  While expanding the context, I ended up giving away my principles for network architecture documentation that I was refining for the last 10+ years. It's only one step away from complete LLD that you can reuse to build modern Hub-and-Spoke network topology in Azure.
+
+Organic, AI-free writing.
 
 <!--more-->
 
