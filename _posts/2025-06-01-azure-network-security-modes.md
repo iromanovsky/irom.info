@@ -440,10 +440,10 @@ In MicroSeg security mode:
 
 Here is an example of ASGs' configuration of this model:
 
-| Network   Interface Config                                                      | Member   of ASG |
-| ------------------------------------------------------------------------------- | --------------- |
-| SAP-GRC-DB01-nic     SAP-GRC-DB02-nic     SAP-CRM-DB01-nic     SAP-SRM-DB01-nic | SAP_DB-asg      |
-| SAP-GRC-FE01-nic     SAP-GRC-FE02-nic     SAP-CRM-FE01-nic     SAP-SRM-FE01-nic | SAP_FE-asg      |
+| Network   Interface Config                                                                     | Member   of ASG |
+| ---------------------------------------------------------------------------------------------- | --------------- |
+| SAP-GRC-DB01-nic <br/>SAP-GRC-DB02-nic     <br/>SAP-CRM-DB01-nic     <br/>SAP-SRM-DB01-nic     | SAP_DB-asg      |
+| SAP-GRC-FE01-nic     <br/>SAP-GRC-FE02-nic     <br/>SAP-CRM-FE01-nic     <br/>SAP-SRM-FE01-nic | SAP_FE-asg      |
 
 ## Diagram
 
