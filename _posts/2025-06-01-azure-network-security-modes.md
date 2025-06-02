@@ -45,7 +45,7 @@ And networks were big. You remember subnet classes A/B/C? C means 256 addresses.
 
 To reiterate: any traffic in the subnet is broadcast and can be overheard by any interface on that subnet.
 
-**Routers** are used to interconnect and remove broadcast traffic between subnets, only allowing traffic destined across these subnets.
+**Routers** are used to interconnect and remove broadcast traffic between subnets, allowing only traffic destined for these subnets.
 
 Limiting broadcast traffic is good, but routers are expensive. That's why subnets were big and had many servers.
 
@@ -63,13 +63,13 @@ At that time, network traffic was rarely encrypted -- everyone in the subnet cou
 
 Operating systems like Windows 2000 did not have a personal firewall, so all ports were open by default -- making them vulnerable to any bad guy or a virus that is on the network
 
-Authentication protocols and passwords were weak -- to the pleasure of hackers.
+Authentication protocols and passwords were weak (and no MFA!) -- to the pleasure of hackers.
 
 These aspects led to the necessity of making sure that all neighbours in the networks are trusted.
 
 Here comes a concept of network segment -- a part of a network that groups servers with a similar level of trust together, protected by a single firewall.
 
-Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices withing same segment were treated the same.
+Typical network segments were Prod /  Dev / Workplace / DMZ / Internet, and all devices within the same segment were treated the same.
 
 ### Modern times
 
@@ -81,7 +81,7 @@ Virtual Networks in Azure run in a shared, multitenant environment of the cloud 
 
 More than that, 
 - modern operating systems have firewalls enabled by default (and it's a shame if your company disable them as a standard)
-- modern network protocols keep traffic authenticated and encrypted from end-to-end
+- modern network protocols keep traffic properly authenticated (MFA/SSO/SAML/OAuth -- all these beauties) and encrypted (TLS/AES/oh-yes) from end-to-end
 
 This all makes the concept of network segmentation mostly irrelevant for Azure virtual networks, since issues that segmentation was initially addressing no longer exist.
 
