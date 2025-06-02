@@ -9,7 +9,7 @@ tags: [azure, security]
 permalink: /blog/azure-network-security-modes
 slug: azure-network-security-modes
 excerpt_separator: <!--more-->
-redirect_from: [/post/azure-network-security-modes]
+redirect_from: [/blog/2025/06/01/azure-network-security-modes]
 image: https://github.com/user-attachments/assets/6ad6c2fb-d4fa-4544-bde6-02d0eb3e508d
 description: >-
     Describing network security modes
