@@ -23,11 +23,11 @@ description: >-
 
 </div>
 
-This was initially intended to debunk the traditional concept of network segmentation as obsolete in the context of Azure, and briefly offer a better replacement: the concept of Network Security Modes.
+In this post, I challenge the traditional concept of network segmentation and suggest a model that is better suited for Azure: Network Security Modes.
 
-While expanding the context, I ended up giving away my principles for network architecture documentation, which I have been refining for the last 10+ years. I keep it abstracted to only one step away from a complete LLD that you can reuse to build a modern Hub-and-Spoke network topology in Azure.
+Started as an effort to debunk outdated concepts, I ended up giving away my principles for designing network architecture, which I have been refining for the last 10+ years.
 
-Organic, AI-free writing.
+I keep it abstracted to only one step away from a complete LLD that you can reuse to build a modern Hub-and-Spoke network topology in Azure.
 
 <!--more-->
 
@@ -464,4 +464,4 @@ The diagram from the page cover was used to draw attention. It does not complete
 
 This page ended up much bigger than I initially expected, and might need polishing.
 
-As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/in/iromanovsky) to react, comment, or repost.
+As usual, I'm happy to discuss this topic with you in LinkedIn comments. If you want to support this post to get more exposure, please use [this link](https://www.linkedin.com/feed/update/urn:li:share:7335587882297925633/) to react, comment, or repost.
