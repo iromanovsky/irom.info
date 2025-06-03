@@ -108,7 +108,7 @@ To please them, I want to introduce you to a modern way of organising network fi
 > _this is when you implement Virtual WAN in default configuration_
 
 - Traffic between VNets is routed and filtered by the Hub Firewall
-  - Firewal is managing only core security rules, like filtering connectivity between spokes and outside, and outbound internet, of course
+  - Firewal is managing only core security rules, like filtering connectivity between spokes, WAN, and internets, of course
 - Traffic between subnets is routed directly by the virtual network and filtered on the NSG
   - Only incoming rules are used in the NSG.
   - Outgoing traffic is not controlled in the NSG
@@ -120,7 +120,7 @@ To please them, I want to introduce you to a modern way of organising network fi
 > _this is when you mimic a traditional datacenter_
 
 - Traffic between VNets is routed and filtered by the Hub Firewall
-  - Firewall is managing core security rules here
+  - Firewall is still managing core security rules
 - Traffic between subnets is routed and filtered by the Hub Firewall, too
   - Firewall is additionally filtering traffic between subnets, becoming an additional point of failure, latency, and costs
 - Traffic inside the subnet is routed directly by the virtual network and can be optionally filtered on the NSG
@@ -164,13 +164,13 @@ Here is the comparison table:
       <td></td>
     </tr>
     <tr>
-      <td>VNet &lt;-&gt; VNet</td>
+      <td>VNet to VNet</td>
       <td>via FW</td>
       <td>via FW</td>
       <td>via FW</td>
     </tr>
     <tr>
-      <td>Subnet &lt;-&gt; Subnet</td>
+      <td>Subnet to Subnet</td>
       <td>via NSG</td>
       <td>via FW</td>
       <td>via FW</td>
@@ -189,8 +189,8 @@ Here is the comparison table:
     </tr>
     <tr>
       <td><strong>Management Efforts</strong></td>
-      <td>&bull; High &ndash; if management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; Med &ndash; if automated end-to-end via code<br/>&bull; Low &ndash; if NSG management is delegated to Applications team, but requires a level of trust</td>
-      <td>&bull; Medium/Low &ndash; centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
+      <td>&bull; High &ndash; if manual management of traffic filtering (both FW and NSG) is centralised to the Network team.<br/>&bull; Med &ndash; if automated end-to-end via code<br/>&bull; Low &ndash; if NSG management is delegated to applications team (but requires a level of trust)</td>
+      <td>&bull; Med/Low &ndash; centralisation of filtering management to FW reduces management efforts, provided inter-subnet filtering is managed by app teams</td>
       <td>&bull; Med/High &ndash; need to filter and monitor all traffic increases management efforts</td>
     </tr>
     <tr>
@@ -206,7 +206,7 @@ Here is the comparison table:
       <td>&bull; Limited by FW performance and scale<br/>&bull; May not be supported by some high demanding apps</td>
     </tr>
     <tr>
-      <td><strong>Log Management Costs and Efforts</strong>strong></td>
+      <td><strong>Log Management Costs and Efforts</strong></td>
       <td>Med &ndash; Fragmented log collection on NSG and FW, however, may stream to the same Log Analytics workspace</td>
       <td>Low &ndash; Centralised log collection on FW, low volumes if NSG logs are not collected</td>
       <td>Low &ndash; Centralised log collection on FW, but high volumes</td>
@@ -218,16 +218,34 @@ Here is the comparison table:
     </tr>
     <tr>
       <td><strong>Use cases</strong></td>
-      <td>&bull; VNets for shared platform components that can protect themselves with NSGs or personal firewalls<br/>&bull; VNets dedicated to single apps or groups of mutually trusted apps (like SAP landscapes)<br/>&bull; VNets with a decentralised management model (where apps are managing their own NSGs)</td>
+      <td>&bull; VNets for shared platform components that can protect themselves with NSGs or personal firewalls<br/>&bull; VNets dedicated to a single app or groups of mutually trusted apps (like SAP landscapes)<br/>&bull; VNets with a decentralised management model (where apps are managing their own NSGs)</td>
       <td>&bull; Shared VNets, hosting multiple apps with centralised security management (where a central team is managing communications between apps)</td>
       <td>&bull; Special zones requiring maximum security (should only be used where absolutely required by regulations)</td>
     </tr>
   </tbody>
 </table>
 
+
+### What model should you use?
+
+The comparison table above provides the pros and cons, and details are in implemetation sections below. 
+
+I could tell you to decide... consider... blah-blah... for yourself, but... I numbered the modes in the order of my personal preference:
+
+- Use Mode 1 by default 
+- Use Mode 2 when you have to
+- Try not to use Mode 3
+- Mix the modes in the same VNet if you think that your life is too easy
+
+Be creative in meeting regulatory requirements and responding to audit reports written by someone who does not care how you should live with this.
+
 ## Implementation
 
 Here is some example technical documentation for implementing the security modes described above.
+
+### Diagram
+
+The diagram from the page cover was used to draw attention. It does not completely reflect the architecture described here (but it is still better than a generic AI-generated picture). Once I update it, I will post the diagram in a higher resolution here.
 
 ### VNet Topology
 
@@ -360,11 +378,19 @@ I recommend using either mode 1 or 2 and keeping the option for Security zones f
 
 ### Filtering principles
 
-Traffic filtering is applied at the destination (on FW or NSG) when necessary. Traffic is not filtered at the source unless absolutely necessary (like opening flows to internet destinations).
+**Core rules at Firewall approach**
 
-This approach allows a single control point without spreading security between sources and destinations.
+In all cases, the regional firewall is enforcing core security rules, like filtering trffic between spokes, WAN (other regions and on-prem), and internets.
 
-### Firewalls
+Pay special attention to inbound and outbound internet.
+
+**Control at destination approach**
+
+Besides core / foundational rules, like internet outbound, I recommend approach where general traffic filtering is applied at the destination (on FW or NSG) as inbound rules, not at the source (unless absolutely necessary) as outbound rules.
+
+By doing this you will get a single control point without need to open flows twice: at sources and at destinations.
+
+### Firewall configuration
 
 For spokes in Native security mode:
 
@@ -444,21 +470,6 @@ Here is an example of ASGs' configuration of this model:
 | ---------------------------------------------------------------------------------------------- | --------------- |
 | SAP-GRC-DB01-nic <br/>SAP-GRC-DB02-nic     <br/>SAP-CRM-DB01-nic     <br/>SAP-SRM-DB01-nic     | SAP_DB-asg      |
 | SAP-GRC-FE01-nic     <br/>SAP-GRC-FE02-nic     <br/>SAP-CRM-FE01-nic     <br/>SAP-SRM-FE01-nic | SAP_FE-asg      |
-
-
-## Conclusion
-
-What model should you use? The comparison table provides the pros and cons, and the details are in the section above. I have listed the models in the order of my personal preference.
-
-- Use Mode 1 by default 
-- Use Mode 2 when required 
-- Try not to use Mode 3.
-
-Be creative in meeting regulatory requirements and responding to audit reports written by someone who does not care how you should live with this.
-
-## Diagram
-
-The diagram from the page cover was used to draw attention. It does not completely reflect the architecture described here (but it is still better than a generic AI-generated picture). Once I update it, I will post the diagram in a higher resolution here.
 
 ## Discussion
 
