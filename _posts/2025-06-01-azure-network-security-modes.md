@@ -144,11 +144,11 @@ Here is the comparison table:
       <th>Criteria / Mode</th>
       <th>Mode 1.
           <br/>Firewall between VNets
-          <br/>Inter-VNet FW
+          <br/>"Inter-VNet FW"
           <br/>(Cloud Native)</th>
       <th>Mode 2.
           <br/>Firewall between Subnets
-          <br/>Inter-subnet FW
+          <br/>"Inter-Subnet FW"
           <br/>(Traditional)</th>
       <th>Mode 3.
           <br/>Firewall between NICs
@@ -228,7 +228,7 @@ Here is the comparison table:
 
 ### What model should you use?
 
-The comparison table above provides the pros and cons, and details are in implemetation sections below. 
+The comparison table above provides the pros and cons; details are in the implementation sections below. 
 
 I could tell you to decide... consider... blah-blah... for yourself, but... I numbered the modes in the order of my personal preference:
 
@@ -324,7 +324,7 @@ For filtering traffic on FW between subnets, the route table should also contain
 
 - Route to current VNet address space via Hub NVA
 
-For enable direct traffic inside the subnet, the route table should also contain:
+To enable direct traffic inside the subnet, the route table should also contain:
 
 - Route to the current Subnet address space via Virtual Network
 
@@ -361,7 +361,7 @@ For this to work, route tables should be configured for a combination of the sec
 
 We might call it Mode 1.5, in which some subnets are routed directly, but other subnets are still routed through a firewall.
 
-I don't encourage using this mode, but I am describing it here to demonstrate the beauty of SDWAN flexibility.
+I don't encourage using this mode, but I describe it here to demonstrate the beauty of SDWAN flexibility.
 
 In a nutshell, a VNet with a single security zone (all subnets equal) becomes Mode 1, and a VNet with security zones equal to the number of subnets becomes Mode 2.
 
@@ -380,15 +380,18 @@ I recommend using either mode 1 or 2 and keeping the option for Security zones f
 
 **Core rules at Firewall approach**
 
-In all cases, the regional firewall is enforcing core security rules, like filtering trffic between spokes, WAN (other regions and on-prem), and internets.
+In all cases, the regional firewall should enforce core security rules, such as filtering traffic between spokes, WAN (other regions and on-prem), and internets.
 
-Pay special attention to inbound and outbound internet.
+Pay special attention to filtering inbound and outbound internet traffic.
 
 **Control at destination approach**
 
-Besides core / foundational rules, like internet outbound, I recommend approach where general traffic filtering is applied at the destination (on FW or NSG) as inbound rules, not at the source (unless absolutely necessary) as outbound rules.
+Besides core / foundational rules, like internet outbound, I recommend an approach where 
 
-By doing this you will get a single control point without need to open flows twice: at sources and at destinations.
+- **apply** general traffic filtering at the destination (on FW or NSG) as **inbound rules** (app owners should know better who they want to let in)
+- **avoid** applying filtering at the source as **outbound rules** (unless you don't trust the app owners)
+
+Doing this will give you a single control point without opening flows twice: at sources and destinations.
 
 ### Firewall configuration
 
@@ -410,7 +413,7 @@ For spokes in MicroSeg security mode:
 - Any undefined inbound and outbound traffic is denied for this spoke VNet
 - Any traffic in the subnets of this spoke VNet is passing through the firewall and should be explicitly opened (no point to manage on NSG, unless required)
 
-Here is an example of Firewall policy configuration to enable this model:
+Here is an example of a firewall policy configuration to enable this model:
 
 | Rule   Collection Group     | From                     | To                       | Settings                                                           |
 | --------------------------- | ------------------------ | ------------------------ | ------------------------------------------------------------------ |
@@ -468,8 +471,8 @@ Here is an example of ASGs' configuration of this model:
 
 | Network   Interface Config                                                                     | Member   of ASG |
 | ---------------------------------------------------------------------------------------------- | --------------- |
-| SAP-GRC-DB01-nic <br/>SAP-GRC-DB02-nic     <br/>SAP-CRM-DB01-nic     <br/>SAP-SRM-DB01-nic     | SAP_DB-asg      |
-| SAP-GRC-FE01-nic     <br/>SAP-GRC-FE02-nic     <br/>SAP-CRM-FE01-nic     <br/>SAP-SRM-FE01-nic | SAP_FE-asg      |
+| SAP-GRC-DB01-nic <br/>SAP-GRC-DB02-nic     <br/>SAP-CRM-DB01-nic     <br/>SAP-CRM-DB02-nic     | SAP_DB-asg      |
+| SAP-GRC-FE01-nic     <br/>SAP-GRC-FE02-nic     <br/>SAP-CRM-FE01-nic     <br/>SAP-CRM-FE02-nic | SAP_FE-asg      |
 
 ## Discussion
 
